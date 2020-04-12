@@ -9,7 +9,9 @@ class Home extends React.Component {
     <div className="wrapper" >
         <MainNavbar></MainNavbar>
         <MainSlider></MainSlider>
-        <div className="w-100 py-5 mt-5" ></div>
+        <div className="w-100 py-5 mt-5" >
+          <h3>Hello World !!!!</h3>
+        </div>
         <Footer></Footer>
     </div>
     );
