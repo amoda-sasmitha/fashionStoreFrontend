@@ -28,12 +28,13 @@
 
      <!-- Google Font -->
      <link href="https://fonts.googleapis.com/css?family=Muli:300,400,500,600,700,800,900&display=swap" rel="stylesheet">
-
+     <link href="https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,400;1,500;1,600;1,700;1,800;1,900&display=swap" rel="stylesheet">
      <!-- Css Styles -->
      <link rel="stylesheet" href="css/bootstrap.min.css" type="text/css">
      <link rel="stylesheet" href="css/jquery-ui.min.css" type="text/css">
      <link rel="stylesheet" href="css/owl.carousel.min.css" type="text/css">
      <link rel="stylesheet" href="css/style.css" type="text/css">
+     <link rel="stylesheet" href="css/nice-select.css" type="text/css">
 
   </head>
   <body>
@@ -42,8 +43,8 @@
     
     <!-- Js Plugins -->
     <script src="js/jquery-3.3.1.min.js"></script>
-  
     <script src="js/bootstrap.min.js"></script>
+    <script src="js/jquery.nice-select.min.js"></script>
     <script src="js/owl.carousel.min.js"></script>
    
     <script>
@@ -60,7 +61,11 @@
        autoHeight: false,
        autoplay: true,
          });
-      });
+      
+         $('.sorting, .p-show').niceSelect();
+        });
+
+     
        </script>
   </body>
 </html>

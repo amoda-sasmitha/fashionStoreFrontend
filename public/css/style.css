@@ -34,7 +34,7 @@
 html,
 body {
 	height: 100%;
-	font-family: "Muli", sans-serif;
+	font-family: "Poppins", sans-serif;
 	-webkit-font-smoothing: antialiased;
 	font-smoothing: antialiased;
 }
@@ -48,7 +48,7 @@ h6 {
 	margin: 0;
 	color: #111111;
 	font-weight: 400;
-	font-family: "Muli", sans-serif;
+	font-family: "Poppins", sans-serif;
 }
 
 h1 {
@@ -77,7 +77,7 @@ h6 {
 
 p {
 	font-size: 16px;
-	font-family: "Muli", sans-serif;
+	font-family: "Poppins", sans-serif;
 	color: #636363;
 	font-weight: 400;
 	line-height: 26px;
@@ -129,6 +129,18 @@ ol {
 	color: #636363;
 }
 
+.rounded-custom {
+	border-radius: 0.4rem !important;
+}
+.child {
+	transition: all .5s;
+}
+
+.parent:hover .child,
+.parent:focus .child {
+  transform: scale(1.03);
+}
+
 .section-title h2 {
 	color: #252525;
 	font-size: 36px;
@@ -137,6 +149,9 @@ ol {
 	position: relative;
 }
 
+.bg-dark-two{
+	background-color: #13161aaf;
+}
 .section-title h2:before {
 	position: absolute;
 	left: 0;
@@ -160,7 +175,7 @@ ol {
 }
 
 .spad {
-	padding-top: 100px;
+	padding-top: 40px;
 	padding-bottom: 100px;
 }
 
@@ -1192,6 +1207,11 @@ ol {
 
 .product-item .pi-pic img {
 	min-width: 100%;
+	transition: transform .5s ease;
+}
+
+.product-item .pi-pic:hover img {
+	transform: scale(1.1);
 }
 
 .product-item .pi-pic .sale {
@@ -1225,7 +1245,7 @@ ol {
 .product-item .pi-pic ul {
 	position: absolute;
 	left: 0;
-	bottom: -52px;
+	bottom: -64px;
 	-webkit-transition: all 0.3s;
 	-o-transition: all 0.3s;
 	transition: all 0.3s;
@@ -1236,20 +1256,27 @@ ol {
 .product-item .pi-pic ul li {
 	list-style: none;
 	display: inline-block;
-	background: #ffffff;
+
 }
 
 .product-item .pi-pic ul li.w-icon.active a {
 	background: #1abc9c;
 	color: #ffffff;
+	font-weight: 700;
+	border-top-left-radius : .4rem!important;
+	border-bottom-left-radius : .4rem!important;
+	padding: 14px 8px 12px 8px;
 }
 
-.product-item .pi-pic ul li a {
+.product-item .pi-pic ul li.z-icon a {
 	font-size: 16px;
 	font-weight: 700;
 	color: #252525;
+	background: #ffffff;
+	border-top-right-radius : .4rem!important;
+	border-bottom-right-radius : .4rem!important;
 	display: block;
-	padding: 16px 18px 12px 19px;
+	padding: 14px 18px 12px 14px;
 }
 
 .product-item .pi-text {
@@ -1732,14 +1759,49 @@ ol {
 /*---------------------
   Product Shop
 -----------------------*/
+.megamenu {
+	position: static;
+	
+  }
 
+.category-list{
+	list-style-type: none;	
+}
+.category-list li{
+	float: left;
+	
+}
+.bannerImage{
+  height: 300px;
+}
+
+.category-list li select{
+	display: block;
+}
+
+.category-list li a{
+	display: block;	
+}
+  
+  .megamenu .dropdown-menu {
+	background: none;
+	border: none;
+	width: 100%;
+	
+  }
 .product-shop {
-	padding-top: 80px;
+	padding-top: 40px;
 	padding-bottom: 80px;
 }
 
 .filter-widget {
-	margin-bottom: 45px;
+    border-radius: 0.25rem;
+    margin-bottom: 15px;
+	padding: 0.55rem 0.6rem;
+}
+
+.filter-widget-border{
+	border: 1.15px solid #EbEbEb;
 }
 
 .filter-widget .fw-title {
@@ -1986,6 +2048,20 @@ ol {
 	display: flex;
 }
 
+.filterbutton {
+    border-radius: 0;
+    border: 1px solid #ECEDEE;
+    height: 42px;
+    font-weight: 400;
+    font-family: inherit;
+    -webkit-font-smoothing: antialiased;
+	color: #4c4c4c;
+}
+.filterbutton span {
+	color: #4c4c4c !important;
+	line-height: 32px;
+	font-size: 16px;
+}
 .product-show-option .select-option .nice-select {
 	border-radius: 0;
 	border: 1px solid #ECEDEE;
@@ -3963,6 +4039,7 @@ ol {
 	.inner-header .advanced-search .input-group button {
 		right: -7px;
 	}
+
 	.product-shop .product-item .pi-pic ul li a {
 		padding: 16px 12px 12px 11px;
 	}
