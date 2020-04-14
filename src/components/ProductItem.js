@@ -2,7 +2,6 @@ import React from 'react';
 
 class ProductItem extends React.Component {
 
-     
 
   render(){
     const item = this.props;
@@ -32,7 +31,9 @@ class ProductItem extends React.Component {
             </div>
         </div>
     );
-}
+    }
+
+
 }
 export default ProductItem;
 
