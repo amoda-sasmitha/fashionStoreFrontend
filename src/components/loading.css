@@ -1,0 +1,17 @@
+.loading {
+    position: fixed;
+    width: 100vw;
+    height: 100vh;
+    background-color: #ffffffdd;
+    top: 0px;
+    left: 0px;
+    z-index: 10000;
+  }
+  
+  .loading img {
+    width: 100px;
+    height: 100px;
+    margin-top: calc(20vh - 50px);
+    margin-left: calc(50vw - 50px);
+  }
+  

@@ -1,0 +1,27 @@
+/* // ======================================================== */
+/* // =============== Sign up Form begins =============== */
+/* // ========================================================  */
+
+.SignUp_passowrd_stregth {
+  display: block !important;
+}
+.ReactPasswordStrength-strength-desc {
+  width: unset !important;
+  font-size: 12px !important;
+}
+.ReactPasswordStrength {
+  border: none !important;
+}
+.SignUp_password_not_match{
+    text-align: left !important;
+    padding: 0px !important;
+    margin: 0px !important;
+    color: #e55039;
+    font-size: 12px;
+}
+.SignUp_div_no_bt_mg{
+    margin-bottom: 5px !important;
+}
+/* // ======================================================== */
+/* // =============== Sign up Form end =============== */
+/* // ========================================================  */
