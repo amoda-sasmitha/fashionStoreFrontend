@@ -1,5 +1,6 @@
 import React from 'react';
-
+// import rect router
+import { Link } from "react-router-dom";
 class MainNavbar extends React.Component {
   render(){
     return(
@@ -17,7 +18,7 @@ class MainNavbar extends React.Component {
                     </div>
                 </div>
                 <div className="ht-right">
-                    <a href="#" className="login-panel"><i className="fa fa-user"></i>Login</a>
+                    <Link to="/signup" className="login-panel"><i className="fa fa-user"></i>Sign Up</Link>
                 </div>
             </div>
         </div>
@@ -26,9 +27,9 @@ class MainNavbar extends React.Component {
                 <div className="row justify-content-center">
                     <div className="col-lg-2 col-md-2">
                         <div className="logo">
-                            <a href="./index.html">
+                            <Link to="/">
                                 <img src="images/logo.png" alt=""/>
-                            </a>
+                            </Link>
                         </div>
                     </div>
                     <div className="col-lg-7 col-md-7">
@@ -42,16 +43,16 @@ class MainNavbar extends React.Component {
                     <div className="col-lg-3 text-right col-md-3">
                         <ul className="nav-right">
                             <li className="heart-icon">
-                                <a href="#">
+                                <Link to="/">
                                     <i className="icon_heart_alt"></i>
                                     <span>1</span>
-                                </a>
+                                </Link>
                             </li>
                             <li className="cart-icon">
-                                <a href="#">
+                                <Link to="/">
                                     <i className="icon_bag_alt"></i>
                                     <span>3</span>
-                                </a>
+                                </Link>
                             </li>
                             <li className="cart-price">$150.00</li>
                         </ul>
@@ -64,12 +65,12 @@ class MainNavbar extends React.Component {
                
                 <nav className="nav-menu mobile-menu">
                     <ul>
-                        <li className="active"><a href="#">Home</a></li>
-                        <li ><a href="#">All Departments</a></li>
-                        <li><a href="#">New Arivals</a></li>
-                        <li><a href="#">Offers</a></li>
-                        <li><a href="#">About Us</a></li>
-                        <li><a href="#">Contact Us</a></li>
+                        <li className="active"><Link to="/">Home</Link></li>
+                        <li ><Link to="/">All Departments</Link></li>
+                        <li><Link to="/">New Arivals</Link></li>
+                        <li><Link to="/">Offers</Link></li>
+                        <li><Link to="/">About Us</Link></li>
+                        <li><Link to="/">Contact Us</Link></li>
                       
                     </ul>
                 </nav>
