@@ -2,6 +2,8 @@ import React from 'react';
 import {BrowserRouter as Router , Route , Switch } from 'react-router-dom';
 import indexRoutes from './routes/index'
 
+//custome alert css
+import "./asserts/commoncss/alerts.css";
 class App extends React.Component {
   render(){
     return(

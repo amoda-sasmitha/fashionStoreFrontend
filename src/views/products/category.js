@@ -10,6 +10,7 @@ constructor(props){
      super(props);
      this.state = {
         filter_menu_expand : false,
+        selected_item : data[0],
      }
  }
 
@@ -75,6 +76,7 @@ constructor(props){
                 </div>
             </div>
         </section>
+        <this.QuickViewModal/>
         <Footer></Footer>
     </div>
     );
@@ -238,6 +240,47 @@ constructor(props){
     </>
   );
 
+  QuickViewModal = () => {
+    const { selected_item } = this.state;
+    return(
+    <Modal show={false}
+    size="lg" className=""
+    centered
+    animation={true}>
+        <div className="container pb-3" >
+            <div className="row pt-3" >
+                {/* <div className="col-12 py-2 m-0">
+                    <h6 className="text-dark">Quick View Product</h6>       
+                </div> */}
+                <div className="col-md-4 col-sm-6 col-12 text-center">
+                    <img src={selected_item.image}  className="rounded-lg"/>    
+                </div>
+                <div className="col-md-8 col-sm-6 col-12">
+                    <h4 className="text-dark">{selected_item.name }</h4>  
+                    <div class="pd-desc pt-2">
+                        <p>Lorem ipsum dolor sit amet, consectetur ing elit, sed do eiusmod tempor sum dolor
+                           sit amet, consectetur adipisicing elit, sed do mod tempor</p>
+                        <h5>{selected_item.price}</h5>
+                    </div>               
+                    <div class="pd-size-choose py-2">
+                        <div class="sc-item">
+                            {
+                                ['S' , 'M' , 'L' , 'XL'].map( (item, key) => {
+                                    return(
+                                    <label className="new-size-item mr-1" key={key}>{item}</label>
+                                    );
+                                })
+                            }
+                        </div>   
+                    </div>                 
+                       
+                </div>
+
+            </div>
+        </div>
+    </Modal>
+    );
+  }
 }
 export default Category;
 

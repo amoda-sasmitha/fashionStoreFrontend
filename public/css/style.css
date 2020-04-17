@@ -1775,6 +1775,18 @@ ol {
   height: 300px;
 }
 
+.new-size-item {
+	font-size: 16px;
+    color: #252525;
+	font-weight: 700;
+	width: 47px !important;
+    border: 1px solid #c0c0c0;
+    text-align: center;
+    line-height: 40px;
+    text-transform: uppercase;
+    cursor: pointer;
+}
+
 .category-list li select{
 	display: block;
 }
@@ -3893,7 +3905,7 @@ ol {
 .register-form form .login-btn,
 .login-form form .register-btn,
 .login-form form .login-btn {
-	width: 100%;
+	/* width: 50%; */
 	letter-spacing: 2px;
 	margin-top: 5px;
 }
