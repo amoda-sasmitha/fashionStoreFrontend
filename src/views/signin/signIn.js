@@ -18,11 +18,14 @@ import './signin.css'
 class SignIn extends Component {
     constructor() {
         super();
+        this.savepassword = this.savepassword.bind(this);
         this.state = {
             // user login details
             uEmail: '',
             uPass: '',
             uSavePass: false,
+            loading: false,
+            isChecked: false
 
 
         };
@@ -45,6 +48,7 @@ class SignIn extends Component {
 
     // password  start ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
     onChangeuPass(e) {
+
         this.setState({
             uPass: e.target.value
         })
@@ -52,59 +56,106 @@ class SignIn extends Component {
 
     // password  end ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
+    // save password  start ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+    savepassword() {
+        this.setState({
+            isChecked: !this.state.isChecked
+        })
+        console.log(this.state.isChecked);
+
+
+    }
+    // save  password  end ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
 
 
     // submit login  start ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
     async  onLogin(e) {
         e.preventDefault()
-
         var uEmail = this.state.uEmail;
         var uPass = this.state.uPass;
-
         if (uEmail != null && uPass != null) {
-
+            await this.setState({ loading: true })
             var status = await C_User.userSignIn(uEmail, uPass)
+
+            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
+            console.log(status);
+
             switch (status) {
                 // user not found
-                case 404:
+                case 401:
+                    await this.setState({
+                        loading: false
+                    });
                     await C_Config.showAlert(
                         "No account associated to email. Please sign up"
                     );
-                    window.location.replace("/signup");
+                    await window.location.replace("/signup");
                     return -1;
-
                 // Invalid Password
-                case 400:
-                    await C_Config.showAlert("Invalid password");
-                    this.setState({
+                case 403:
+                    await this.setState({
                         loading: false
                     });
+                    await C_Config.showAlert("Invalid password");
                     return -1;
-
                 // network error
                 case 600:
-                    C_Config.showAlert("Please check your network connection", "Oops!");
-                    this.setState({
+                    await this.setState({
                         loading: false
                     });
+                    C_Config.showAlert("Please check your network connection", "Oops!");
                     return -1;
 
                 default:
                     break;
             }
 
-
-
             //   set user details
             var curretUser = status;
+            var keepMesignedIn = this.state.isChecked;
+            if (keepMesignedIn == false) {
+                keepMesignedIn = false
+            } else {
+                keepMesignedIn = true
+            }
 
-            console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            console.log("User Details");
-            console.log(curretUser);
-            console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            await console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            await console.log("User Details");
+            await console.log(curretUser);
 
+
+            C_User.setCookies(
+                curretUser.token,
+                curretUser.fname,
+                curretUser.lname,
+                curretUser.email,
+                curretUser.createdat,
+                curretUser.createdat,
+                keepMesignedIn
+            )
+            console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            console.log(keepMesignedIn);
+
+            await this.setState({ loading: false })
+            // await window.location.replace("/");
+        } else {
+            C_Config.showAlert(
+                "Please fill user name and password correctly"
+            );
         }
+
+
+
+
+
+
+
+
+
+
+
 
     }
 
@@ -153,21 +204,21 @@ class SignIn extends Component {
                                     <h2>Sign In</h2>
                                     <form onSubmit={(e) => { this.onLogin(e) }}>
                                         <div className="group-input">
-                                            <label for="username">Email *</label>
+                                            <label >Email *</label>
                                             <input type="email" name="uEmail"
                                                 pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,}$"
                                                 placeholder="johndoe@gmail.com"
                                                 onChange={(e) => this.onChangeuEmail(e)} required />
                                         </div>
                                         <div className="group-input">
-                                            <label for="pass">Password *</label>
+                                            <label >Password *</label>
                                             <input type="password" id="pass" required name="uPass" onChange={(e) => this.onChangeuPass(e)} />
                                         </div>
                                         <div className="group-input gi-check">
                                             <div className="gi-more">
-                                                <label for="save-pass">
+                                                <label >
                                                     Save Password
-                                                        <input type="checkbox" id="save-pass" />
+                                                        <input type="checkbox" name="keepMesignedIn" onChange={this.savepassword} />
                                                     <span className="checkmark"></span>
                                                 </label>
                                                 <a href="#" className="forget-pass">Forget your Password</a>

@@ -1,9 +1,11 @@
 import React from 'react';
-
+// import rect router
+import { Link } from "react-router-dom";
 class Footer extends React.Component {
   render(){
     return(
         <footer className="footer-section">
+            {/* <Link to="/signup" className="or-login">Or Sign Up</Link> */}
         <div className="container">
             <div className="row">
                 <div className="col-lg-3">

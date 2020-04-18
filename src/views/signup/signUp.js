@@ -110,15 +110,15 @@ class SignUp extends Component {
     //user register form submit
     async onRegister(e) {
         e.preventDefault()
-        // await this.setState({ loading: true })
+        await this.setState({ loading: true })
 
-        if(this.state.passwordMatch != true ){
+        if (this.state.passwordMatch != true) {
             C_Config.showAlert("Password and Confirm Passwords not match");
         }
 
         if (this.checkAllFields() === false) {
 
-        } else if(this.state.passwordMatch === true && this.checkAllFields() != false ) {
+        } else if (this.state.passwordMatch === true && this.checkAllFields() != false) {
             // user details 
             var uFname = this.state.uFname
             var uLname = this.state.uLname
@@ -131,7 +131,7 @@ class SignUp extends Component {
                 // success
                 case 201:
                     await C_Config.showAlert("Please check your email", "Done!");
-                    // window.location.replace("/");
+                    window.location.replace("/");
 
                     await this.setState({ loading: false })
                     // reset form
@@ -174,7 +174,7 @@ class SignUp extends Component {
                     await this.setState({ loading: false })
                     break;
             }
-            await this.setState({ loading: false })
+           
             // reset form
             await this.setState({
                 uFname: '',
@@ -184,6 +184,7 @@ class SignUp extends Component {
                 uConPass: '',
                 passwordMatch: false,
             })
+            await this.setState({ loading: false })
         }
     }
 
@@ -211,7 +212,7 @@ class SignUp extends Component {
                         <div className="row">
                             <div className="col-lg-12">
                                 <div className="breadcrumb-text">
-                                <Link to="/" ><i className="fa fa-home"></i> Home</Link>
+                                    <Link to="/" ><i className="fa fa-home"></i> Home</Link>
                                     <span>Sign Up</span>
                                 </div>
                             </div>
