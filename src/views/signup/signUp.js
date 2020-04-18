@@ -112,9 +112,13 @@ class SignUp extends Component {
         e.preventDefault()
         // await this.setState({ loading: true })
 
+        if(this.state.passwordMatch != true ){
+            C_Config.showAlert("Password and Confirm Passwords not match");
+        }
+
         if (this.checkAllFields() === false) {
 
-        } else {
+        } else if(this.state.passwordMatch === true && this.checkAllFields() != false ) {
             // user details 
             var uFname = this.state.uFname
             var uLname = this.state.uLname
@@ -275,7 +279,7 @@ class SignUp extends Component {
                                             </div>
                                         </form>
                                         <div className="switch-login">
-                                            <Link to="/" className="or-login">Or Login</Link>
+                                            <Link to="/" className="or-login">Or Sign In</Link>
                                         </div>
                                     </div>
                                 </div>

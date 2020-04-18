@@ -5,6 +5,7 @@ import Category from '../views/products/category';
 // import SignUp
 import SignUp from '../views/signup/signUp'
 
+
 let indexRoutes = [
     {
       path: "/",
@@ -22,6 +23,13 @@ let indexRoutes = [
     {
       path: "/signup",
       name: "SignUp",
+      component: SignUp,
+      exact: true,
+    },
+    // sign up route
+    {
+      path: "/sign",
+      name: "SignIn",
       component: SignUp,
       exact: true,
     }
