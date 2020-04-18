@@ -82,9 +82,9 @@ class SignUp extends Component {
             })
         }
 
-        console.log("Pass", this.state.uPass);
-        console.log("Con Pass", this.state.uConPass);
-        console.log("Con Pass", this.state.passwordMatch);
+        // console.log("Pass", this.state.uPass);
+        // console.log("Con Pass", this.state.uConPass);
+        // console.log("Con Pass", this.state.passwordMatch);
 
     }
 
@@ -211,8 +211,8 @@ class SignUp extends Component {
                         <div className="row">
                             <div className="col-lg-12">
                                 <div className="breadcrumb-text">
-                                    <a href="/"><i className="fa fa-home"></i> Home</a>
-                                    <span>Register</span>
+                                <Link to="/" ><i className="fa fa-home"></i> Home</Link>
+                                    <span>Sign Up</span>
                                 </div>
                             </div>
                         </div>
@@ -279,7 +279,7 @@ class SignUp extends Component {
                                             </div>
                                         </form>
                                         <div className="switch-login">
-                                            <Link to="/" className="or-login">Or Sign In</Link>
+                                            <Link to="/signin" className="or-login">Or Sign In</Link>
                                         </div>
                                     </div>
                                 </div>
