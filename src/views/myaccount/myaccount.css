@@ -1,0 +1,54 @@
+/* from yunly */
+.IS_acc_Sidebar {
+    padding-top: 35px;
+    padding-left: 0px;
+    padding-right: 0px;
+  }
+  
+  .IS_acc_Sidebar .backBtn {
+    color: #3e3e3e;
+    font-size: 0.888rem;
+    cursor: pointer;
+    margin-bottom: 50px;
+  }
+  
+  .IS_acc_Sidebar .linkItem {
+    color: #848484;
+    font-size: 0.888rem;
+    cursor: pointer;
+    display: block;
+    width: 100%;
+    height: 35px;
+    line-height: 35px;
+    margin-bottom: 0px;
+  }
+  
+  .IS_acc_Sidebar .linkItem i {
+    margin-right: 5px;
+    width: 20px;
+    text-align: center;
+  }
+  
+  .IS_acc_Sidebar .linkItem:hover {
+    color: #3e3e3e;
+    width: calc(100% - 0px);
+    border-right: 3px solid #0abab588;
+  }
+  
+  .IS_acc_Sidebar .active {
+    color: #3e3e3e;
+    width: calc(100% - 0px);
+    border-right: 3px solid #0abab5;
+  }
+  
+  .IS_acc_container {
+    border-left: 1px solid #dedddc;
+    padding-top: 50px;
+    padding-left: 30px;
+  }
+  
+  .ISS_acc_page{
+      width: 100%;
+      max-width: 700px;
+  }
+  

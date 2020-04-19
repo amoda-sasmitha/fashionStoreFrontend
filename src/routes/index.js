@@ -8,7 +8,9 @@ import SignUp from '../views/signup/signUp'
 // import sign in 
 import SignIn from '../views/signin/signIn'
 
+// import myaccount
 
+import MyAccount from '../views/myaccount/myaccount'
 
 let indexRoutes = [
 
@@ -38,11 +40,18 @@ let indexRoutes = [
       component: SignUp,
       exact: true,
     },
-    // sign up route
+    // sign in route
     {
       path: "/signin",
       name: "SignIn",
       component: SignIn,
+      exact: true,
+    },
+    // my account  route
+    {
+      path: "/myaccount",
+      name: "MyAccount",
+      component: MyAccount,
       exact: true,
     }
 

@@ -69,6 +69,73 @@ class SignIn extends Component {
 
 
 
+
+
+
+
+
+
+
+    // check user browser start here  ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+        checkUserBrowser(){
+             // Get the user-agent string 
+             let userAgentString =  
+             navigator.userAgent; 
+               // Detect Chrome 
+            let chromeAgent =  
+            userAgentString.indexOf("Chrome") > -1; 
+      
+        // Detect Internet Explorer 
+        let IExplorerAgent =  
+            userAgentString.indexOf("MSIE") > -1 ||  
+            userAgentString.indexOf("rv:") > -1; 
+      
+        // Detect Firefox 
+        let firefoxAgent =  
+            userAgentString.indexOf("Firefox") > -1; 
+      
+        // Detect Safari 
+        let safariAgent =  
+            userAgentString.indexOf("Safari") > -1; 
+              
+        // Discard Safari since it also matches Chrome 
+        if ((chromeAgent) && (safariAgent))  
+            safariAgent = false; 
+      
+        // Detect Opera 
+        let operaAgent =  
+            userAgentString.indexOf("OP") > -1; 
+
+
+            if ((chromeAgent) && (operaAgent))  
+            chromeAgent = false; 
+
+
+            console.log("Browswe ----------------------------------------");
+            
+            console.log(safariAgent);
+            console.log(chromeAgent);
+            console.log(IExplorerAgent);
+            console.log(operaAgent);
+            console.log(firefoxAgent);
+           
+            console.log("Browswe ----------------------------------------");
+
+
+        }
+
+
+
+
+
+
+
+    // check user browser end    here ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
+
+
+
     // submit login  start ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
     async  onLogin(e) {
@@ -234,6 +301,8 @@ class SignIn extends Component {
                         </div>
                     </div>
                 </div>
+
+                <button onClick={()=> this.checkUserBrowser()}>chceck browse </button>
                 {/* // ======================================================== */}
                 {/* // =============== Register Form Section End  =============== */}
                 {/* // ========================================================  */}
