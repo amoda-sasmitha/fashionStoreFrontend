@@ -18,7 +18,8 @@ class MainNavbar extends React.Component {
                     </div>
                 </div>
                 <div className="ht-right">
-                    <Link to="/signup" className="login-panel"><i className="fa fa-user"></i>Sign Up</Link>
+                    <Link to="/signin" className="login-panel"><i className="fa fa-user"></i>Sign In</Link>
+                    <Link to="/myaccount" className="login-panel"><i className="fa fa-user"></i>MA</Link>
                 </div>
             </div>
         </div>
