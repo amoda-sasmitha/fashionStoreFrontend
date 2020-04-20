@@ -4,7 +4,7 @@ import { confirmAlert } from "react-confirm-alert";
 class Config {
     constructor() {
     //backend server details
-      this.host = "http://127.0.0.1";
+      this.host = "http://3.19.240.108";
       this.port = ":4000";
     }
   
