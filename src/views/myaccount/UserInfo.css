@@ -1,0 +1,296 @@
+/* -------- */
+.input_User_info{
+  width: 100% !important;
+  padding: 5px;
+  margin: 2px;
+  border: 1px solid #ebebeb;
+}
+.input_User_info:invalid {
+  border: 2px solid #ff5555;
+}
+
+
+
+
+
+
+
+/* -------------------- */
+.IS_UI_profilePic {
+    display: flex;
+    margin-bottom: 35px;
+  }
+  
+  .IS_UI_profilePic .profilePicture {
+    width: 130px;
+    height: 130px;
+  }
+  
+  .IS_UI_profilePic .profilePicture img {
+    width: 130px;
+    height: 130px;
+    border-radius: 50%;
+  }
+  
+  .IS_UI_profilePic .profilePicture .changeButton {
+    border: none;
+    border-radius: 50%;
+    position: absolute;
+    width: 30px;
+    height: 30px;
+    transform: translate3d(-35px, 100px, 0px);
+    background-color: #0abab5;
+    color: #ffffff;
+    font-size: 15px;
+  }
+  
+  .IS_UI_profilePic .userInfo {
+    display: flex;
+    flex-direction: column;
+    padding-left: 15px;
+    align-items: flex-start;
+    justify-content: center;
+  }
+  
+  /* user name */
+  .IS_UI_profilePic .userInfo h1 {
+    color: #4b4b4b;
+    font-size: 1.333rem;
+    font-weight: bold;
+  }
+  
+  /* address */
+  .IS_UI_profilePic .userInfo h2 {
+    color: #cccccc;
+    font-size: 0.888rem;
+  }
+  
+  .IS_UI_title {
+    color: #3e3e3e;
+    font-size: 1.333rem;
+    margin-bottom: 20px;
+  }
+  
+  .IS_UI_section {
+    width: 100%;
+    margin-bottom: 25px;
+  }
+  
+  .IS_UI_section h1 {
+    font-size: 0.888rem;
+    font-weight: bold;
+    margin-bottom: 15px;
+  }
+  
+  .IS_UI_section p {
+    font-size: 0.833rem;
+    color: #3e3e3e;
+  }
+  
+  .IS_UI_section .form {
+    width: 100%;
+  }
+  
+  .IS_UI_section .form .col-sm-6,
+  .IS_UI_section .form .col-12 {
+    padding-left: 0px;
+    padding-right: 20px;
+  }
+  
+  .IS_UI_passwordContainer {
+    max-width: 350px;
+  }
+  
+  .IS_UI_sessionContainer {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: flex-start;
+  }
+  
+  .IS_UI_ProfilepicModal {
+  }
+  
+  .IS_UI_ProfilepicModal p {
+    width: 100%;
+    text-align: left;
+    color: #707070;
+    font-size: 0.888rem;
+  }
+  
+  .IS_UI_ProfilepicModal .filepond--image-preview-overlay {
+    display: none !important;
+  }
+  
+  .IS_UI_ProfilepicModal .filepond--wrapper {
+    width: 100%;
+    max-width: 550px;
+  }
+  
+  .IS_UI_ProfilepicModal .IS_formSubmitBtn {
+    margin-left: 0px !important;
+  }
+  
+  .IS_UI_EmailModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .IS_UI_EmailModal p {
+    width: 100%;
+    text-align: left;
+    color: #707070;
+    font-size: 0.888rem;
+  }
+  
+  .IS_UI_EmailModal label {
+    width: 100%;
+    max-width: 550px;
+    text-align: left;
+    font-weight: bold;
+    color: #606060;
+    font-size: 0.888rem;
+  }
+  
+  .IS_UI_EmailModal input {
+    width: 100%;
+    max-width: 550px;
+    height: 50px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    text-align: center;
+    color: #707070;
+    font-size: 1.333rem;
+  }
+  
+  .IS_UI_DeleteModal {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+  }
+  
+  .IS_UI_DeleteModal p {
+    width: 100%;
+    text-align: left;
+    color: #707070;
+    font-size: 0.888rem;
+  }
+  
+  .IS_UI_DeleteModal label {
+    width: 100%;
+    max-width: 550px;
+    text-align: left;
+    font-weight: bold;
+    color: #606060;
+    font-size: 0.888rem;
+  }
+  
+  .IS_UI_DeleteModal input {
+    width: 100%;
+    max-width: 550px;
+    height: 50px;
+    border: 1px solid #cccccc;
+    border-radius: 5px;
+    text-align: center;
+    color: #707070;
+    font-size: 1.333rem;
+  }
+  
+  .IS_UI_DeleteModal button {
+    background-color: #ff5555;
+  }
+  
+
+  /* from main app */
+  .IS_formLabel {
+    position: absolute;
+    height: auto;
+    color: #606060;
+    padding: 0px 8px;
+    font-size: 0.722rem;
+    transition-duration: 0.3s;
+    /* transition-timing-function: ease-in-out; */
+    transform: scale(0.75) translateY(-75%);
+    background-color: #ffffff;
+  }
+  
+  .IS_forminput:placeholder-shown ~ .IS_formLabel {
+    padding: 12px 8px;
+    transform: none;
+    background-color: transparent;
+    z-index: -100;
+  }
+  
+  .IS_forminput:focus ~ .IS_formLabel {
+    padding: 0px 8px;
+    transform: scale(0.75) translateY(-75%);
+    background-color: #ffffff;
+    color: #0abab5;
+    z-index: 100;
+  }
+
+
+
+
+
+
+
+
+  .IS_fromGroup {
+    width: 100%;
+    margin-bottom: 30px;
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content: flex-end;
+  }
+  .IS_forminput {
+    width: 100%;
+    border: none;
+    background-color: transparent;
+    border-radius: 5px;
+    border: 1px solid #cccccc;
+    padding: 10px 8px;
+    font-size: 0.777rem;
+    color: #606060;
+  }
+  
+  .IS_forminput:focus {
+    border: 2px solid #0abab5;
+  }
+  
+  .IS_forminput:invalid {
+    border: 2px solid #ff5555;
+  }
+  
+  .IS_forminput::placeholder {
+    color: transparent;
+  }
+  .IS_formLabel {
+    position: absolute;
+    height: auto;
+    color: #606060;
+    padding: 0px 8px;
+    font-size: 0.722rem;
+    transition-duration: 0.3s;
+    /* transition-timing-function: ease-in-out; */
+    transform: scale(0.75) translateY(-75%);
+    background-color: #ffffff;
+  }
+  
+  .IS_forminput:placeholder-shown ~ .IS_formLabel {
+    padding: 12px 8px;
+    transform: none;
+    background-color: transparent;
+    z-index: -100;
+  }
+  
+  .IS_forminput:focus ~ .IS_formLabel {
+    padding: 0px 8px;
+    transform: scale(0.75) translateY(-75%);
+    background-color: #ffffff;
+    color: #0abab5;
+    z-index: 100;
+  }
+  
