@@ -11,7 +11,7 @@ import SignIn from '../views/signin/signIn'
 // import myaccount
 
 import MyAccount from '../views/myaccount/myaccount'
-
+import AllUsers from '../views/allusers/allusers'
 let indexRoutes = [
 
   {
@@ -52,6 +52,13 @@ let indexRoutes = [
       path: "/myaccount",
       name: "MyAccount",
       component: MyAccount,
+      exact: true,
+    },
+    // all users
+    {
+      path: "/all",
+      name: "AllUsers",
+      component: AllUsers,
       exact: true,
     }
 
