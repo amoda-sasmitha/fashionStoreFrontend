@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Modal } from 'react-bootstrap';
 
 import './UserInfo.css';
 // import loading 
@@ -19,15 +20,49 @@ class Userinfo extends Component {
   constructor() {
     super();
     this.state = {
+      showDeleteModal: false,
+      editPassword: false,
+      showEmailModal:false
 
     };
 
 
 
   }
+  // ======================================================== 
+  // =============== Functions        Start   =============== 
+  // ======================================================== 
+
+  // -----------------Modal State Change ----------------- 
+  // show delete modal 
+  showDeleteModal() {
+    this.setState({
+      showDeleteModal: true
+    })
+  }
 
 
 
+  // passowrd reset
+  cancelPassword() {
+    this.setState({
+      editPassword: false
+    })
+  }
+  // passowrd reset
+  changeEmail() {
+    this.setState({
+      showEmailModal: true
+    })
+  }
+
+
+
+
+
+  // ======================================================== 
+  // =============== Functions        End   =============== 
+  // ======================================================== 
   render() {
     return (
       <div className="ISS_acc_page">
@@ -109,27 +144,12 @@ class Userinfo extends Component {
                 type="email"
                 pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,}$"
                 placeholder="johndoe@gmail.com" name="uEmail" value="johndoe@gmail.com" disabled />
-            </div>
-            <div
-              className="col-12"
-              style={
-                this.state.editEmail
-                  ? { display: "block" }
-                  : { display: "none" }
-              }
-            >
               <button
-                onClick={() => this.saveEmail()}
-                className="IS_formSubmitBtn"
+                onClick={() => this.changeEmail()}
+                className="bnt_User_infor_change_email"
               >
-                Verify &amp; Save
-                  </button>
-              <button
-                onClick={() => this.cancelEmail()}
-                className="IS_btn_text"
-              >
-                Cancel
-                  </button>
+                Change Email
+              </button>
             </div>
           </div>
         </div>
@@ -155,16 +175,16 @@ class Userinfo extends Component {
                   <input type="password" required name="uPass" />
                 </div>
 
-                <div className="col-md-12"> 
-                <button  onClick={() => this.savePassword()}     className="IS_formSubmitBtn"   >  Save Changes </button>
-                <button onClick={() => this.cancelPassword()}  className="IS_btn_text" > Cancel</button>
+                <div className="col-md-12">
+                  <button onClick={() => this.savePassword()} className="IS_formSubmitBtn"   >  Save Changes </button>
+                  <button onClick={() => this.cancelPassword()} className="IS_btn_text" > Cancel</button>
                 </div>
               </div>
             </div>
           ) : (
               <button
                 onClick={() => this.setState({ editPassword: true })}
-                className="IS_btn_disabled"
+                className="bnt_User_infor_change_email"
               >
                 Change password
               </button>
@@ -177,7 +197,7 @@ class Userinfo extends Component {
         <div className="IS_UI_section">
           <h1>Last Login </h1>
           <p>
-           2020 - 04 - 10  &nbsp;  |  &nbsp; 22 h : 55 m
+            2020 - 04 - 10  &nbsp;  |  &nbsp; 22 h : 55 m
               </p>
 
           {/* <div className="IS_UI_sessionContainer">{SessionList}</div> */}
@@ -188,10 +208,10 @@ class Userinfo extends Component {
         {/*======================================*/}
         <div className="IS_UI_section">
           <h1 style={{ color: "#FF5555" }}>Delete Account</h1>
-          <p>Delete your Industry Seeker Account permanently.</p>
+          <p>Delete your Fashion Store Account permanently.</p>
           <button
             onClick={() => this.showDeleteModal()}
-            className="IS_btn_disabled"
+            className="bnt_User_infor_delte"
           >
             Delete Account
               </button>
@@ -236,8 +256,7 @@ class Userinfo extends Component {
         {/*=====================================*/}
         {/*=============== Email ===============*/}
         {/*=====================================*/}
-        {/* <Modal size="lg" show={this.state.showEmailModal} centered>
-              <IS_ModalHeader title="Email Verification" />
+        <Modal size="lg" show={this.state.showEmailModal} centered>
               <Modal.Body>
                 <form onSubmit={event => this.verifyEmail(event)} noValidate>
                   <div className="IS_UI_EmailModal">
@@ -252,33 +271,33 @@ class Userinfo extends Component {
                 </form>
               </Modal.Body>
             </Modal>
-     */}
+    
         {/*======================================*/}
         {/*=============== Delete ===============*/}
         {/*======================================*/}
-        {/* <Modal
-              size="lg"
-              show={this.state.showDeleteModal}
-              centered
-              onHide={() => this.setState({ showDeleteModal: false })}
-            >
-              <IS_ModalHeader title="Delete Your Account" />
-              <Modal.Body>
-                <form onSubmit={event => this.handleDelete(event)} noValidate>
-                  <div className="IS_UI_DeleteModal">
-                    <p>
-                      When you delete your Industry Seeker Account, you won't be
-                      able to retrieve the content. All the data associated to your
-                      account will be removed. Are you sure you want to do this?
+        <Modal
+          size="lg"
+          show={this.state.showDeleteModal}
+          centered
+          onHide={() => this.setState({ showDeleteModal: false })}
+        >
+
+          <Modal.Body>
+            <form onSubmit={event => this.handleDelete(event)} noValidate>
+              <div className="IS_UI_DeleteModal">
+                <p>
+                  When you delete your Industry Seeker Account, you won't be
+                  able to retrieve the content. All the data associated to your
+                  account will be removed. Are you sure you want to do this?
                     </p>
-                    <label>Password</label>
-                    <input type="password" name="pass" minLength={8} />
-                    <br />
-                    <button className="IS_formSubmitBtn">Delete Account</button>
-                  </div>
-                </form>
-              </Modal.Body>
-            </Modal> */}
+                <label>Password</label>
+                <input type="password" name="pass" minLength={8} />
+                <br />
+                <button className="IS_formSubmitBtn">Delete Account</button>
+              </div>
+            </form>
+          </Modal.Body>
+        </Modal>
       </div>
     );
   }

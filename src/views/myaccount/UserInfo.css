@@ -294,3 +294,33 @@
     z-index: 100;
   }
   
+  .bnt_User_infor{
+    color: #ffffff;
+    background:#f39c12;
+    border: 1px solid #f39c12;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: unset;
+    padding: 5px;
+    
+  }
+  .bnt_User_infor_delte{
+    color: #ffffff;
+    background:#c0392b;
+    border: 1px solid #c0392b;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: unset;
+    padding: 5px;
+    
+  }
+  .bnt_User_infor_change_email{
+    color: #ffffff;
+    background: #1abc9c;
+    border: 1px solid#1abc9c;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: unset;
+    padding: 5px;
+    
+  }

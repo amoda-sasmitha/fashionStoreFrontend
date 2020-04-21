@@ -32,9 +32,9 @@ class MyAccount extends Component {
 
     setPage(page) {
         this.setState({
-          page: page
+            page: page
         });
-      }
+    }
 
     render() {
         return (
@@ -81,11 +81,13 @@ class MyAccount extends Component {
                             <h1 onClick={() => this.setPage("userInfo")} className={this.state.page === "userInfo" ? "linkItem active" : "linkItem"} >
                                 <i className="fas fa-user"></i> User Info  </h1>
                             <h1 onClick={() => this.setPage("BillingInformation")} className={this.state.page === "usage" ? "linkItem active" : "linkItem"}>
-                                <i className="fas fa-chart-line"></i> Billing Information </h1>
+                                <i class="fas fa-file-invoice"></i>Billing Information </h1>
                             <h1 onClick={() => this.setPage("team")} className={this.state.page === "team" ? "linkItem active" : "linkItem"}>
-                                <i className="fas fa-users"></i> Team </h1>
+                                <i className="fas fa-users"></i> Coupons </h1>
                             <h1 onClick={() => this.setPage("billing")} className={this.state.page === "billing" ? "linkItem active" : "linkItem"}>
-                                <i className="fas fa-receipt"></i> Billing &amp; invoices </h1>
+                                <i className="fas fa-receipt"></i> Order Details </h1>
+                            <h1 onClick={() => this.setPage("billing")} className={this.state.page === "billing" ? "linkItem active" : "linkItem"}>
+                                <i className="fas fa-receipt"></i>  Complains  </h1>
                         </div>
 
                         <div className="col-md-10 IS_acc_container">
