@@ -14,6 +14,8 @@ import Footer from '../../components/Footer';
 
 // import css file
 import './signin.css'
+import { setCurrentUser } from '../../actions/authActions'
+import { connect } from 'react-redux'
 
 class SignIn extends Component {
     constructor() {
@@ -204,9 +206,9 @@ class SignIn extends Component {
             )
             console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             console.log(keepMesignedIn);
-
+            this.props.setCurrentUser( curretUser.token);
             await this.setState({ loading: false })
-            await window.location.replace("/");
+            // await window.location.replace("/");
         } else {
             C_Config.showAlert(
                 "Please fill user name and password correctly"
@@ -319,4 +321,5 @@ class SignIn extends Component {
 }
 
 
-export default SignIn;
+export default connect(null, { setCurrentUser })(SignIn);;
+
