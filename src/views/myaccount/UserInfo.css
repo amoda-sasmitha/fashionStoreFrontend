@@ -107,9 +107,9 @@
     justify-content: flex-start;
   }
   
-  .IS_UI_ProfilepicModal {
+  /* .IS_UI_ProfilepicModal {
   }
-  
+   */
   .IS_UI_ProfilepicModal p {
     width: 100%;
     text-align: left;
@@ -323,4 +323,20 @@
     text-transform: unset;
     padding: 5px;
     
+  }
+  .bnt_User_infor_change_cancle{
+    color: #ffffff;
+    background: #1abc9c;
+    border: 1px solid#1abc9c;
+    font-size: 12px;
+    font-weight: 500;
+    text-transform: unset;
+    padding: 5px;
+    
+  }
+
+  .UI_passowrd_not_match{
+    font-size: 12px;
+    text-align: left;
+    color:#c0392b !important;
   }

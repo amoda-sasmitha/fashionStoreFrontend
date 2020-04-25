@@ -81,7 +81,7 @@ class MyAccount extends Component {
                             <h1 onClick={() => this.setPage("userInfo")} className={this.state.page === "userInfo" ? "linkItem active" : "linkItem"} >
                                 <i className="fas fa-user"></i> User Info  </h1>
                             <h1 onClick={() => this.setPage("BillingInformation")} className={this.state.page === "usage" ? "linkItem active" : "linkItem"}>
-                                <i class="fas fa-file-invoice"></i>Billing Information </h1>
+                                <i className="fas fa-file-invoice"></i>Billing Information </h1>
                             <h1 onClick={() => this.setPage("team")} className={this.state.page === "team" ? "linkItem active" : "linkItem"}>
                                 <i className="fas fa-users"></i> Coupons </h1>
                             <h1 onClick={() => this.setPage("billing")} className={this.state.page === "billing" ? "linkItem active" : "linkItem"}>

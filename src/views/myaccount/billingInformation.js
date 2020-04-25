@@ -38,7 +38,7 @@ class BillingInformation extends Component {
             {/*========================================================*/}
             {/*=============== Billing Address   ===============*/}
             {/*========================================================*/}
-            <div className="row">
+            <div className="row pb-2 mb-3" >
               <div className="col-md-12 mb-2 mt-3 mb-4">
                 <h5>Billing Addresses</h5>
               </div>
