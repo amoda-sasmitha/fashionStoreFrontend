@@ -20,7 +20,8 @@ class User {
             test: "/api/news/my",
             addUser: "/user/adduser",
             signin: "/user/signin",
-            getsalt: "/user/getsalt"
+            getsalt: "/user/getsalt",
+            resetPassoword : '/reset/user/pw'
 
         };
     }
@@ -165,10 +166,74 @@ class User {
 
 
     // ======================================================= ================================================================================================================
+    // ===============   Reset Password              start here  ===============================================================================================================
+    // ======================================================== ================================================================================================================
+
+    async resetPassoword(email, password) {
+        console.log("BEFORE HAS", password);
+
+
+        var token = this.getToken();
+        var _salt = this.generateSalt(20);
+        var hashedPass = Crypto.SHA256(_salt + password).toString();
+        var _id = this.getId()
+
+
+
+
+        var requestData = {
+            userEmail: email,
+            userId: _id,
+            newHashedPass: hashedPass,
+            newSalt: _salt,
+            token: token
+        }
+
+        var resp = 201;
+
+        await Axios.post(
+            `${Config.host}${Config.port}${this.api.addUser}`,
+            requestData
+        )
+            .then(Response => {
+                resp = Response.status;
+            })
+            .catch(err => {
+                console.error(err);
+                try {
+                    resp = err.response.status;
+                } catch (error) {
+                    resp = 600;
+                }
+            });
+
+        return resp;
+
+    }
+
+    // ======================================================= ================================================================================================================
+    // ===============   Reset Password              end  here  ===============================================================================================================
+    // ======================================================== ================================================================================================================
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // ======================================================= ================================================================================================================
     // ===============   set cookies when user login  start here ===============================================================================================================
     // ======================================================== ================================================================================================================
 
-    setCookies(token, fname, lname, email, createdat, lastSignin, persist) {
+    setCookies(token, fname, lname, email, createdat, lastSignin, id, persist) {
         var secureState = false;
 
         if (persist) {
@@ -178,6 +243,7 @@ class User {
             Cookies.set("cTok", token, { expires: 30, secure: secureState });
             Cookies.set("cCre", btoa(createdat), { expires: 30, secure: secureState });
             Cookies.set("cLsi", btoa(lastSignin), { expires: 30, secure: secureState });
+            Cookies.set("cId", btoa(id), { expires: 30, secure: secureState });
         } else {
             Cookies.set("cNf", btoa(lname), { secure: secureState });
             Cookies.set("cNl", btoa(fname), { secure: secureState });
@@ -185,12 +251,19 @@ class User {
             Cookies.set("cTok", token, { secure: secureState });
             Cookies.set("cCre", btoa(createdat), { secure: secureState });
             Cookies.set("cLsi", btoa(lastSignin), { secure: secureState });
+            Cookies.set("cId", btoa(id), { secure: secureState });
         }
     }
 
-    // ======================================================= ================================================================================================================
-    // ===============   set cookies when user login  end here ===============================================================================================================
-    // ======================================================== ================================================================================================================
+
+
+
+
+
+
+
+
+
 
     // ======================================================= ================================================================================================================
     // ===============   chekc signed in start here               ==============================================================================================================
@@ -222,11 +295,11 @@ class User {
         return Cookies.get("cTok");
     }
     // get fname
-    getName() {
+    getLName() {
         return atob(Cookies.get("cNf"));
     }
     // get lname
-    getName() {
+    getFName() {
         return atob(Cookies.get("cNl"));
     }
     // get email
@@ -234,12 +307,16 @@ class User {
         return atob(Cookies.get("cM"));
     }
     // get created at
-    getEmail() {
+    getCreateDate() {
         return atob(Cookies.get("cCre"));
     }
     // get last sign in 
-    getEmail() {
+    getLastSignin() {
         return atob(Cookies.get("cLsi"));
+    }
+    // get id  
+    getId() {
+        return atob(Cookies.get("cId"));
     }
 
 

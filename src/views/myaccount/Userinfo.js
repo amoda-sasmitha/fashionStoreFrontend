@@ -1,4 +1,5 @@
 import React, { Component } from 'react';
+import { Modal } from 'react-bootstrap';
 
 import './UserInfo.css';
 // import loading 
@@ -9,25 +10,147 @@ import C_User from '../../controllers/User'
 import C_Config from '../../controllers/Config'
 // import rect router
 import { Link } from "react-router-dom";
-//import navbar
-import MainNavbar from '../../components/MainNavbar';
-// import footer
-import Footer from '../../components/Footer';
 
+
+
+
+import img from '../../asserts/Images/user.png'
 
 class Userinfo extends Component {
   constructor() {
     super();
     this.state = {
+      showDeleteModal: false,
+      editPassword: false,
+      showEmailModal: false,
+      fname: 'Padula',
+      lname: 'Guruge',
+      beforFname: 'Padula',
+      beforLname: 'Guruge',
+      editUserName: false,
+      matchPassandConPass: true,
+      uNewPass: '',
+      uConNewsPass: '',
+      uEmail: 'padulaguruge@gmail.com'
+
 
     };
 
 
 
   }
+  // ======================================================== 
+  // =============== Functions        Start   =============== 
+  // ======================================================== 
+
+  // -----------------Modal State Change ----------------- 
+  // show delete modal 
+  showDeleteModal() {
+    this.setState({
+      showDeleteModal: true
+    })
+  }
 
 
 
+
+  // passowrd reset
+  changeEmail() {
+    this.setState({
+      showEmailModal: true
+    })
+  }
+
+  // ----------------edit fname and lname ----------------- 
+
+  // fname
+  onChangeFname(e) {
+    this.setState({
+      fname: e.target.value,
+      editUserName: true,
+
+    })
+  }
+  // lname
+  onChangeLname(e) {
+    this.setState({
+      lname: e.target.value,
+      editUserName: true,
+    })
+  }
+
+  // cancle edit
+
+  cancelUserName() {
+    this.setState({
+      fname: this.state.beforFname,
+      lname: this.state.beforLname,
+      editUserName: false,
+    })
+  }
+
+  // saveuser name
+  saveUserName() {
+    console.log("New user name");
+    console.log(this.state.fname);
+    console.log(this.state.lname);
+
+  }
+
+
+  // ---------------- password  ----------------- 
+  // passowrd reset cancle
+  cancelPassword() {
+    this.setState({
+      editPassword: false,
+      uNewPass: '',
+      uConNewsPass: '',
+
+
+    })
+  }
+
+  // passowrd 
+
+  onChangePassword(e) {
+    this.setState({
+      uNewPass: e.target.value
+    })
+  }
+  // passowrd confirm
+
+  onChangeConPass(e) {
+    this.setState({
+      uConNewsPass: e.target.value
+    }, () => this.checkPasswordMatch())
+  }
+
+  // check password matchs
+
+
+  checkPasswordMatch() {
+    if (this.state.uNewPass != this.state.uConNewsPass) {
+      this.setState({
+        matchPassandConPass: false
+      })
+    } else {
+      this.setState({
+        matchPassandConPass: true
+      })
+    }
+
+
+  }
+  savePassword() {
+    var reset = C_User.resetPassoword(this.state.uEmail, this.state.uNewPass)
+    console.log(reset);
+
+
+  }
+
+  // ======================================================== 
+  // =============== Functions        End   =============== 
+  // ======================================================== 
   render() {
     return (
       <div className="ISS_acc_page">
@@ -38,7 +161,7 @@ class Userinfo extends Component {
         <div className="IS_UI_profilePic">
           {/* profilePic */}
           <div className="profilePicture">
-            <img src={this.state.profilePic} alt="" />
+            <img src={img} alt="" />
             <button
               onClick={() => this.showProfilePicModal()}
               className="changeButton"
@@ -66,14 +189,14 @@ class Userinfo extends Component {
           <div className="form row">
             <div className="group-input col-md-6">
 
-              <input className="input_User_info" type="text" name="uFname" required placeholder="John" value="John" />
+              <input className="input_User_info" type="text" name="uFname" required placeholder="John" value={this.state.fname} onChange={(e) => this.onChangeFname(e)} />
             </div>
             <div className="group-input col-md-6">
 
-              <input className="input_User_info" type="text" placeholder="Doe" name="uLname" value="Doe" required />
+              <input className="input_User_info" type="text" placeholder="Doe" name="uLname" value={this.state.lname} required onChange={(e) => this.onChangeLname(e)} />
             </div>
             <div
-              className="col-12"
+              className="group-input col-md-6"
               style={
                 this.state.editUserName
                   ? { display: "block" }
@@ -82,13 +205,13 @@ class Userinfo extends Component {
             >
               <button
                 onClick={() => this.saveUserName()}
-                className="IS_formSubmitBtn"
+                className="bnt_User_infor_change_email mt-2 mr-3"
               >
                 Save Changes
                   </button>
               <button
                 onClick={() => this.cancelUserName()}
-                className="IS_btn_text"
+                className="bnt_User_infor_delte  mt-2 mr-1"
               >
                 Cancel
                   </button>
@@ -108,28 +231,13 @@ class Userinfo extends Component {
                 name="email"
                 type="email"
                 pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,}$"
-                placeholder="johndoe@gmail.com" name="uEmail" value="johndoe@gmail.com" disabled />
-            </div>
-            <div
-              className="col-12"
-              style={
-                this.state.editEmail
-                  ? { display: "block" }
-                  : { display: "none" }
-              }
-            >
-              <button
-                onClick={() => this.saveEmail()}
-                className="IS_formSubmitBtn"
+                placeholder="johndoe@gmail.com" name="uEmail" value={this.state.uEmail} disabled />
+              {/* <button
+                onClick={() => this.changeEmail()}
+                className="bnt_User_infor_change_email"
               >
-                Verify &amp; Save
-                  </button>
-              <button
-                onClick={() => this.cancelEmail()}
-                className="IS_btn_text"
-              >
-                Cancel
-                  </button>
+                Change Email
+              </button> */}
             </div>
           </div>
         </div>
@@ -148,23 +256,26 @@ class Userinfo extends Component {
               <div className="row">
                 <div className="col-md-12">
                   <label style={{ textAlign: 'left' }} >New Password  *</label> <br />
-                  <input type="password" required name="uPass" />
+                  <input type="password" className="input_User_info" required name="uPass" onChange={(e) => this.onChangePassword(e)} />
                 </div>
                 <div className="col-md-12">
-                  <label style={{ textAlign: 'left' }} >New Password  *</label> <br />
-                  <input type="password" required name="uPass" />
+                  <label style={{ textAlign: 'left' }} >Confirm  Password  *</label> <br />
+                  <input type="password" className="input_User_info" required name="uConPass" onChange={(e) => this.onChangeConPass(e)} />
+                </div>
+                <div className="col-md-12">
+                  <p className="UI_passowrd_not_match" style={{ display: this.state.matchPassandConPass == false ? 'block' : 'none' }} >Password and Confirm Password didn't match !</p>
                 </div>
 
-                <div className="col-md-12"> 
-                <button  onClick={() => this.savePassword()}     className="IS_formSubmitBtn"   >  Save Changes </button>
-                <button onClick={() => this.cancelPassword()}  className="IS_btn_text" > Cancel</button>
+                <div className="col-md-12">
+                  <button onClick={() => this.savePassword()} className="bnt_User_infor_change_email mr-1 mt-2 ">  Save Changes </button>
+                  <button onClick={() => this.cancelPassword()} className="bnt_User_infor_delte ml-1 mt-2" > Cancel</button>
                 </div>
               </div>
             </div>
           ) : (
               <button
                 onClick={() => this.setState({ editPassword: true })}
-                className="IS_btn_disabled"
+                className="bnt_User_infor_change_email"
               >
                 Change password
               </button>
@@ -177,7 +288,7 @@ class Userinfo extends Component {
         <div className="IS_UI_section">
           <h1>Last Login </h1>
           <p>
-           2020 - 04 - 10  &nbsp;  |  &nbsp; 22 h : 55 m
+            2020 - 04 - 10  &nbsp;  |  &nbsp; 22 h : 55 m |  &nbsp; Chrome Web browser
               </p>
 
           {/* <div className="IS_UI_sessionContainer">{SessionList}</div> */}
@@ -188,10 +299,10 @@ class Userinfo extends Component {
         {/*======================================*/}
         <div className="IS_UI_section">
           <h1 style={{ color: "#FF5555" }}>Delete Account</h1>
-          <p>Delete your Industry Seeker Account permanently.</p>
+          <p>Delete your Fashion Store Account permanently.</p>
           <button
             onClick={() => this.showDeleteModal()}
-            className="IS_btn_disabled"
+            className="bnt_User_infor_delte"
           >
             Delete Account
               </button>
@@ -233,52 +344,34 @@ class Userinfo extends Component {
               </Modal.Body>
             </Modal> */}
 
-        {/*=====================================*/}
-        {/*=============== Email ===============*/}
-        {/*=====================================*/}
-        {/* <Modal size="lg" show={this.state.showEmailModal} centered>
-              <IS_ModalHeader title="Email Verification" />
-              <Modal.Body>
-                <form onSubmit={event => this.verifyEmail(event)} noValidate>
-                  <div className="IS_UI_EmailModal">
-                    <p>
-                      Spend few minutes to verify the email address you entered.
-                    </p>
-                    <label>Verification Code</label>
-                    <input type="text" name="code" />
-                    <br />
-                    <button className="IS_formSubmitBtn">Verify &amp; Save</button>
-                  </div>
-                </form>
-              </Modal.Body>
-            </Modal>
-     */}
+
+
         {/*======================================*/}
         {/*=============== Delete ===============*/}
         {/*======================================*/}
-        {/* <Modal
-              size="lg"
-              show={this.state.showDeleteModal}
-              centered
-              onHide={() => this.setState({ showDeleteModal: false })}
-            >
-              <IS_ModalHeader title="Delete Your Account" />
-              <Modal.Body>
-                <form onSubmit={event => this.handleDelete(event)} noValidate>
-                  <div className="IS_UI_DeleteModal">
-                    <p>
-                      When you delete your Industry Seeker Account, you won't be
-                      able to retrieve the content. All the data associated to your
-                      account will be removed. Are you sure you want to do this?
+        <Modal
+          size="lg"
+          show={this.state.showDeleteModal}
+          centered
+          onHide={() => this.setState({ showDeleteModal: false })}
+        >
+
+          <Modal.Body>
+            <form onSubmit={event => this.handleDelete(event)} noValidate>
+              <div className="IS_UI_DeleteModal">
+                <p>
+                  When you delete your Fashion Store Account, you won't be
+                  able to retrieve the your account details. All the data associated to your
+                  account will be removed. Are you sure you want to do this?
                     </p>
-                    <label>Password</label>
-                    <input type="password" name="pass" minLength={8} />
-                    <br />
-                    <button className="IS_formSubmitBtn">Delete Account</button>
-                  </div>
-                </form>
-              </Modal.Body>
-            </Modal> */}
+                <label>Password</label>
+                <input type="password" name="uPass" />
+                <br />
+                <button className="bnt_User_infor_delte">Delete Account</button>
+              </div>
+            </form>
+          </Modal.Body>
+        </Modal>
       </div>
     );
   }

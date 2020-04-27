@@ -11,8 +11,14 @@ import indexRoutes from './routes/index'
 // import redux
 import  { Provider } from 'react-redux' 
 import store from './store/store'
+
+
+
 //custome alert css
 import "./asserts/commoncss/alerts.css";
+
+  
+
 class App extends React.Component {
   render(){
     return(
