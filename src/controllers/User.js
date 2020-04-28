@@ -21,7 +21,10 @@ class User {
             addUser: "/user/adduser",
             signin: "/user/signin",
             getsalt: "/user/getsalt",
-            resetPassoword : '/reset/user/pw'
+            resetPassoword: '/user/reset/user/pw',
+            profilepic: "/user/u/pp/up",
+            getSpecificUser :"/user/u/my/user",
+            chengeusername:"/user/u/my/uname"
 
         };
     }
@@ -169,7 +172,7 @@ class User {
     // ===============   Reset Password              start here  ===============================================================================================================
     // ======================================================== ================================================================================================================
 
-    async resetPassoword(email, password) {
+    async resetPassoword(password) {
         console.log("BEFORE HAS", password);
 
 
@@ -182,7 +185,7 @@ class User {
 
 
         var requestData = {
-            userEmail: email,
+            userEmail: this.getEmail(),
             userId: _id,
             newHashedPass: hashedPass,
             newSalt: _salt,
@@ -192,7 +195,7 @@ class User {
         var resp = 201;
 
         await Axios.post(
-            `${Config.host}${Config.port}${this.api.addUser}`,
+            `${Config.host}${Config.port}${this.api.resetPassoword}`,
             requestData
         )
             .then(Response => {
@@ -256,15 +259,6 @@ class User {
     }
 
 
-
-
-
-
-
-
-
-
-
     // ======================================================= ================================================================================================================
     // ===============   chekc signed in start here               ==============================================================================================================
     // ======================================================== ================================================================================================================
@@ -323,8 +317,136 @@ class User {
     // ======================================================= ================================================================================================================
     // ===============  get user details from cookies  end   here =============================================================================================================
     // ======================================================== ================================================================================================================
+
+
+
+    // ======================================================= ================================================================================================================
+    // ===============   Upload profile picture  ===============================================================================================================
+    // ======================================================== ================================================================================================================
+    async uploadProfilePic(file) {
+        var requestData = new FormData();
+        requestData.set("uId", this.getId())
+        requestData.set("uEmail", this.getEmail())
+        requestData.append("photos", file)
+
+        var resp = 500;
+
+        //   await  console.log(requestData.get('photos'));
+
+
+        await Axios.post(
+            `${Config.host}${Config.port}${this.api.profilepic}`,
+            requestData,
+
+        )
+            .then((Response) => {
+                resp = Response.status;
+            })
+            .catch((err) => {
+                console.error(err);
+
+                try {
+                    resp = err.response.status;
+                } catch (error) {
+                    resp = 600;
+                }
+            });
+
+        console.log(resp);
+
+        return resp;
+
+    }
+
+
+    
+    // ======================================================= ================================================================================================================
+    // ===============  get specific user  ===============================================================================================================
+    // ======================================================== ================================================================================================================
+    
+    async getSpecificUser() {
+        var requestData = {
+            uEmail: this.getEmail(),
+            token: this.getToken()
+        }
+        var resp = 500;
+        var userData = {};
+        //   await  console.log(requestData.get('photos'));
+
+
+        await Axios.post(
+            `${Config.host}${Config.port}${this.api.getSpecificUser}`,
+            requestData,
+
+        )
+            .then((Response) => {
+                resp = Response.status;
+                userData = Response.data
+            })
+            .catch((err) => {
+                console.error(err);
+
+                try {
+                    resp = err.response.status;
+                } catch (error) {
+                    resp = 600;
+                }
+            });
+
+        console.log(resp);
+
+        var user={
+            res : resp,
+            data : userData
+        }
+        
+        
+        return user;
+
+
+    }
+    // ======================================================= ================================================================================================================
+    // ===============  change user name      ===============================================================================================================
+    // ======================================================== ================================================================================================================
+
+    async changeUsernameFunction(fname, lname){
+
+        var requestData = {
+            fname:fname,
+            lname:lname,
+            uEmail: this.getEmail(),
+            token: this.getToken()
+        }
+
+        var resp = 500;
+
+        
+
+        await Axios.post(
+            `${Config.host}${Config.port}${this.api.chengeusername}`,
+            requestData,
+
+        )
+            .then((Response) => {
+                resp = Response.status;
+                
+            })
+            .catch((err) => {
+                console.error(err);
+
+                try {
+                    resp = err.response.status;
+                } catch (error) {
+                    resp = 600;
+                }
+            });
+
+        console.log(resp);
+
+        
+        return resp;
+
+    }
 }
-
-
 var UserObject = new User();
 export default UserObject;

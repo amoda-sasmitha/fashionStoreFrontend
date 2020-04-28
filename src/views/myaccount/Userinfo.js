@@ -11,10 +11,23 @@ import C_Config from '../../controllers/Config'
 // import rect router
 import { Link } from "react-router-dom";
 
+import { FilePond, registerPlugin } from 'react-filepond';
+
+// Import FilePond styles
+import 'filepond/dist/filepond.min.css';
+
+import FilePondPluginImagePreview from "filepond-plugin-image-preview";
+import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 
+// import img from '../../asserts/Images/user.png'
 
-import img from '../../asserts/Images/user.png'
+import moment from 'moment'
+
+registerPlugin(
+  FilePondPluginImagePreview,
+
+);
 
 class Userinfo extends Component {
   constructor() {
@@ -23,16 +36,29 @@ class Userinfo extends Component {
       showDeleteModal: false,
       editPassword: false,
       showEmailModal: false,
-      fname: 'Padula',
-      lname: 'Guruge',
-      beforFname: 'Padula',
-      beforLname: 'Guruge',
+      fname: '',
+      lname: '',
+      beforFname: '',
+      beforLname: '',
       editUserName: false,
       matchPassandConPass: true,
       uNewPass: '',
       uConNewsPass: '',
-      uEmail: 'padulaguruge@gmail.com'
+      uEmail: 'padulaguruge@gmail.com',
+      showProfilepicModal: false,
+      finalProflilePic: null,
+      files: null,
 
+
+
+      // user details
+      fname: '',
+      lname: '',
+      email: '',
+      lastlogin: '',
+      profilepic: null,
+      picsrc: '',
+      createdAt: '',
 
     };
 
@@ -42,6 +68,49 @@ class Userinfo extends Component {
   // ======================================================== 
   // =============== Functions        Start   =============== 
   // ======================================================== 
+
+
+  async UNSAFE_componentWillMount() {
+    await this.getUserDetails();
+  }
+
+
+
+  // get user detaisl
+  async getUserDetails() {
+    var status = await C_User.getSpecificUser();
+
+    switch (status.res) {
+      case 200:
+
+        await this.setState({
+          fname: status.data.fname,
+          lname: status.data.lname,
+          email: status.data.email,
+          picsrc: status.data.profilepic,
+          createdAt: status.data.created_at,
+          beforLname: status.data.lname,
+          beforFname: status.data.fname
+        })
+
+        await console.log(this.state.fname);
+        await console.log(this.state.lname);
+        await console.log(this.state.email);
+        await console.log(this.state.picsrc);
+        await console.log(this.state.createdAt);
+
+
+        break;
+
+      case 401:
+        C_Config.showAlert("No user found in this email", "Warning");
+        break;
+
+      default:
+        C_Config.showAlert("Somthing went wrong, Try again");
+        break;
+    }
+  }
 
   // -----------------Modal State Change ----------------- 
   // show delete modal 
@@ -90,10 +159,39 @@ class Userinfo extends Component {
   }
 
   // saveuser name
-  saveUserName() {
+  async saveUserName() {
     console.log("New user name");
     console.log(this.state.fname);
     console.log(this.state.lname);
+
+    var fname = this.state.fname
+    var lname = this.state.lname
+
+
+    if (this.state.fname === null || this.state.fname == undefined || this.state.fname === '' || this.state.lname === null || this.state.lname == undefined || this.state.lname === '') {
+
+      C_Config.showAlert("Please fill user name", "Warning");
+
+    } else {
+      var status = await C_User.changeUsernameFunction(fname, lname);
+
+      switch (status) {
+        case 200:
+          C_Config.showAlert("Successfully change", "Done");
+          await this.getUserDetails()
+          break;
+
+        case 401:
+          C_Config.showAlert("No user found in this email", "Warning");
+          break;
+
+        default:
+          C_Config.showAlert("Somthing went wrong, Try again");
+          break;
+      }
+    }
+
+
 
   }
 
@@ -141,9 +239,98 @@ class Userinfo extends Component {
 
 
   }
-  savePassword() {
-    var reset = C_User.resetPassoword(this.state.uEmail, this.state.uNewPass)
-    console.log(reset);
+  async savePassword() {
+    if (this.state.uNewPass === null || this.state.uNewPass == undefined || this.state.uNewPass === '') {
+
+      C_Config.showAlert("Please fill password", "Warning");
+
+    } else {
+
+      var reset = await C_User.resetPassoword(this.state.uNewPass)
+      console.log(reset);
+
+
+      switch (reset) {
+        case 200:
+          await C_Config.showAlert("Sucessfully reset", "Done");
+          await this.setState({
+            editPassword: false,
+            uNewPass: '',
+            uConNewsPass: '',
+
+
+          })
+          await this.getUserDetails()
+          break;
+
+
+        case 401:
+          C_Config.showAlert("No user found in this email", "Warning");
+          break;
+
+        default:
+          C_Config.showAlert("Somthing went wrong, Try again");
+          break;
+      }
+    }
+
+
+
+
+  }
+
+  // =============== Profile Picture ===============
+
+  showProfilePicModal() {
+    this.setState({ showProfilepicModal: true });
+  }
+
+  // handleImage(fileItem) {
+  //   // console.log(fileItem);
+  //   this.setState({
+  //     finalProflilePic: fileItem,
+  //   });
+  //   console.log(this.state.finalProflilePic);
+  // }
+
+  handleInit() {
+    console.log('FilePond instance has initialised', this.pond);
+  }
+
+  async handleProfilePic(e) {
+
+    e.preventDefault()
+    await console.log(this.state.files);
+
+
+    if (this.state.files != null || this.state.files != undefined) {
+
+      await console.log(this.state.files[0]);
+
+      var status = await C_User.uploadProfilePic(this.state.files[0]);
+      console.log(status);
+
+      switch (status) {
+        case 200:
+          await this.setState({ showProfilepicModal: false });
+
+          C_Config.showAlert("Profile Picture updated successfully", "Done");
+          await this.getUserDetails()
+          return 0;
+
+        case 401:
+          C_Config.showAlert("No user found in this email", "Warning");
+          break;
+
+        default:
+          C_Config.showAlert("Somthing went wrong, Try again");
+          break;
+      }
+    } else {
+      C_Config.showAlert("Please select profile picture", "Warning");
+
+    }
+
 
 
   }
@@ -161,7 +348,7 @@ class Userinfo extends Component {
         <div className="IS_UI_profilePic">
           {/* profilePic */}
           <div className="profilePicture">
-            <img src={img} alt="" />
+            <img src={`${C_Config.host}${C_Config.port}/${this.state.picsrc}`} alt="lucidex user" />
             <button
               onClick={() => this.showProfilePicModal()}
               className="changeButton"
@@ -172,8 +359,8 @@ class Userinfo extends Component {
           {/* details */}
           <div className="userInfo">
             <h1>
-              John Doe
-                </h1>
+              {this.state.beforFname} &nbsp;  {this.state.beforLname}
+            </h1>
             <h2>Sri Lanka</h2>
           </div>
         </div>
@@ -288,8 +475,16 @@ class Userinfo extends Component {
         <div className="IS_UI_section">
           <h1>Last Login </h1>
           <p>
-            2020 - 04 - 10  &nbsp;  |  &nbsp; 22 h : 55 m |  &nbsp; Chrome Web browser
+            2020 - 04 - 10  &nbsp;  •  &nbsp; 22 h : 55 m •  &nbsp; Chrome Web browser
               </p>
+
+          {/* <div className="IS_UI_sessionContainer">{SessionList}</div> */}
+        </div>
+        <div className="IS_UI_section">
+          <h1>Created At </h1>
+          <p>
+            {moment(this.state.createdAt).format('LT')}  • {moment(this.state.createdAt).format("MMM  DD , YYYY")}
+          </p>
 
           {/* <div className="IS_UI_sessionContainer">{SessionList}</div> */}
         </div>
@@ -315,34 +510,45 @@ class Userinfo extends Component {
         {/*===============================================*/}
         {/*=============== Profile Picture ===============*/}
         {/*===============================================*/}
-        {/* <Modal
-              size="lg"
-              show={this.state.showProfilepicModal}
-              centered
-              onHide={() => this.setState({ showProfilepicModal: false })}
-            >
-              <IS_ModalHeader title="Change Profile Picture" />
-              <Modal.Body>
-                <form>
-                  <div className="IS_UI_ProfilepicModal">
-                    <p>Select a photo of you to set as your profile picture.</p>
-                    <center>
-                      <FilePond
-                        ref={ref => (this.pond = ref)}
-                        files={this.state.files}
-                        allowMultiple={false}
-                        allowImageCrop={true}
-                        imageCropAspectRatio="1:1"
-                        acceptedFileTypes={["image/*"]}
-                      ></FilePond>
-                      <button className="IS_formSubmitBtn">
-                        Set as Profile Picture
+        <Modal
+          size="lg"
+          show={this.state.showProfilepicModal}
+          centered
+          onHide={() => this.setState({ showProfilepicModal: false })}
+        >
+          <Modal.Header closeButton>
+            <Modal.Title>Change Profile Picture</Modal.Title>
+          </Modal.Header>
+
+          <Modal.Body>
+            <form>
+              <div className="IS_UI_ProfilepicModal">
+                <p>Select a photo of you to set as your profile picture.</p>
+                <center>
+                  <FilePond
+                    ref={ref => (this.pond = ref)}
+                    files={this.state.files}
+                    allowMultiple={false}
+                    allowImageCrop={false}
+                    // imageCropAspectRatio="1:1"
+                    acceptedFileTypes={["image/*"]}
+                    oninit={() => this.handleInit()}
+                    onupdatefiles={fileItems => {
+                      // Set currently active file objects to this.state
+                      this.setState({
+                        files: fileItems.map(fileItem => fileItem.file)
+                      });
+                    }}
+                  ></FilePond>
+                  <button className="bnt_User_infor_change_email"
+                    onClick={(e) => this.handleProfilePic(e)}>
+                    Set as Profile Picture
                       </button>
-                    </center>
-                  </div>
-                </form>
-              </Modal.Body>
-            </Modal> */}
+                </center>
+              </div>
+            </form>
+          </Modal.Body>
+        </Modal>
 
 
 
@@ -355,11 +561,14 @@ class Userinfo extends Component {
           centered
           onHide={() => this.setState({ showDeleteModal: false })}
         >
-
+          <Modal.Header closeButton>
+            <Modal.Title>Delete Account</Modal.Title>
+          </Modal.Header>
           <Modal.Body>
             <form onSubmit={event => this.handleDelete(event)} noValidate>
               <div className="IS_UI_DeleteModal">
                 <p>
+                  Hey {this.state.fname} {this.state.lname} , <br />
                   When you delete your Fashion Store Account, you won't be
                   able to retrieve the your account details. All the data associated to your
                   account will be removed. Are you sure you want to do this?
