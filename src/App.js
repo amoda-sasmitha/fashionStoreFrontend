@@ -21,6 +21,7 @@ import "./asserts/commoncss/alerts.css";
 
 class App extends React.Component {
   render(){
+    var v1="/v1";
     return(
       <Provider store={store}>
       <Router>

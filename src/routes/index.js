@@ -12,6 +12,20 @@ import SignIn from '../views/signin/signIn'
 
 import MyAccount from '../views/myaccount/myaccount'
 import AllUsers from '../views/allusers/allusers'
+
+
+
+
+
+// admin components 
+
+import AdminLogin from '../views/admin/adminlogin'
+
+
+
+
+
+
 let indexRoutes = [
 
   {
@@ -33,34 +47,41 @@ let indexRoutes = [
     exact: true,
   },
 
-    // sign up route
-    {
-      path: "/signup",
-      name: "SignUp",
-      component: SignUp,
-      exact: true,
-    },
-    // sign in route
-    {
-      path: "/signin",
-      name: "SignIn",
-      component: SignIn,
-      exact: true,
-    },
-    // my account  route
-    {
-      path: "/myaccount",
-      name: "MyAccount",
-      component: MyAccount,
-      exact: true,
-    },
-    // all users
-    {
-      path: "/all",
-      name: "AllUsers",
-      component: AllUsers,
-      exact: true,
-    }
+  // sign up route
+  {
+    path: "/signup",
+    name: "SignUp",
+    component: SignUp,
+    exact: true,
+  },
+  // sign in route
+  {
+    path: "/signin",
+    name: "SignIn",
+    component: SignIn,
+    exact: true,
+  },
+  // my account  route
+  {
+    path: "/myaccount",
+    name: "MyAccount",
+    component: MyAccount,
+    exact: true,
+  },
+  // all users
+  {
+    path: "/all",
+    name: "AllUsers",
+    component: AllUsers,
+    exact: true,
+  },
+  // admin path ---------------------------------------------------------------------------------
+  {
+    path: "/admin",
+    name: "Adminlogin",
+    component: AdminLogin,
+   
+  }
 
 ];
 
