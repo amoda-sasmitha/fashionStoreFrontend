@@ -28,9 +28,9 @@ class MainNavbar extends React.Component {
                 <div className="row justify-content-center">
                     <div className="col-lg-2 col-md-2">
                         <div className="logo">
-                            <Link to="/">
+                            <a href="/">
                                 <img src="images/logo.png" alt=""/>
-                            </Link>
+                            </a>
                         </div>
                     </div>
                     <div className="col-lg-7 col-md-7">
@@ -66,7 +66,7 @@ class MainNavbar extends React.Component {
                
                 <nav className="nav-menu mobile-menu">
                     <ul>
-                        <li className="active"><Link to="/">Home</Link></li>
+                        <li className="active"><a href="/">Home</a></li>
                         <li ><Link to="/">All Departments</Link></li>
                         <li><Link to="/">New Arivals</Link></li>
                         <li><Link to="/">Offers</Link></li>

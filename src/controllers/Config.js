@@ -23,6 +23,10 @@ class Config {
   
       return 0;
     }
+
+    setImage(url){
+      return `${this.host}${this.port}/${url.replace("/","\\" )}`
+    }
   
     
   }

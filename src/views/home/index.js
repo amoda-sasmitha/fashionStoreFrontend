@@ -4,6 +4,7 @@ import MainSlider from '../../components/MainSlider';
 import Footer from '../../components/Footer';
 
 class Home extends React.Component {
+  
   render(){
     return(
     <div className="wrapper" >
