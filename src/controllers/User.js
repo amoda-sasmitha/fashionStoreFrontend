@@ -12,6 +12,7 @@ import Crypto from "crypto-js";
 // import cookies 
 import Cookies from "js-cookie";
 
+import C_Config from '../controllers/Config'
 
 class User {
     constructor() {
@@ -23,8 +24,8 @@ class User {
             getsalt: "/user/getsalt",
             resetPassoword: '/user/reset/user/pw',
             profilepic: "/user/u/pp/up",
-            getSpecificUser :"/user/u/my/user",
-            chengeusername:"/user/u/my/uname"
+            getSpecificUser: "/user/u/my/user",
+            chengeusername: "/user/u/my/uname"
 
         };
     }
@@ -131,7 +132,7 @@ class User {
         var requestData = {
             uEmail: email,
             uPass: hashedPass,
-            keepme : keepMesignedIn
+            keepme: keepMesignedIn
         };
         console.log("Sign inf dta");
         console.log(requestData);
@@ -239,7 +240,8 @@ class User {
 
     setCookies(token, fname, lname, email, createdat, lastSignin, id, persist) {
         var secureState = false;
-
+        var sign = true;
+        var type = "user"
         if (persist) {
             Cookies.set("cNf", btoa(lname), { expires: 30, secure: secureState });
             Cookies.set("cNl", btoa(fname), { expires: 30, secure: secureState });
@@ -248,6 +250,8 @@ class User {
             Cookies.set("cCre", btoa(createdat), { expires: 30, secure: secureState });
             Cookies.set("cLsi", btoa(lastSignin), { expires: 30, secure: secureState });
             Cookies.set("cId", btoa(id), { expires: 30, secure: secureState });
+            Cookies.set("type", type, { expires: 30, secure: secureState });
+            Cookies.set("sin", btoa(sign), { expires: 30, secure: secureState });
         } else {
             Cookies.set("cNf", btoa(lname), { secure: secureState });
             Cookies.set("cNl", btoa(fname), { secure: secureState });
@@ -255,7 +259,9 @@ class User {
             Cookies.set("cTok", token, { secure: secureState });
             Cookies.set("cCre", btoa(createdat), { secure: secureState });
             Cookies.set("cLsi", btoa(lastSignin), { secure: secureState });
+            Cookies.set("sin", btoa(sign), { secure: secureState });
             Cookies.set("cId", btoa(id), { secure: secureState });
+            Cookies.set("type", type, { secure: secureState });
         }
     }
 
@@ -265,12 +271,15 @@ class User {
     // ======================================================== ================================================================================================================
     checkSignedIn() {
         if (
-            Cookies.get("cN") === undefined ||
+            Cookies.get("cId") === undefined ||
             Cookies.get("cM") === undefined ||
+            Cookies.get("sin") === undefined ||
             Cookies.get("cTok") === undefined
         ) {
             return false;
         } else {
+
+
             return true;
         }
     }
@@ -280,6 +289,34 @@ class User {
     // ======================================================== ================================================================================================================
 
 
+    // ======================================================= ================================================================================================================
+    // ===============   sign out        start      ==============================================================================================================
+    // ======================================================== ================================================================================================================
+    signOut() {
+
+
+
+
+        Cookies.remove("cId");
+        Cookies.remove("cM");
+        Cookies.remove("sin");
+        Cookies.remove("cTok");
+        Cookies.remove("cNf");
+        Cookies.remove("cCre");
+        Cookies.remove("cNl");
+        Cookies.remove("cLsi");
+        Cookies.remove("type");
+        C_Config.showAlert("Sucessfully logout")
+        setTimeout(() => {
+            window.location.replace("/");
+        }, 2000)
+        // window.location.replace("/");
+    }
+
+    // ======================================================= ================================================================================================================
+    // ===============   sign out      end        ==============================================================================================================
+    // ======================================================== ================================================================================================================
+
 
     // ======================================================= ================================================================================================================
     // ===============  get user details from cookies  start here =============================================================================================================
@@ -287,7 +324,11 @@ class User {
 
     // get token
     getToken() {
-        return Cookies.get("cTok");
+        if (Cookies.get("cTok") != null || Cookies.get("cTok") != undefined) {
+
+            return Cookies.get("cTok");
+        }
+        return false;
     }
     // get fname
     getLName() {
@@ -299,7 +340,12 @@ class User {
     }
     // get email
     getEmail() {
-        return atob(Cookies.get("cM"));
+
+        if (Cookies.get("cM") != null || Cookies.get("cM") != undefined) {
+            return atob(Cookies.get("cM"));
+        }
+        return false;
+
     }
     // get created at
     getCreateDate() {
@@ -360,11 +406,11 @@ class User {
     }
 
 
-    
+
     // ======================================================= ================================================================================================================
     // ===============  get specific user  ===============================================================================================================
     // ======================================================== ================================================================================================================
-    
+
     async getSpecificUser() {
         var requestData = {
             uEmail: this.getEmail(),
@@ -396,12 +442,12 @@ class User {
 
         console.log(resp);
 
-        var user={
-            res : resp,
-            data : userData
+        var user = {
+            res: resp,
+            data: userData
         }
-        
-        
+
+
         return user;
 
 
@@ -410,18 +456,18 @@ class User {
     // ===============  change user name      ===============================================================================================================
     // ======================================================== ================================================================================================================
 
-    async changeUsernameFunction(fname, lname){
+    async changeUsernameFunction(fname, lname) {
 
         var requestData = {
-            fname:fname,
-            lname:lname,
+            fname: fname,
+            lname: lname,
             uEmail: this.getEmail(),
             token: this.getToken()
         }
 
         var resp = 500;
 
-        
+
 
         await Axios.post(
             `${Config.host}${Config.port}${this.api.chengeusername}`,
@@ -430,7 +476,7 @@ class User {
         )
             .then((Response) => {
                 resp = Response.status;
-                
+
             })
             .catch((err) => {
                 console.error(err);
@@ -444,10 +490,13 @@ class User {
 
         console.log(resp);
 
-        
+
         return resp;
 
     }
+
+
+
 }
 var UserObject = new User();
 export default UserObject;

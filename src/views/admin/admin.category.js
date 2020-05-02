@@ -11,6 +11,7 @@ import Config from "../../controllers/Config";
 import moment from 'moment'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faTrash , faPenAlt , faEye} from '@fortawesome/free-solid-svg-icons'
+import U_User from '../../controllers/User'
 
 class AdminCategory extends Component {
 
@@ -20,6 +21,23 @@ class AdminCategory extends Component {
             files: [],
             categories : []
         }
+        
+    }
+
+
+   async componentWillMount(){
+      await  this.getSignInStatus()
+}
+
+
+    // checksignIn
+   async getSignInStatus(){
+        var status = await U_User.checkSignedIn()
+        console.log(status);
+        
+        if(status == false){
+            await window.location.replace("/admin");
+        } 
     }
 
     componentDidMount(){

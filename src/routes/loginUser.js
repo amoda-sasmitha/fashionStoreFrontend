@@ -20,11 +20,8 @@ import AdminLogin from '../views/admin/adminlogin'
 import AdminCategory from '../views/admin/admin.category'
 
 
-
-
-
-let indexRoutes = [
-
+let loginUserRoutes = [
+  
   {
     path: "/",
     name: "Home",
@@ -58,6 +55,13 @@ let indexRoutes = [
     component: SignIn,
     exact: true,
   },
+  // my account  route
+  {
+    path: "/myaccount",
+    name: "MyAccount",
+    component: MyAccount,
+    exact: true,
+  },
   // all users
   {
     path: "/all",
@@ -65,19 +69,20 @@ let indexRoutes = [
     component: AllUsers,
     exact: true,
   },
-  // admin path ---------------------------------------------------------------------------------
+
+  {
+    path: "/myaccount",
+    name: "MyAccount",
+    component: MyAccount,
+    exact: true,
+  },  // admin path ---------------------------------------------------------------------------------
   {
     path: "/admin",
     name: "Adminlogin",
     component: AdminLogin,
     exact: true,
   },
-  {
-    path: "/*",
-    name: "SignIn",
-    component: SignIn,
-    exact: true,
-  },
+
 ];
 
-export default indexRoutes;
+export default loginUserRoutes;

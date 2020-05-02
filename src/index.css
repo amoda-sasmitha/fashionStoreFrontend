@@ -11,3 +11,11 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.admin_manager{
+  cursor: pointer;
+}
+.admin_manager:hover{
+  cursor: pointer;
+  box-shadow: 2px 3px #cec9c9;
+}
