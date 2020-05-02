@@ -18,6 +18,7 @@ import AllUsers from '../views/allusers/allusers'
 
 import AdminLogin from '../views/admin/adminlogin'
 import AdminCategory from '../views/admin/admin.category'
+import AddProducts from '../views/admin/admin.add.products'
 
 
 
@@ -85,6 +86,12 @@ let indexRoutes = [
     path: "/admin/category",
     name: "admin_category",
     component: AdminCategory,
+    exact: true,
+  },
+  {
+    path: "/admin/products/add",
+    name: "admin_product_add",
+    component: AddProducts,
     exact: true,
   }
 
