@@ -14,13 +14,10 @@ import MyAccount from '../views/myaccount/myaccount'
 import AllUsers from '../views/allusers/allusers'
 
 
-
-
-
 // admin components 
 
 import AdminLogin from '../views/admin/adminlogin'
-
+import AdminCategory from '../views/admin/admin.category'
 
 
 
@@ -80,7 +77,15 @@ let indexRoutes = [
     path: "/admin",
     name: "Adminlogin",
     component: AdminLogin,
-   
+    exact: true,
+  },
+  //Admin Routes
+  //category Page
+  {
+    path: "/admin/category",
+    name: "admin_category",
+    component: AdminCategory,
+    exact: true,
   }
 
 ];
