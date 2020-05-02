@@ -144,9 +144,12 @@ class SignIn extends Component {
         e.preventDefault()
         var uEmail = this.state.uEmail;
         var uPass = this.state.uPass;
+        var keepMesignedIn = this.state.isChecked;
+
+
         if (uEmail != null && uPass != null) {
             await this.setState({ loading: true })
-            var status = await C_User.userSignIn(uEmail, uPass)
+            var status = await C_User.userSignIn(uEmail, uPass, keepMesignedIn)
 
             console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             console.log(status);
@@ -183,7 +186,6 @@ class SignIn extends Component {
 
             //   set user details
             var curretUser = status;
-            var keepMesignedIn = this.state.isChecked;
             if (keepMesignedIn == false) {
                 keepMesignedIn = false
             } else {
@@ -203,7 +205,6 @@ class SignIn extends Component {
                 curretUser.createdat,
                 curretUser.createdat,
                 curretUser.id,
-
                 keepMesignedIn
             )
             console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
