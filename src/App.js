@@ -23,67 +23,47 @@ toast.configure()
 
 class App extends React.Component {
 
+  router = () => {
+    let routes = indexRoutes;
+    let checkSignedIn =  U_User.checkSignedIn();
+    let role = U_Util.getType();
+
+    if(checkSignedIn == true ){
+      routes = [...loginUserRoutes , ...routes ];
+    }
+
+    //if(manager){
+    //  routes = [...routes , ...manager ];
+    //}
+
+    if( checkSignedIn == true && role == "admin" ){
+      routes = [ ...adminRoutes , ...routes ];
+    }
+
+    console.log( role , routes );
+    return routes;
+  } 
+
   render(){
     return(
       <Provider store={store}>
-        {U_User.checkSignedIn() == true ? U_Util.getType() == "admin" ? <Router>
-          <Switch>
-            {adminRoutes.map((prop, key) => {
-              return (
-                <Route
-                  path={prop.path}
-                  key={key}
-                  component={() => <prop.component isAuthed={U_User.checkSignedIn()} />}
-                  exact={prop.exact ? true : false}
+        <Router>
+           <Switch>
+             { this.router().map((prop, key) => {
+               return (
+               <Route
+                   path={prop.path}
+                   key={key}
+                   component={() => <prop.component isAuthed={U_User.checkSignedIn()} />}
+                   exact={prop.exact ? true : false}
 
-                />
-              );
-            })}
-          </Switch>
+                 />
+               );
+             })}
+           </Switch>
         </Router>
-          // user
-          : <Router>
-            <Switch>
-              {loginUserRoutes.map((prop, key) => {
-                return (
-                  <Route
-                    path={prop.path}
-                    key={key}
-                    component={() => <prop.component isAuthed={U_User.checkSignedIn()} />}
-                    exact={prop.exact ? true : false}
-
-                  />
-                );
-              })}
-            </Switch>
-          </Router>
-
-
-          : <Router>
-            <Switch>
-              {indexRoutes.map((prop, key) => {
-                return (
-                  <Route
-                    path={prop.path}
-                    key={key}
-                    component={() => <prop.component isAuthed={U_User.checkSignedIn()} />}
-                    exact={prop.exact ? true : false}
-
-                  />
-                );
-              })}
-            </Switch>
-          </Router>}
-
-
-
-
-
-
-
-
       </Provider>
     );
+    }
   }
-}
 export default App;
