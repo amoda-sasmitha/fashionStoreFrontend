@@ -31,12 +31,7 @@ class MyAccount extends Component {
     }
 
     componentWillMount(){
-
         console.log(this.props.isAuthed);
-        
-
-
-
     }
 
 

@@ -33,21 +33,6 @@ class AdminCategory extends Component {
     }
 
 
-   async componentWillMount(){
-      await  this.getSignInStatus()
-}
-
-
-    // checksignIn
-   async getSignInStatus(){
-        var status = await U_User.checkSignedIn()
-        console.log(status);
-        
-        if(status == false){
-            await window.location.replace("/admin");
-        } 
-    }
-
     componentDidMount(){
         this.loadCategories();
     }

@@ -8,19 +8,8 @@ import SignUp from '../views/signup/signUp'
 // import sign in 
 import SignIn from '../views/signin/signIn'
 
-// import myaccount
-
-import MyAccount from '../views/myaccount/myaccount'
-import AllUsers from '../views/allusers/allusers'
-
-
 // admin components 
-
 import AdminLogin from '../views/admin/adminlogin'
-import AdminCategory from '../views/admin/admin.category'
-import AddProducts from '../views/admin/admin.add.products'
-
-
 
 
 
@@ -59,14 +48,6 @@ let indexRoutes = [
     component: SignIn,
     exact: true,
   },
-  // all users
-  {
-    path: "/all",
-    name: "AllUsers",
-    component: AllUsers,
-    exact: true,
-  },
-  // admin path ---------------------------------------------------------------------------------
   {
     path: "/admin",
     name: "Adminlogin",
@@ -77,14 +58,8 @@ let indexRoutes = [
     path: "/*",
     name: "SignIn",
     component: SignIn,
-    exact: true,
   },
-  {
-    path: "/admin/products/add",
-    name: "admin_product_add",
-    component: AddProducts,
-    exact: true,
-  }
+  
 
 ];
 
