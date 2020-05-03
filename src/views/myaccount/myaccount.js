@@ -20,8 +20,8 @@ import UserInfo from './Userinfo'
 import BillingInformation from './billingInformation'
 
 class MyAccount extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
             page: "userInfo"
         };
@@ -29,6 +29,17 @@ class MyAccount extends Component {
 
 
     }
+
+    componentWillMount(){
+
+        console.log(this.props.isAuthed);
+        
+
+
+
+    }
+
+
 
     setPage(page) {
         this.setState({
@@ -43,7 +54,7 @@ class MyAccount extends Component {
                 {/* // ======================================================== */}
                 {/* // =============== Nav Bar =============== */}
                 {/* // ========================================================  */}
-                <MainNavbar></MainNavbar>
+                <MainNavbar isAuthed = {this.props.isAuthed}></MainNavbar>
                 {/* // ======================================================== */}
                 {/* // ===============  Register Section Begin  =============== */}
                 {/* // ========================================================  */}

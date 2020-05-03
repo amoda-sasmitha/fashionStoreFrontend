@@ -59,13 +59,6 @@ let indexRoutes = [
     component: SignIn,
     exact: true,
   },
-  // my account  route
-  {
-    path: "/myaccount",
-    name: "MyAccount",
-    component: MyAccount,
-    exact: true,
-  },
   // all users
   {
     path: "/all",
@@ -80,12 +73,10 @@ let indexRoutes = [
     component: AdminLogin,
     exact: true,
   },
-  //Admin Routes
-  //category Page
   {
-    path: "/admin/category",
-    name: "admin_category",
-    component: AdminCategory,
+    path: "/*",
+    name: "SignIn",
+    component: SignIn,
     exact: true,
   },
   {
