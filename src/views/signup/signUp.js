@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 // import rect router
-import { Link } from "react-router-dom";
+import { Link ,Redirect  } from "react-router-dom";
 //import navbar
 import MainNavbar from '../../components/MainNavbar';
 // import footer
@@ -18,8 +18,8 @@ import C_Config from '../../controllers/Config'
 // import style
 import './signup.css'
 class SignUp extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.onChangeuPass = this.onChangeuPass.bind(this);
         this.state = {
             // user register form details
@@ -31,8 +31,15 @@ class SignUp extends Component {
             passwordMatch: true,
             loading: false,
         };
-
+       
+        
     }
+
+
+componentWillMount(){
+    console.log(this.props);
+    
+}
     // ======================================================== 
     // =============== Functions        Start   =============== 
     // ======================================================== 
@@ -131,7 +138,8 @@ class SignUp extends Component {
                 // success
                 case 201:
                     await C_Config.showAlert("Please check your email", "Done!");
-                    window.location.replace("/");
+                  
+                    this.props.history.push('/signin')
 
                     await this.setState({ loading: false })
                     // reset form
@@ -150,7 +158,7 @@ class SignUp extends Component {
                     await C_Config.showAlert(
                         "Alredy have an account associated to this email. Please signin to continue"
                     );
-                    window.location.replace("/");
+                   await  this.props.history.push('/signin')
                     await this.setState({ loading: false })
                     // reset form
                     await this.setState({

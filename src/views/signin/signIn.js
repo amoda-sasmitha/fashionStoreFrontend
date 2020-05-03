@@ -27,7 +27,8 @@ class SignIn extends Component {
             uPass: '',
             uSavePass: false,
             loading: false,
-            isChecked: false
+            isChecked: false,
+            browserUser : ''
 
 
         };
@@ -114,18 +115,21 @@ class SignIn extends Component {
         if ((chromeAgent) && (operaAgent))
             chromeAgent = false;
 
+        var loginBrowes = null;
+        if(safariAgent)
+            loginBrowes = "Safari"
+        if(chromeAgent)
+            loginBrowes = "Chrome"
+        if(IExplorerAgent)
+            loginBrowes = "IExplorer"
+        if(operaAgent)
+            loginBrowes = "Opera"
+        if(firefoxAgent)
+            loginBrowes = "Firefox"
 
-        console.log("Browswe ----------------------------------------");
-
-        console.log(safariAgent);
-        console.log(chromeAgent);
-        console.log(IExplorerAgent);
-        console.log(operaAgent);
-        console.log(firefoxAgent);
-
-        console.log("Browswe ----------------------------------------");
-
-
+        this.setState({
+            browserUser : loginBrowes
+        })
     }
 
 
@@ -142,17 +146,16 @@ class SignIn extends Component {
 
     async  onLogin(e) {
         e.preventDefault()
+        await  this.checkUserBrowser()
         var uEmail = this.state.uEmail;
         var uPass = this.state.uPass;
         var keepMesignedIn = this.state.isChecked;
-
+        var userBrowser = this.state.browserUser
+      
 
         if (uEmail != null && uPass != null) {
             await this.setState({ loading: true })
-            var status = await C_User.userSignIn(uEmail, uPass, keepMesignedIn)
-
-            console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
-            console.log(status);
+            var status = await C_User.userSignIn(uEmail, uPass, keepMesignedIn, userBrowser)
 
             switch (status) {
                 // user not found
@@ -163,8 +166,8 @@ class SignIn extends Component {
                     await C_Config.showAlert(
                         "No account associated to email. Please sign up"
                     );
-                    await window.location.replace("/signup");
-                    return -1;
+                    await this.props.history.push('/signup')
+                    break;
                 // Invalid Password
                 case 403:
                     await this.setState({
@@ -179,55 +182,42 @@ class SignIn extends Component {
                     });
                     C_Config.showAlert("Please check your network connection", "Oops!");
                     return -1;
-                case 200:
+                    break;
+
 
 
                 default:
+                    var curretUser = status;
+                    if (keepMesignedIn == false) {
+                        keepMesignedIn = false
+                    } else {
+                        keepMesignedIn = true
+                    }
+
+
+                    C_User.setCookies(
+                        curretUser.token,
+                        curretUser.fname,
+                        curretUser.lname,
+                        curretUser.email,
+                        curretUser.createdat,
+                        curretUser.createdat,
+                        curretUser.id,
+                        keepMesignedIn
+                    )
+                    this.props.setCurrentUser(curretUser.token);
+                    await this.setState({ loading: false })
+                    await window.location.replace('/')
                     break;
             }
 
             //   set user details
-            var curretUser = status;
-            if (keepMesignedIn == false) {
-                keepMesignedIn = false
-            } else {
-                keepMesignedIn = true
-            }
 
-            await console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            await console.log("User Details");
-            await console.log(curretUser);
-            C_User.setCookies(
-                curretUser.token,
-                curretUser.fname,
-                curretUser.lname,
-                curretUser.email,
-                curretUser.createdat,
-                curretUser.createdat,
-                curretUser.id,
-                keepMesignedIn
-            )
-            console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            console.log(keepMesignedIn);
-            this.props.setCurrentUser(curretUser.token);
-            await this.setState({ loading: false })
-            await window.location.replace("/");
         } else {
             C_Config.showAlert(
                 "Please fill user name and password correctly"
             );
         }
-
-
-
-
-
-
-
-
-
-
-
 
     }
 
@@ -307,7 +297,7 @@ class SignIn extends Component {
                     </div>
                 </div>
 
-                <button onClick={() => this.checkUserBrowser()}>chceck browse </button>
+                {/* <button onClick={() => this.checkUserBrowser()}>chceck browse </button> */}
                 {/* // ======================================================== */}
                 {/* // =============== Register Form Section End  =============== */}
                 {/* // ========================================================  */}
