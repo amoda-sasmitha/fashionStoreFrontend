@@ -24,6 +24,8 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
 import moment from 'moment'
 
+
+import image from '../../asserts/Images/user.png'
 registerPlugin(
   FilePondPluginImagePreview,
 
@@ -93,11 +95,11 @@ class Userinfo extends Component {
           beforFname: status.data.fname
         })
 
-        await console.log(this.state.fname);
-        await console.log(this.state.lname);
-        await console.log(this.state.email);
-        await console.log(this.state.picsrc);
-        await console.log(this.state.createdAt);
+        // await console.log(this.state.fname);
+        // await console.log(this.state.lname);
+        // await console.log(this.state.email);
+        // await console.log(this.state.picsrc);
+        // await console.log(this.state.createdAt);
 
 
         break;
@@ -105,7 +107,9 @@ class Userinfo extends Component {
       case 401:
         C_Config.showAlert("No user found in this email", "Warning");
         break;
-
+        case 409:
+          window.location.replace("/signin");
+         break;
       default:
         C_Config.showAlert("Somthing went wrong, Try again");
         break;
@@ -160,9 +164,9 @@ class Userinfo extends Component {
 
   // saveuser name
   async saveUserName() {
-    console.log("New user name");
-    console.log(this.state.fname);
-    console.log(this.state.lname);
+    // console.log("New user name");
+    // console.log(this.state.fname);
+    // console.log(this.state.lname);
 
     var fname = this.state.fname
     var lname = this.state.lname
@@ -183,6 +187,9 @@ class Userinfo extends Component {
 
         case 401:
           C_Config.showAlert("No user found in this email", "Warning");
+          break;
+        case 409:
+           window.location.replace("/signin");
           break;
 
         default:
@@ -263,7 +270,9 @@ class Userinfo extends Component {
           await this.getUserDetails()
           break;
 
-
+          case 409:
+            window.location.replace("/signin");
+           break;
         case 401:
           C_Config.showAlert("No user found in this email", "Warning");
           break;
@@ -300,15 +309,15 @@ class Userinfo extends Component {
   async handleProfilePic(e) {
 
     e.preventDefault()
-    await console.log(this.state.files);
+    // await console.log(this.state.files);
 
 
     if (this.state.files != null || this.state.files != undefined) {
 
-      await console.log(this.state.files[0]);
+      // await console.log(this.state.files[0]);
 
       var status = await C_User.uploadProfilePic(this.state.files[0]);
-      console.log(status);
+      // console.log(status);
 
       switch (status) {
         case 200:
@@ -348,7 +357,7 @@ class Userinfo extends Component {
         <div className="IS_UI_profilePic">
           {/* profilePic */}
           <div className="profilePicture">
-            <img src={`${C_Config.host}${C_Config.port}/${this.state.picsrc}`} alt="lucidex user" />
+            <img src={this.state.profilepic != undefined ? image : `${C_Config.host}${C_Config.port}/${this.state.picsrc}`} alt="lucidex user" />
             <button
               onClick={() => this.showProfilePicModal()}
               className="changeButton"
@@ -418,7 +427,7 @@ class Userinfo extends Component {
                 name="email"
                 type="email"
                 pattern="^\w+@[a-zA-Z_]+?\.[a-zA-Z]{2,}$"
-                placeholder="johndoe@gmail.com" name="uEmail" value={this.state.uEmail} disabled />
+                placeholder="johndoe@gmail.com" name="uEmail" value={this.state.email} disabled />
               {/* <button
                 onClick={() => this.changeEmail()}
                 className="bnt_User_infor_change_email"
@@ -585,6 +594,4 @@ class Userinfo extends Component {
     );
   }
 }
-
-
 export default Userinfo;

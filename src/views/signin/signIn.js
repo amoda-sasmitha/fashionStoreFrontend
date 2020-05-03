@@ -81,52 +81,52 @@ class SignIn extends Component {
     // check user browser start here  ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
 
 
-        checkUserBrowser(){
-             // Get the user-agent string 
-             let userAgentString =  
-             navigator.userAgent; 
-               // Detect Chrome 
-            let chromeAgent =  
-            userAgentString.indexOf("Chrome") > -1; 
-      
+    checkUserBrowser() {
+        // Get the user-agent string 
+        let userAgentString =
+            navigator.userAgent;
+        // Detect Chrome 
+        let chromeAgent =
+            userAgentString.indexOf("Chrome") > -1;
+
         // Detect Internet Explorer 
-        let IExplorerAgent =  
-            userAgentString.indexOf("MSIE") > -1 ||  
-            userAgentString.indexOf("rv:") > -1; 
-      
+        let IExplorerAgent =
+            userAgentString.indexOf("MSIE") > -1 ||
+            userAgentString.indexOf("rv:") > -1;
+
         // Detect Firefox 
-        let firefoxAgent =  
-            userAgentString.indexOf("Firefox") > -1; 
-      
+        let firefoxAgent =
+            userAgentString.indexOf("Firefox") > -1;
+
         // Detect Safari 
-        let safariAgent =  
-            userAgentString.indexOf("Safari") > -1; 
-              
+        let safariAgent =
+            userAgentString.indexOf("Safari") > -1;
+
         // Discard Safari since it also matches Chrome 
-        if ((chromeAgent) && (safariAgent))  
-            safariAgent = false; 
-      
+        if ((chromeAgent) && (safariAgent))
+            safariAgent = false;
+
         // Detect Opera 
-        let operaAgent =  
-            userAgentString.indexOf("OP") > -1; 
+        let operaAgent =
+            userAgentString.indexOf("OP") > -1;
 
 
-            if ((chromeAgent) && (operaAgent))  
-            chromeAgent = false; 
+        if ((chromeAgent) && (operaAgent))
+            chromeAgent = false;
 
 
-            console.log("Browswe ----------------------------------------");
-            
-            console.log(safariAgent);
-            console.log(chromeAgent);
-            console.log(IExplorerAgent);
-            console.log(operaAgent);
-            console.log(firefoxAgent);
-           
-            console.log("Browswe ----------------------------------------");
+        console.log("Browswe ----------------------------------------");
+
+        console.log(safariAgent);
+        console.log(chromeAgent);
+        console.log(IExplorerAgent);
+        console.log(operaAgent);
+        console.log(firefoxAgent);
+
+        console.log("Browswe ----------------------------------------");
 
 
-        }
+    }
 
 
 
@@ -144,9 +144,12 @@ class SignIn extends Component {
         e.preventDefault()
         var uEmail = this.state.uEmail;
         var uPass = this.state.uPass;
+        var keepMesignedIn = this.state.isChecked;
+
+
         if (uEmail != null && uPass != null) {
             await this.setState({ loading: true })
-            var status = await C_User.userSignIn(uEmail, uPass)
+            var status = await C_User.userSignIn(uEmail, uPass, keepMesignedIn)
 
             console.log("!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!");
             console.log(status);
@@ -176,6 +179,8 @@ class SignIn extends Component {
                     });
                     C_Config.showAlert("Please check your network connection", "Oops!");
                     return -1;
+                case 200:
+
 
                 default:
                     break;
@@ -183,7 +188,6 @@ class SignIn extends Component {
 
             //   set user details
             var curretUser = status;
-            var keepMesignedIn = this.state.isChecked;
             if (keepMesignedIn == false) {
                 keepMesignedIn = false
             } else {
@@ -193,8 +197,6 @@ class SignIn extends Component {
             await console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             await console.log("User Details");
             await console.log(curretUser);
-
-
             C_User.setCookies(
                 curretUser.token,
                 curretUser.fname,
@@ -203,14 +205,13 @@ class SignIn extends Component {
                 curretUser.createdat,
                 curretUser.createdat,
                 curretUser.id,
-
                 keepMesignedIn
             )
             console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             console.log(keepMesignedIn);
-            this.props.setCurrentUser( curretUser.token);
+            this.props.setCurrentUser(curretUser.token);
             await this.setState({ loading: false })
-            // await window.location.replace("/");
+            await window.location.replace("/");
         } else {
             C_Config.showAlert(
                 "Please fill user name and password correctly"
@@ -306,7 +307,7 @@ class SignIn extends Component {
                     </div>
                 </div>
 
-                <button onClick={()=> this.checkUserBrowser()}>chceck browse </button>
+                <button onClick={() => this.checkUserBrowser()}>chceck browse </button>
                 {/* // ======================================================== */}
                 {/* // =============== Register Form Section End  =============== */}
                 {/* // ========================================================  */}

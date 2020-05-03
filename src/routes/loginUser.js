@@ -19,11 +19,9 @@ import AllUsers from '../views/allusers/allusers'
 import AdminLogin from '../views/admin/adminlogin'
 import AdminCategory from '../views/admin/admin.category'
 
-import AdminManager from '../views/admin/admin.managers'
 
-
-
-let adminRoutes = [
+let loginUserRoutes = [
+  
   {
     path: "/",
     name: "Home",
@@ -43,11 +41,39 @@ let adminRoutes = [
     exact: true,
   },
 
+  // sign up route
+  {
+    path: "/signup",
+    name: "SignUp",
+    component: SignUp,
+    exact: true,
+  },
+  // sign in route
+  {
+    path: "/signin",
+    name: "SignIn",
+    component: SignIn,
+    exact: true,
+  },
+  // my account  route
+  {
+    path: "/myaccount",
+    name: "MyAccount",
+    component: MyAccount,
+    exact: true,
+  },
   // all users
   {
     path: "/all",
     name: "AllUsers",
     component: AllUsers,
+    exact: true,
+  },
+
+  {
+    path: "/myaccount",
+    name: "MyAccount",
+    component: MyAccount,
     exact: true,
   },  // admin path ---------------------------------------------------------------------------------
   {
@@ -56,25 +82,7 @@ let adminRoutes = [
     component: AdminLogin,
     exact: true,
   },
-  {
-    path: "/admin/category",
-    name: "admin_category",
-    component: AdminCategory,
-    exact: true,
-  },
-  {
-    path: "/admin/managers",
-    name: "admin_manager",
-    component: AdminManager,
-    exact: true,
-  },
-  {
-    path: "/*",
-    name: "Adminlogin",
-    component: AdminLogin,
-    exact: true,
-  }
 
 ];
 
-export default adminRoutes;
+export default loginUserRoutes;

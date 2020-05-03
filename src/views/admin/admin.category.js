@@ -9,6 +9,7 @@ import { getAllCategories , insertCategory , updateCategory , deleteCategory } f
 import Config from "../../controllers/Config";
 import moment from 'moment'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import U_User from '../../controllers/User'
 import { faTrash , faPenAlt , faEye , faPlus, faSave, faUndoAlt, faWindowClose} from '@fortawesome/free-solid-svg-icons'
 
 
@@ -28,6 +29,23 @@ class AdminCategory extends Component {
             errors : {},
             delete_item : {} 
         }
+        
+    }
+
+
+   async componentWillMount(){
+      await  this.getSignInStatus()
+}
+
+
+    // checksignIn
+   async getSignInStatus(){
+        var status = await U_User.checkSignedIn()
+        console.log(status);
+        
+        if(status == false){
+            await window.location.replace("/admin");
+        } 
     }
 
     componentDidMount(){
