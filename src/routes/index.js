@@ -18,6 +18,7 @@ import AllUsers from '../views/allusers/allusers'
 
 import AdminLogin from '../views/admin/adminlogin'
 import AdminCategory from '../views/admin/admin.category'
+import AddProducts from '../views/admin/admin.add.products'
 
 
 
@@ -78,6 +79,13 @@ let indexRoutes = [
     component: SignIn,
     exact: true,
   },
+  {
+    path: "/admin/products/add",
+    name: "admin_product_add",
+    component: AddProducts,
+    exact: true,
+  }
+
 ];
 
 export default indexRoutes;

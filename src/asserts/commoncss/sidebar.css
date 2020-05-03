@@ -102,13 +102,28 @@ ul.sidebar {
     color: #F4F4F4 !important;
 }
 .wd-wrapper{
+    padding-top: 2.5rem !important;
     width: 100% !important;
     height: 100vh !important;
 }
 
+.img-wrap {
+    position: relative;
+}
+.close-btn{
+    position: absolute;
+    bottom : 5px;
+    cursor: pointer;
+    left: 5px;
+}
+
 .sidebar_active {
     width: 245px !important;
-  }
+}
+
+.react-confirm-alert-overlay{
+    background: rgba(0, 0, 9, 0.1) !important;
+}
 
   .show-icon{
       display: none;
