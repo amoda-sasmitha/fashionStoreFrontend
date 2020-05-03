@@ -20,7 +20,7 @@ class AdminSidebar extends React.Component {
     const { active } = this.props;
     return(
         <>
-        <nav className="navbar navbar-dark bg-dark py-0 shadow-sm topnav">
+        <nav className="navbar navbar-dark bg-dark py-0 shadow-sm topnav fixed-top">
         <span className="navbar-brand mb-0 h6 text-light ml-2">Fashi Dashboard
         <FontAwesomeIcon
         onClick={ () => this.setState({side_bar_toggle : !this.state.side_bar_toggle}) }
@@ -44,21 +44,20 @@ class AdminSidebar extends React.Component {
             <FontAwesomeIcon icon={faUser} className="mx-3 sidebar-icon"></FontAwesomeIcon>Users
             </h6>
         </li>  
-        <li className="listitem" >
-            <h6 className="categorylink px-2">
-            <FontAwesomeIcon icon={faUser} className="mx-3 sidebar-icon"></FontAwesomeIcon>Managers
-            </h6>
-        </li>  
+        <Link to="/admin/category">
         <li className={`listitem ${ active == 'categories' && 'active_category' }`}  >
             <h6 className={`categorylink px-2 ${ active == 'categories' && 'active_category' }`}>
             <FontAwesomeIcon icon={faTags} className="mx-3 sidebar-icon"></FontAwesomeIcon>Categories
             </h6>
         </li>  
-        <li className="listitem" >
-            <h6 className="categorylink px-2">
+        </Link>
+        <Link to="/admin/products/add">
+        <li className={`listitem ${ active == 'products' && 'active_category' }`} >
+            <h6 className={`categorylink px-2 ${ active == 'products' && 'active_category' }`}>
             <FontAwesomeIcon icon={faBarcode} className="mx-3 sidebar-icon"></FontAwesomeIcon>Products
             </h6>
         </li>  
+        </Link>
         {/* <li className="listitem" >
             <span className="categorylink px-4">
             <FontAwesomeIcon icon={faEnvelopeSquare} className="mx-3 sidebar-icon"></FontAwesomeIcon>Add Products
