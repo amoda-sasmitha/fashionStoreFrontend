@@ -22,8 +22,11 @@ class User {
             getsalt: "/admin/g/salt",
             addManager :"/manager/ad/s/m",
             getAllManagers : "/admin/g/all/man",
-            getAllUsers : "/admin/g/all/users"
-
+            getAllUsers : "/admin/g/all/users",
+            getAllUserBrowserDetial : "/admin/g/all/users/logins",
+            getAllUserTImeDetial : "/admin/g/all/users/time",
+            getUserStats : "/admin/g/user/stat",
+ 
 
         };
     }
@@ -50,7 +53,7 @@ class User {
     // ======================================================== ================================================================================================================
     // ===============   Sign In ============================== ================================================================================================================
     // ======================================================== ================================================================================================================
-    async adminSignIn(email, password, keepMesignedIn) {
+    async adminSignIn(email, password, keepMesignedIn, userBrowser) {
         //=============================== first get slat for specific user start  =====================================
         var requestData_salt = {
             uEmail: email
@@ -88,7 +91,8 @@ class User {
         var requestData = {
             uEmail: email,
             uPass: hashedPass,
-            keepme: keepMesignedIn
+            keepme: keepMesignedIn,
+            userBrowser : userBrowser
         };
         console.log("Sign inf dta");
         console.log(requestData);
@@ -222,6 +226,58 @@ class User {
 
 
 
+
+    getUsersBrowsers = () =>{
+        
+        var requestData = {
+            token : this.getToken(),
+            type : this.getType()
+        }
+        return new Promise( (resolve,reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUserBrowserDetial}` , requestData)
+                .then( result => {
+                        resolve({code : 200 , data : result.data })
+                })
+                .catch( err => {
+                    reject({ code : 0 , error : err})
+                })
+        })
+    }
+
+
+    getUserLastLogin = () =>{
+        
+        var requestData = {
+            token : this.getToken(),
+            type : this.getType()
+        }
+        return new Promise( (resolve,reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUserTImeDetial}` , requestData)
+                .then( result => {
+                        resolve({code : 200 , data : result.data })
+                })
+                .catch( err => {
+                    reject({ code : 0 , error : err})
+                })
+        })
+    }
+
+    getUserStats = () =>{
+        
+        var requestData = {
+            token : this.getToken(),
+            type : this.getType()
+        }
+        return new Promise( (resolve,reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getUserStats}` , requestData)
+                .then( result => {
+                        resolve({code : 200 , data : result.data })
+                })
+                .catch( err => {
+                    reject({ code : 0 , error : err})
+                })
+        })
+    }
 
 
 

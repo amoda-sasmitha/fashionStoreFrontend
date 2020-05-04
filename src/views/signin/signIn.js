@@ -16,6 +16,7 @@ import Footer from '../../components/Footer';
 import './signin.css'
 import { setCurrentUser } from '../../actions/authActions'
 import { connect } from 'react-redux'
+import {isMobile, isMobileOnly, isTablet, isSmartTV, isWinPhone, isIOS, isAndroid, isBrowser} from 'react-device-detect';
 
 class SignIn extends Component {
     constructor() {
@@ -28,7 +29,9 @@ class SignIn extends Component {
             uSavePass: false,
             loading: false,
             isChecked: false,
-            browserUser : ''
+            browserUser : '',
+            deviceUser : '',
+            userMobile : ''
 
 
         };
@@ -36,9 +39,69 @@ class SignIn extends Component {
 
 
     }
+
+
+
+
     // ======================================================== 
     // =============== Functions        Start   =============== 
     // ======================================================== 
+
+    checkDevice = () => {
+        if (isMobileOnly) {
+            this.setState({
+            deviceUser  : "Mobile"
+            })
+            // return true
+        }
+        if (isTablet) {
+            this.setState({
+            deviceUser  : "Tablet"
+            })
+            // return true
+        }
+        if (isSmartTV	) {
+            this.setState({
+            deviceUser  : "Smart TV"
+            })
+            // return true
+        }
+        if (isBrowser	) {
+            this.setState({
+            deviceUser  : "Computer"
+            })
+            // return true
+        }
+    }
+    checkuserMobile = () => {
+        if (isWinPhone) {
+            this.setState({
+                userMobile  : "Windows"
+            })
+            // return true
+        }
+        if (isIOS) {
+            this.setState({
+                userMobile  : "IOS"
+            })
+            // return true
+        }
+        if (isAndroid	) {
+            this.setState({
+                userMobile  : "Android"
+            })
+            // return true
+        }
+    }
+
+    async componentWillMount(){
+      await  this.checkDevice()
+      await  this.checkuserMobile ()
+
+     await   console.log(this.state.deviceUser);
+     await   console.log(this.state.userMobile);
+        
+    }
 
     // -----------------form filling functions ----------------- 
     // email start  ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
@@ -207,7 +270,7 @@ class SignIn extends Component {
                     )
                     this.props.setCurrentUser(curretUser.token);
                     await this.setState({ loading: false })
-                    await window.location.replace('/')
+                    await this.props.history.push('/')
                     break;
             }
 
