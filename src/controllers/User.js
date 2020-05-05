@@ -25,7 +25,8 @@ class User {
             resetPassoword: '/user/reset/user/pw',
             profilepic: "/user/u/pp/up",
             getSpecificUser: "/user/u/my/user",
-            chengeusername: "/user/u/my/uname"
+            chengeusername: "/user/u/my/uname",
+            getLstLOgindetails: "/user/get/l/login/user"
 
         };
     }
@@ -94,7 +95,7 @@ class User {
     // ======================================================== ================================================================================================================
     // ===============   Sign In ============================== ================================================================================================================
     // ======================================================== ================================================================================================================
-    async userSignIn(email, password, keepMesignedIn) {
+    async userSignIn(email, password, keepMesignedIn, userBrowser) {
         //=============================== first get slat for specific user start  =====================================
         var requestData_salt = {
             uEmail: email
@@ -132,7 +133,8 @@ class User {
         var requestData = {
             uEmail: email,
             uPass: hashedPass,
-            keepme: keepMesignedIn
+            keepme: keepMesignedIn,
+            userBrowser: userBrowser
         };
         console.log("Sign inf dta");
         console.log(requestData);
@@ -221,7 +223,43 @@ class User {
     // ======================================================== ================================================================================================================
 
 
+    async getUserLastLoginDetails() {
+        var requestData = {
+            uEmail: this.getEmail(),
+            token: this.getToken()
+        }
 
+         var  resp = 600;
+        var userData = {}
+
+
+
+        await Axios.post(
+            `${Config.host}${Config.port}${this.api.getLstLOgindetails}`,
+            requestData
+        )
+            .then(Response => {
+                resp = Response.status;
+                userData = Response.data
+            })
+            .catch(err => {
+                console.error(err);
+                try {
+                    console.error(err);
+                    resp = err.response.status;
+                } catch (error) {
+                    console.log(error);
+
+                    resp = 600;
+                }
+            });
+
+        if (resp === 200) {
+            return userData;
+        }
+        return resp;
+
+    }
 
 
 

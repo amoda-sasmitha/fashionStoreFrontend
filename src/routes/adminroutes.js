@@ -5,6 +5,7 @@ import AdminCategory from '../views/admin/admin.category'
 import AdminManager from '../views/admin/admin.managers'
 import AddProducts from '../views/admin/admin.add.products'
 
+import UserManagment from '../views/admin/admin.users'
 
 
 
@@ -31,6 +32,12 @@ let adminRoutes = [
     path: "/admin/products/add",
     name: "admin_product_add",
     component: AddProducts,
+    exact: true,
+  },
+  {
+    path: "/admin/user/managment",
+    name: "admin_user_managment",
+    component: UserManagment,
     exact: true,
   }
 ];

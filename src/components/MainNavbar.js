@@ -19,7 +19,7 @@ class MainNavbar extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props.isAuthed);
+        console.log(this.props);
 
         if (this.props.isAuthed != null || this.props.isAuthed != undefined) {
 
