@@ -38,6 +38,10 @@ class AdminManagers extends Component {
             statYears:[],
             Yyears:[],
             Yuser:[],
+            monthBaseUsers:[],
+            monthBaseMonths:[],
+            userUsage:[],
+            MonthBasedYear:'',
 
         }
 
@@ -48,8 +52,55 @@ class AdminManagers extends Component {
 
 
 
-    // set users from year
+    //sentMonth wise usge
+    sentMonthwiseusge =  async () => {
+        var monthandusers = this.state.monthBaseUsers;
+        var months =[];
+        var user = [];
+        var year = monthandusers[0].year
+        for(var i = 0 ; i < monthandusers.length; i++){
+            months[i] = monthandusers[i].month;
+            user[i] = monthandusers[i].usersCount;
+        }
 
+        await this.setState({
+            monthBaseMonths : months,
+            userUsage : user,
+            MonthBasedYear : year
+        })
+        console.log(this.state.userUsage)
+
+    }
+
+
+
+
+
+
+    //get users from monthbase use
+
+    setMonthBasedUsers =   () => {
+        return new Promise((resolve, reject) => {
+            return A_Admin.getUsageOfMonthBased()
+                .then(result => {
+                    resolve({ code: 200, data: result.data })
+                    // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+                    // console.log(result.data);
+                    // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
+
+                    //
+                    this.setState({
+                        monthBaseUsers: result.data.monthBasedUser
+                    })
+                })
+                .catch(err => {
+                    reject({ code: 0, error: err })
+                })
+        })
+    }
+
+
+    // set users from year
 
     setUsersfromyear =  async () => {
          var ss = this.state.statYears;
@@ -65,11 +116,6 @@ class AdminManagers extends Component {
                 Yuser : user.reverse()
               })
 
-    
-            
-
-
-            
     }
 
 
@@ -101,14 +147,29 @@ class AdminManagers extends Component {
             return A_Admin.getAllUsersAdmin()
                 .then(result => {
                     resolve({ code: 200, data: result.data })
-                    // console.log(result.data);
+                    console.log("dsdsdsD", result);
+
+
 
                     this.setState({
                         users: result.data.users
                     })
                 })
                 .catch(err => {
-                    reject({ code: 0, error: err })
+                    // if(err){
+                            // if(err.code == 403){
+                            //     Config.showAlert("Your session is expired please sign in", "Oops!");
+                            //       // this.props.history.push('/admin')
+                            //
+                            //
+                            // }else{
+                            //     Config.showAlert("Something went wrong. Please try again", "Oops!");
+                            //     this.props.history.push('/')
+                            //
+                            // }
+                        reject({ code: 0, error: err })
+
+                    // }
                 })
         })
     }
@@ -156,10 +217,12 @@ class AdminManagers extends Component {
         await this.getLastLogins()
         await this.getAllUsersStats()
         await this.setUsersfromyear()
+        await  this.setMonthBasedUsers()
+        await this.sentMonthwiseusge()
         // console.log(this.state.browsers);
         // console.log(this.state.lastLogins);
-        console.log(this.state.statsBrowser);
-        console.log(this.state.statYears);
+        // console.log(this.state.statsBrowser);
+        // console.log(this.state.statYears);
 
 
     }
@@ -190,7 +253,7 @@ class AdminManagers extends Component {
     }
     render() {
 
-        const { users, fname, lname, email, viewUser, statsBrowser, statYears, Yyears, Yuser } = this.state;
+        const { users, fname, lname, email, viewUser, statsBrowser, statYears, Yyears, Yuser, userUsage, MonthBasedYear } = this.state;
         return (
             <div className="bg-light wd-wrapper">
                 <AdminSidebar active={"managers"} />
@@ -201,7 +264,7 @@ class AdminManagers extends Component {
                             <div className="col-12">
                                 <h5 className="text-dark bold-normal py-2 bg-white shadow-sm px-2 mt-3 rounded">
                                     User Managment
-                                <span className="badge badge-success mx-2  " onClick={() => this.setUsersfromyear()}>Add Manager</span>
+                                {/*<span className="badge badge-success mx-2  " onClick={() => this.setUsersfromyear()}>Add Manager</span>*/}
                                 </h5>
                             </div>
                             <div className="col-12" style={{ display: this.state.addManagerState == true ? 'block' : 'none' }}>
@@ -239,7 +302,7 @@ class AdminManagers extends Component {
                                 <div className="row">
                                         <div className="col-md-12 ">
                                             <div className="campaign ct-charts px-3">
-                                                <h6 className="mt-2 mb-3">User Registration in 2020</h6>
+                                                <h6 className="mt-2 mb-3">User Sessions  in {MonthBasedYear}</h6>
                                             <LineChart data={{
                                             labels: ['January', 'February', 'March', 'April', 'March', 'May', 'June', 'July', 'August', 'October', "November", 'December'] ,
                                                 datasets:[
@@ -247,7 +310,7 @@ class AdminManagers extends Component {
                                                     label : "Users",
                                                     backgroundColor: 'rgba(26, 188, 156,0.5)',
                                                     borderColor: 'rgba(39, 174, 96,0.4)',
-                                                    data: [0, 10, 0, 30, 40, 50, 30, 90, 40, 85 , 50, 20]
+                                                    data: userUsage
 
                                                    } 
                                                 ]
@@ -282,7 +345,7 @@ class AdminManagers extends Component {
                                         </div>
                                         <div className="col-md-6  mt-3">
                                             <div className="campaign ct-charts px-3">
-                                            <h6 className="mt-2 mb-3">User Browser</h6>
+                                            <h6 className="mt-2 mb-3">User Browsers in {MonthBasedYear} </h6>
 
                                             <Doughnut  data={{
                                             labels: ['Chrome', 'IExplorer', 'Safari', 'Opera', 'Firefox'] ,
