@@ -6,12 +6,14 @@ import adminRoutes from './routes/adminroutes'
 import loginUserRoutes from './routes/loginUser'
 
 import U_User from './controllers/User'
+import A_Admin from './controllers/Admin'
 
 import U_Util from './controllers/Util'
 
 import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
+import managerRoutes from './routes/manager.routes'
 
 // import redux
 import { Provider } from 'react-redux'
@@ -25,6 +27,7 @@ class App extends React.Component {
 
   router = () => {
     let routes = indexRoutes;
+
     let checkSignedIn =  U_User.checkSignedIn();
     let role = U_Util.getType();
 
@@ -32,12 +35,12 @@ class App extends React.Component {
       routes = [...loginUserRoutes , ...routes ];
     }
 
-    //if(manager){
-    //  routes = [...routes , ...manager ];
-    //}
+    if(checkSignedIn == true && role == "manager"){
+     routes = [ ...managerRoutes, ...routes ];
+    }
 
     if( checkSignedIn == true && role == "admin" ){
-      routes = [ ...adminRoutes , ...routes ];
+      routes = [ ...adminRoutes ,...managerRoutes, ...routes ];
     }
 
     console.log( role , routes );
@@ -54,7 +57,7 @@ class App extends React.Component {
                <Route
                    path={prop.path}
                    key={key}
-                   component={(props) => <prop.component isAuthed={U_User.checkSignedIn()} {...props} />}
+                   component={(props) => <prop.component isAuthed={U_User.checkSignedIn()}   {...props} />}
                    exact={prop.exact ? true : false}
 
                  />

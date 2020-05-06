@@ -270,7 +270,8 @@ class SignIn extends Component {
                     )
                     this.props.setCurrentUser(curretUser.token);
                     await this.setState({ loading: false })
-                    await this.props.history.push('/')
+                    // await this.props.history.push('/')
+                    window.location.replace("/");
                     break;
             }
 
