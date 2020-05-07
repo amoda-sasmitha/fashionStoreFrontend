@@ -1,0 +1,4 @@
+.filepond--item {
+    width: calc(25% - .5em);
+}
+

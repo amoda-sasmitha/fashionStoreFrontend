@@ -4,6 +4,7 @@ import AllUsers from '../views/allusers/allusers'
 import AdminCategory from '../views/admin/admin.category'
 import AdminManager from '../views/admin/admin.managers'
 import AddProducts from '../views/admin/admin.add.products'
+import AdminProducts from '../views/admin/admin.products'
 
 
 
@@ -28,11 +29,17 @@ let adminRoutes = [
     exact: true,
   },
   {
+    path: "/admin/products",
+    name: "admin_products",
+    component: AdminProducts ,
+    exact: true,
+  },
+  {
     path: "/admin/products/add",
     name: "admin_product_add",
     component: AddProducts,
     exact: true,
-  }
+  } 
 ];
 
 export default adminRoutes;
