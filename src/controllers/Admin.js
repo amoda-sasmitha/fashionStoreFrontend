@@ -20,6 +20,12 @@ class User {
             test: "/api/news/my",
             signin: "/admin//sign",
             getsalt: "/admin/g/salt",
+            addManager :"/manager/ad/s/m",
+            getAllManagers : "/admin/g/all/man",
+            getAllUsers : "/admin/g/all/users",
+            getAllUserBrowserDetial : "/admin/g/all/users/logins",
+            getAllUserTImeDetial : "/admin/g/all/users/time",
+            getUserStats : "/admin/g/user/stat",
  
 
         };
@@ -47,7 +53,7 @@ class User {
     // ======================================================== ================================================================================================================
     // ===============   Sign In ============================== ================================================================================================================
     // ======================================================== ================================================================================================================
-    async adminSignIn(email, password, keepMesignedIn) {
+    async adminSignIn(email, password, keepMesignedIn, userBrowser) {
         //=============================== first get slat for specific user start  =====================================
         var requestData_salt = {
             uEmail: email
@@ -85,7 +91,8 @@ class User {
         var requestData = {
             uEmail: email,
             uPass: hashedPass,
-            keepme : keepMesignedIn
+            keepme: keepMesignedIn,
+            userBrowser : userBrowser
         };
         console.log("Sign inf dta");
         console.log(requestData);
@@ -122,6 +129,176 @@ class User {
     // ===============   Sign In end here====================== ================================================================================================================
     // ======================================================== ================================================================================================================
 
+    // ======================================================= ================================================================================================================
+    // ===============   add manager start====================== ================================================================================================================
+    // ======================================================== ================================================================================================================
+
+
+    addManager = async (fname, lname, email, pw) => {
+        var _salt = this.generateSalt(20);
+        var hashedPass = Crypto.SHA256(_salt + pw).toString();
+        var requestData = {
+            firstname: fname,
+            lastname: lname,
+            useremail: email,
+            password: hashedPass,
+            salt:_salt,
+            adminId : this.getId(),
+            token : this.getToken(),
+            type : this.getType(),
+            DePas : pw
+        }
+        var resp = 600;
+       var  userData = {}
+        await Axios.post(
+            `${Config.host}${Config.port}${this.api.addManager}`,
+            requestData
+        )
+            .then(Response => {
+                console.log(Response);
+                
+                resp = Response.status;
+                userData = Response.data.userData
+            })
+            .catch(err => {
+                console.error(err);
+                try {
+                    console.error(err);
+                    resp = err.response.status;
+                } catch (error) {
+                    console.log(error);
+                    resp = 600;
+                }
+            });
+
+        if (resp === 200) {
+            return resp;
+        }
+
+
+        return resp;
+
+        
+    }
+
+
+
+    // ======================================================= ================================================================================================================
+    // ===============   add manager end====================== ================================================================================================================
+    // ======================================================== ================================================================================================================
+
+
+    getAllAdmins = () =>{
+        
+        var requestData = {
+            token : this.getToken(),
+            type : this.getType()
+        }
+        return new Promise( (resolve,reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getAllManagers}` , requestData)
+                .then( result => {
+                        resolve({code : 200 , data : result.data })
+                })
+                .catch( err => {
+                    reject({ code : 0 , error : err})
+                })
+        })
+    }
+
+    getAllUsersAdmin = () =>{
+        
+        var requestData = {
+            token : this.getToken(),
+            type : this.getType()
+        }
+        return new Promise( (resolve,reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUsers}` , requestData)
+                .then( result => {
+                        resolve({code : 200 , data : result.data })
+                })
+                .catch( err => {
+                    reject({ code : 0 , error : err})
+                })
+        })
+    }
+
+
+
+
+
+
+    getUsersBrowsers = () =>{
+        
+        var requestData = {
+            token : this.getToken(),
+            type : this.getType()
+        }
+        return new Promise( (resolve,reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUserBrowserDetial}` , requestData)
+                .then( result => {
+                        resolve({code : 200 , data : result.data })
+                })
+                .catch( err => {
+                    reject({ code : 0 , error : err})
+                })
+        })
+    }
+
+
+    getUserLastLogin = () =>{
+        
+        var requestData = {
+            token : this.getToken(),
+            type : this.getType()
+        }
+        return new Promise( (resolve,reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUserTImeDetial}` , requestData)
+                .then( result => {
+                        resolve({code : 200 , data : result.data })
+                })
+                .catch( err => {
+                    reject({ code : 0 , error : err})
+                })
+        })
+    }
+
+    getUserStats = () =>{
+        
+        var requestData = {
+            token : this.getToken(),
+            type : this.getType()
+        }
+        return new Promise( (resolve,reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getUserStats}` , requestData)
+                .then( result => {
+                        resolve({code : 200 , data : result.data })
+                })
+                .catch( err => {
+                    reject({ code : 0 , error : err})
+                })
+        })
+    }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
     // ======================================================= ================================================================================================================
     // ===============   set cookies when user login  start here ===============================================================================================================
@@ -148,7 +325,7 @@ class User {
             Cookies.set("cTok", token, { secure: secureState });
             Cookies.set("cCre", btoa(createdat), { secure: secureState });
             Cookies.set("cLsi", btoa(lastSignin), { secure: secureState });
-            Cookies.set("sin", btoa(sign), {  secure: secureState });
+            Cookies.set("sin", btoa(sign), { secure: secureState });
             Cookies.set("cId", btoa(id), { secure: secureState });
             Cookies.set("type", type, { secure: secureState });
 
@@ -211,6 +388,10 @@ class User {
     // get id  
     getId() {
         return atob(Cookies.get("cId"));
+    }
+    // get id  
+    getType() {
+        return Cookies.get("type");
     }
 
 }

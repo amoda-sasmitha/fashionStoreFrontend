@@ -62,6 +62,8 @@ class Userinfo extends Component {
       picsrc: '',
       createdAt: '',
 
+      latlgonDate:'',
+      browser : '',
     };
 
 
@@ -74,9 +76,21 @@ class Userinfo extends Component {
 
   async UNSAFE_componentWillMount() {
     await this.getUserDetails();
+    await this. getLastLoginDetails();
   }
 
+  async getLastLoginDetails(){
 
+
+    var status = await  C_User.getUserLastLoginDetails()
+    console.log(status);
+
+   await    this.setState({
+    latlgonDate : status. lastlogin,
+    browser : status.browser
+      })
+    
+  }
 
   // get user detaisl
   async getUserDetails() {
@@ -484,7 +498,8 @@ class Userinfo extends Component {
         <div className="IS_UI_section">
           <h1>Last Login </h1>
           <p>
-            2020 - 04 - 10  &nbsp;  •  &nbsp; 22 h : 55 m •  &nbsp; Chrome Web browser
+              {/* {this.state.lastlogin}  &nbsp;  •  &nbsp; 22 h : 55 m •  &nbsp; Chrome Web browser */}
+              {this.state.latlgonDate}  &nbsp;  •    &nbsp; {this.state.browser}
               </p>
 
           {/* <div className="IS_UI_sessionContainer">{SessionList}</div> */}

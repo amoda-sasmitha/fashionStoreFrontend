@@ -18,7 +18,7 @@ class Home extends React.Component {
   render(){
     return(
     <div className="wrapper" >
-        <MainNavbar isAuthed = {this.props.isAuthed}></MainNavbar>
+        <MainNavbar isAuthed = {this.props.isAuthed}  ></MainNavbar>
         <MainSlider></MainSlider>
         <h4 className="pt-3 pb-1 px-lg-5 px-2 text-dark  font-weight-bold">Limited Offers</h4>
         <section className=" pb-3">

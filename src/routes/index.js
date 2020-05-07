@@ -11,6 +11,9 @@ import SignIn from '../views/signin/signIn'
 // admin components 
 import AdminLogin from '../views/admin/adminlogin'
 
+// managers signin
+
+import ManagerSignIn from '../views/admin/stockmanager/managers.signin'
 
 
 let indexRoutes = [
@@ -52,6 +55,12 @@ let indexRoutes = [
     path: "/admin",
     name: "Adminlogin",
     component: AdminLogin,
+    exact: true,
+  },
+  {
+    path: "/manager",
+    name: "ManagerSignin",
+    component: ManagerSignIn,
     exact: true,
   },
   {

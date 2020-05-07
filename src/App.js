@@ -1,5 +1,5 @@
 import React from 'react';
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom';
+import { BrowserRouter as Router, Route, Switch, useHistory, withRouter } from 'react-router-dom';
 import indexRoutes from './routes/index'
 
 import adminRoutes from './routes/adminroutes'
@@ -47,14 +47,14 @@ class App extends React.Component {
   render(){
     return(
       <Provider store={store}>
-        <Router>
+        <Router >
            <Switch>
              { this.router().map((prop, key) => {
                return (
                <Route
                    path={prop.path}
                    key={key}
-                   component={() => <prop.component isAuthed={U_User.checkSignedIn()} />}
+                   component={(props) => <prop.component isAuthed={U_User.checkSignedIn()} {...props} />}
                    exact={prop.exact ? true : false}
 
                  />

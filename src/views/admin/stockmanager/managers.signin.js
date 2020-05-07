@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
-import A_Admin from '../../controllers/Admin'
-import C_Config from '../../controllers/Config'
+import A_Admin from '../../../controllers/Admin'
+import C_Config from '../../../controllers/Config'
 
 class Adminlogin extends Component {
     constructor() {
@@ -214,7 +214,7 @@ class Adminlogin extends Component {
                             <div className="col-lg-12">
                                 <div className="breadcrumb-text">
 
-                                    <span>Admin Sign In Area</span>
+                                    <span>Managers Sign In Area</span>
                                 </div>
                             </div>
                         </div>
