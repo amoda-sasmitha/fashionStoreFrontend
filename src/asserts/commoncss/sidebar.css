@@ -74,7 +74,7 @@ ul.sidebar {
 }
 
 .filepond--image-preview-overlay-idle {
-    color: rgba(255, 255, 255, 0.85);
+    color: rgba(255, 255, 255, 0.85) !important;
 }
 
 .filepond--image-preview-overlay-success {
@@ -86,12 +86,15 @@ ul.sidebar {
 }
 .filepond--root,
 .filepond--root .filepond--drop-label {
-  min-height: 140px;
+  min-height: 160px;
+  background-color: #F1F0EF !important;
 }
 
 .filepond--panel{
-    background-color: unset;
+    background-color: unset ;
 }
+
+.ck-editor .ck-editor__editable_inline {min-height: 140px !important;}
 
 .form-label{
     font-weight: 500;

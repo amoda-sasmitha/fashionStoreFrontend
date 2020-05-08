@@ -4,6 +4,7 @@ import AllUsers from '../views/allusers/allusers'
 import AdminCategory from '../views/admin/admin.category'
 import AdminManager from '../views/admin/admin.managers'
 import AddProducts from '../views/admin/admin.add.products'
+import AdminProducts from '../views/admin/admin.products'
 
 import UserManagment from '../views/admin/admin.users'
 
@@ -26,6 +27,12 @@ let adminRoutes = [
     path: "/admin/managers",
     name: "admin_manager",
     component: AdminManager,
+    exact: true,
+  },
+  {
+    path: "/admin/products",
+    name: "admin_products",
+    component: AdminProducts ,
     exact: true,
   },
   {

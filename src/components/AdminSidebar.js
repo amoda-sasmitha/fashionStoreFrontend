@@ -63,6 +63,16 @@ class AdminSidebar extends React.Component {
                                 <h6 className={`categorylink px-2 ${active == 'products' && 'active_category'}`}>
                                     <FontAwesomeIcon icon={faBarcode} className="mx-3 sidebar-icon"></FontAwesomeIcon>Products
             </h6>
+        </li>  
+        </Link>
+        <Link to="/admin/products">
+        <li className={`listitem ${ active == 'products' && 'active_category' }`} >
+            <h6 className={`categorylink px-2 ${ active == 'products' && 'active_category' }`}>
+            <FontAwesomeIcon icon={faBarcode} className="mx-3 sidebar-icon"></FontAwesomeIcon>Products
+            </h6>
+        </li>  
+        </Link>
+        {/* <li className="listitem" >
                             </li>
                         </Link>
                         {/* <li className="listitem" >
