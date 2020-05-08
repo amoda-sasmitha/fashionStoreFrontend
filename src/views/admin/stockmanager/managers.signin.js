@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import A_Admin from '../../../controllers/Admin'
+import M_Manager from '../../../controllers/Manager'
 import C_Config from '../../../controllers/Config'
 
 class Adminlogin extends Component {
@@ -70,7 +71,7 @@ class Adminlogin extends Component {
             var userBrowser = this.state.browserUser
 
 
-            var status = await A_Admin.adminSignIn(this.state.uEmail, this.state.uPass, keepMesignedIn, userBrowser)
+            var status = await M_Manager.managerSignIn(this.state.uEmail, this.state.uPass, keepMesignedIn, userBrowser)
             console.log(status);
 
             switch (status) {
@@ -129,12 +130,8 @@ class Adminlogin extends Component {
             )
             console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             console.log(keepMesignedIn);
-            await window.location.replace("/admin/category");
-
+            await window.location.replace("/manager/stock");
         }
-
-
-
     }
 
 

@@ -26,6 +26,7 @@ class User {
             getAllUserBrowserDetial : "/admin/g/all/users/logins",
             getAllUserTImeDetial : "/admin/g/all/users/time",
             getUserStats : "/admin/g/user/stat",
+            getMonthBase : "/admin/g/user/months"
  
 
         };
@@ -262,6 +263,7 @@ class User {
         })
     }
 
+
     getUserStats = () =>{
         
         var requestData = {
@@ -279,6 +281,22 @@ class User {
         })
     }
 
+    getUsageOfMonthBased = () => {
+
+        var requestData = {
+            token : this.getToken(),
+            type : this.getType()
+        }
+        return new Promise( (resolve,reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getMonthBase}` , requestData)
+                .then( result => {
+                        resolve({code : 200 , data : result.data })
+                })
+                .catch( err => {
+                    reject({ code : 0 , error : err})
+                })
+        })
+    }
 
 
 
