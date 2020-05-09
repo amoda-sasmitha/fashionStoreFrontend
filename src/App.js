@@ -43,7 +43,6 @@ class App extends React.Component {
       routes = [ ...adminRoutes ,...managerRoutes, ...routes ];
     }
 
-    console.log( role , routes );
     return routes;
   } 
 

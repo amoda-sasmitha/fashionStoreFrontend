@@ -22,8 +22,6 @@ class MainNavbar extends React.Component {
     }
 
     componentWillMount() {
-        console.log(this.props);
-
         if (this.props.isAuthed != null || this.props.isAuthed != undefined) {
 
             if (this.props.isAuthed == true) {
@@ -178,7 +176,7 @@ class MainNavbar extends React.Component {
                             <ul>
                                 <li className="active"><a href="/">Home</a></li>
                                 <li><Link to="/">All Departments</Link></li>
-                                <li><Link to="/">New Arivals</Link></li>
+                                {/* <li><Link to="/">New Arivals</Link></li> */}
                                 <li><Link to="/">Offers</Link></li>
                                 <li><Link to="/">About Us</Link></li>
                                 <li><Link to="/">Contact Us</Link></li>

@@ -25,7 +25,7 @@ class Config {
     }
 
     setImage(url){
-      return `${this.host}${this.port}/${url.replace("/","\\" )}`
+      return `${this.host}${this.port}/${url.replace(/\\/g, '/')}`
     }
 
     setToast(msg){

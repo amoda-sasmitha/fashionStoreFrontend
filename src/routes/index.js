@@ -15,6 +15,9 @@ import AdminLogin from '../views/admin/adminlogin'
 
 import ManagerSignIn from '../views/admin/stockmanager/managers.signin'
 
+//single product page
+import singleProduct from '../views/products/singleProduct'
+import SingleProduct from "../views/products/singleProduct";
 
 let indexRoutes = [
 
@@ -25,9 +28,15 @@ let indexRoutes = [
     exact: true,
   },
   {
-    path: "/categories",
+    path: "/categories/:id",
     name: "Category",
     component: Category,
+    exact: true,
+  },
+  {
+    path: "/product/:id",
+    name: "Product",
+    component: SingleProduct,
     exact: true,
   },
   {

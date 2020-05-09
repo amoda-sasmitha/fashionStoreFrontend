@@ -17,6 +17,40 @@ export const getAllProducts = () => {
     })
 }
 
+export const getAllProductByCategory = cateogry_name => {
+    return new Promise( (resolve,reject) => {
+        return axios.get(`${Config.host}${Config.port}/product/get/${cateogry_name}`)
+            .then( result => {
+               if(result.data.code == 200){
+                    resolve(result.data.data)
+               }else{
+                resolve([])
+               }
+            })
+            .catch( err => {
+                reject(err)
+            })
+    })
+}
+
+export const getProductById = id => {
+    return new Promise( (resolve,reject) => {
+        return axios.get(`${Config.host}${Config.port}/product/getsingle/${id}`)
+            .then( result => {
+               if(result.data.code == 200){
+                    resolve(result.data.data)
+               }else{
+                reject({error : 'not found'})
+               }
+            })
+            .catch( err => {
+                reject(err)
+            })
+    })
+}
+
+
+
 
 export const insertProduct = (files , data) => {
     let formdata = new FormData();
