@@ -256,7 +256,7 @@ class AdminManagers extends Component {
         const { users, fname, lname, email, viewUser, statsBrowser, statYears, Yyears, Yuser, userUsage, MonthBasedYear } = this.state;
         return (
             <div className="bg-light wd-wrapper">
-                <AdminSidebar active={"managers"} />
+                <AdminSidebar active={"users"} />
                 <div className="wrapper-wx" >
 
                     <div className="container-fluid" >
