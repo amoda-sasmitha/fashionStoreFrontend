@@ -6,6 +6,7 @@ import AddProducts from '../views/admin/admin.add.products'
 
 import UserManagment from '../views/admin/admin.users'
 import StockManager from "../views/admin/stockmanager/stockmanager";
+import ManagersOffers from "../views/admin/stockmanager/managers.offers"
 
 let managerRoutes = [
     {
@@ -25,7 +26,14 @@ let managerRoutes = [
         name: "manager_stock_manager",
         component: StockManager,
         exact: true,
-    }
+    },
+    {
+        path: "/manager/offers",
+        name: "manager_offers",
+        component: ManagersOffers,
+        exact: true,
+    },
+
 ];
 
 export default managerRoutes;
