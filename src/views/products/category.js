@@ -2,7 +2,7 @@ import React from 'react';
 import MainNavbar from '../../components/MainNavbar';
 import ProductItem from '../../components/ProductItem';
 import Footer from '../../components/Footer';
-import {  Modal } from 'react-bootstrap'
+// import {  Modal } from 'react-bootstrap'
 import { getAllProductByCategory } from '../../controllers/Products'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faEye, faCircle, faWindowClose , faPlus, faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
