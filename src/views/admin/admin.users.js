@@ -58,9 +58,10 @@ class AdminManagers extends Component {
         var months =[];
         var user = [];
         var year = monthandusers[0].year
-        for(var i = 0 ; i < monthandusers.length; i++){
-            months[i] = monthandusers[i].month;
-            user[i] = monthandusers[i].usersCount;
+        console.log(monthandusers)
+        for(var i = 0 ; i <  monthandusers.length; i++){
+            months[i+1] = monthandusers[i].month;
+            user[i+1] = monthandusers[i].usersCount;
         }
 
         await this.setState({
@@ -68,8 +69,9 @@ class AdminManagers extends Component {
             userUsage : user,
             MonthBasedYear : year
         })
-        console.log(this.state.userUsage)
 
+        console.log(this.state.monthBaseMonths)
+        console.log(this.state.userUsage)
     }
 
 
@@ -219,10 +221,7 @@ class AdminManagers extends Component {
         await this.setUsersfromyear()
         await  this.setMonthBasedUsers()
         await this.sentMonthwiseusge()
-        // console.log(this.state.browsers);
-        // console.log(this.state.lastLogins);
-        // console.log(this.state.statsBrowser);
-        // console.log(this.state.statYears);
+
 
 
     }
