@@ -31,14 +31,14 @@ class ManagersOffers extends Component {
             size : '',
             category : {},
             categories : [],
-            sizes : [],
+            products : [],
             files : [] ,
             errors : {} ,
         }
     }
 
     componentDidMount(){
-        this.loadCategories();
+
     }
 
     onFormSubmit = (e) => {
@@ -48,26 +48,33 @@ class ManagersOffers extends Component {
         if(this.validate()){
 
             console.log("Done")
-            // insertProduct( this.state.files , {
-            //     title : this.state.name,
-            //     stitle : this.state.price,
-            //     description : this.state.description,
-            //     brand : this.state.brand,
-            //     category : this.state.category,
-            //     sizes : this.state.sizes,
-            //     tags : this.state.tags,
-            //     colors : this.state.colors,
-            //     added_by : 1 ,
-            // })
-            //     .then( result => {
-            //         this.clearAll();
-            //         Config.setToast(" Offer Updated Successfully" );
-            //     })
-            //     .catch( err => {
-            //         console.log(err);
-            //         Config.setErrorToast(" Somthing Went Wrong!");
-            //
-            //     })
+            console.log("TITLE", this.state.title)
+            console.log("S TTITLE",this.state.stitle)
+            console.log("DISCOUNT",this.state.discount)
+            console.log("sIZE",this.state.size)
+            console.log("PRODUCT",this.state.products)
+            console.log("FILES",this.state.files)
+
+            insertProduct( this.state.files , {
+                title : this.state.name,
+                stitle : this.state.price,
+                description : this.state.description,
+                brand : this.state.brand,
+                category : this.state.category,
+                sizes : this.state.sizes,
+                tags : this.state.tags,
+                colors : this.state.colors,
+                added_by : 1 ,
+            })
+                .then( result => {
+                    this.clearAll();
+                    Config.setToast(" Offer Updated Successfully" );
+                })
+                .catch( err => {
+                    console.log(err);
+                    Config.setErrorToast(" Somthing Went Wrong!");
+
+                })
         }
     }
 
@@ -76,7 +83,7 @@ class ManagersOffers extends Component {
     }
 
     handleChangeSizes = (newValue) => {
-        this.setState({sizes : newValue });
+        this.setState({products : newValue });
     };
 
 
@@ -84,7 +91,7 @@ class ManagersOffers extends Component {
 
     render(){
 
-        const { name ,colors , description , price ,categories , category  , color_name , color_code ,brand , errors } = this.state;
+        const { title ,stitle , discount , size , errors, products } = this.state;
 
         return(
             <div className="bg-light wd-wrapper">
@@ -110,12 +117,12 @@ class ManagersOffers extends Component {
                                                 <input
                                                     type="text"
                                                     name="title"
-                                                    value={name}
+                                                    value={title}
                                                     onChange={ (e) => this.formValueChange(e)}
                                                     placeholder="Enter Offer Title"
                                                     className="form-control" ></input>
-                                                { errors.name && errors.name.length > 0 &&
-                                                <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.name}</h4>}
+                                                { errors.title && errors.title.length > 0 &&
+                                                <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.title}</h4>}
                                             </div>
 
                                             {/*---------Product Name--------------  */}
@@ -124,38 +131,36 @@ class ManagersOffers extends Component {
                                                 <input
                                                     type="text"
                                                     name="stitle"
-                                                    value={price}
+                                                    value={stitle}
                                                     onChange={ (e) => this.formValueChange(e)}
                                                     placeholder="Enter Offer Subtitle"
                                                     className="form-control" ></input>
-                                                { errors.price && errors.price.length > 0 &&
-                                                <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.name}</h4>}
+                                                { errors.stitle && errors.stitle.length > 0 &&
+                                                <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.stitle}</h4>}
                                             </div>
                                             {/*---------Product Name--------------  */}
                                             <div className="col-md-6 mt-2">
                                                 <h6 className="form-label py-2">Offer Discount</h6>
                                                 <input
-                                                    type="text"
+                                                    type="number"
                                                     name="discount"
-                                                    value={price}
+                                                    value={discount}
                                                     onChange={ (e) => this.formValueChange(e)}
                                                     placeholder="Enter Offer Discount"
                                                     className="form-control" ></input>
-                                                { errors.price && errors.price.length > 0 &&
-                                                <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.name}</h4>}
+                                                { errors.discount && errors.discount.length > 0 &&
+                                                <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.discount}</h4>}
                                             </div>
                                             <div className="col-md-6 mt-2">
                                                 <h6 className="form-label py-2">Offer Size</h6>
-                                                <select id="size" name="size" className="form-control" required>
-                                                    <option value="full">Full</option>
-                                                    <option value="half">Half</option>
-                                                    <option value="quarter">Quarter</option>
+                                                <select value={size} id="size" name="size" className="form-control" required onChange={ (e) => this.formValueChange(e) }>
+                                                    <option value="12" name="size" defaultValue>Full</option>
+                                                    <option value="6" name="size">Half</option>
+                                                    <option value="4" name="size">Quarter</option>
                                                 </select>
-                                                { errors.price && errors.price.length > 0 &&
-                                                <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.name}</h4>}
+                                                { errors.size && errors.size.length > 0 &&
+                                                <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.size}</h4>}
                                             </div>
-
-
 
 
 
@@ -166,9 +171,9 @@ class ManagersOffers extends Component {
                                                     closeMenuOnSelect={false}
                                                     components={animatedComponents}
                                                     isMulti
-                                                    defaultValue={this.state.sizes}
+                                                    defaultValue={this.state.products}
                                                     onChange={this.handleChangeSizes}
-                                                    placeholder="Select Available Sizes"
+                                                    placeholder="Select Products"
                                                     options={Sizes}
                                                 />
                                                 { errors.sizes && errors.sizes.length > 0 &&
@@ -231,20 +236,11 @@ class ManagersOffers extends Component {
         );
     }
 
-    loadCategories = () => {
-        getAllCategories()
-            .then( result => {
-                console.log(result);
-                this.setState({categories : result});
-            })
-            .catch ( err => {
-                console.log(err);
-            })
-    }
+
 
     validate = () => {
-        let { errors , title ,stitle , discount, brand ,
-            category , sizes , tags } = this.state;
+        let { errors , title ,stitle , discount,
+             } = this.state;
         let count = 0;
 
         if( title.length == 0 ){
@@ -286,24 +282,19 @@ class ManagersOffers extends Component {
 
     clearAll = () => {
         this.setState({
-            name : '',
-            price : '',
-            description : '',
-            brand : '',
-            category : {},
+            title : '',
+            stitle : '',
+            size : '',
+            discount : '',
             sizes : [],
-            tags : [],
             files : [] ,
-            colors : [],
-            color_name : '',
-            color_code : '',
             errors : {} ,
         });
     }
 }
 
-const Sizes = [ { value: 'XS', label: 'XS' }, { value: 'S', label: 'S' },
-    { value: 'M', label: 'M' },{ value: 'L', label: 'L' },{ value: 'XL', label: 'XL' },
+const Sizes = [ { value: 'FA001', label: 'FA001' }, { value: 'FA002', label: 'FA002' },
+    { value: 'FA003', label: 'FA003' },{ value: 'FA004', label: 'FA004' },{ value: 'FA005', label: 'FA005' },
 ]
 
 export default ManagersOffers;
