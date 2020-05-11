@@ -4,7 +4,7 @@ import AllUsers from '../views/allusers/allusers'
 
 import AddProducts from '../views/admin/admin.add.products'
 
-import UserManagment from '../views/admin/admin.users'
+// import UserManagment from '../views/admin/admin.users'
 import StockManager from "../views/admin/stockmanager/stockmanager";
 import ManagersOffers from "../views/admin/stockmanager/managers.offers"
 

@@ -108,8 +108,8 @@ class MainNavbar extends React.Component {
                         {
                             this.state.loginState == true ? <div className="ht-right">
 
-                                <Link to="/signin" className="login-panel"> <i className="fa fa-sign-out-alt"
-                                                                               onClick={() => U_User.signOut()}></i></Link>
+                                <Link to="" className="login-panel"   onClick={() => U_User.signOut()} > <i className="fa fa-sign-out-alt"
+                                                                             ></i></Link>
 
                             </div> : null
                         }

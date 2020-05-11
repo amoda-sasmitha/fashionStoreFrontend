@@ -1,4 +1,5 @@
 import Home from "../views/home";
+
 import Category from "../views/products/category";
 import Offers from "../views/offers/offersMain";
 
@@ -16,7 +17,6 @@ import AdminLogin from '../views/admin/adminlogin'
 import ManagerSignIn from '../views/admin/stockmanager/managers.signin'
 
 //single product page
-import singleProduct from '../views/products/singleProduct'
 import SingleProduct from "../views/products/singleProduct";
 
 let indexRoutes = [
