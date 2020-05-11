@@ -27,24 +27,7 @@ let indexRoutes = [
     component: Home,
     exact: true,
   },
-  {
-    path: "/categories/:id",
-    name: "Category",
-    component: Category,
-    exact: true,
-  },
-  {
-    path: "/product/:id",
-    name: "Product",
-    component: SingleProduct,
-    exact: true,
-  },
-  {
-    path: "/offers",
-    name: "Offers",
-    component: Offers,
-    exact: true,
-  },
+
 
   // sign up route
   {
@@ -72,6 +55,25 @@ let indexRoutes = [
     component: ManagerSignIn,
     exact: true,
   },
+  {
+    path: "/offers",
+    name: "Offers",
+    component: Offers,
+    exact: true,
+  },
+  {
+    path: "/categories/:id",
+    name: "Category",
+    component: Category,
+    exact: true,
+  },
+  {
+    path: "/product/:id",
+    name: "Product",
+    component: SingleProduct,
+    exact: true,
+  },
+
   {
     path: "/*",
     name: "SignIn",
