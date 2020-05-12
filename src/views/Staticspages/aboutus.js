@@ -9,8 +9,8 @@ import './common.css';
 import newimg from '../../asserts/Images/newnew.png'
 
 class AboutUs extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
 
         };
@@ -24,7 +24,7 @@ class AboutUs extends Component {
     render() {
         return (
             <div className="wrapper">
-                                <MainNavbar></MainNavbar>
+                                <MainNavbar isAuthed = {this.props.isAuthed}></MainNavbar>
 
             <div className="container">
                 <div className="row Abou_Div">

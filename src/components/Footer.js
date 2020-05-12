@@ -20,9 +20,9 @@ class Footer extends React.Component {
                             <a href=""><img src="img/footer-logo.png" alt=""/></a>
                         </div>
                         <ul>
-                            <li>Address: thama na</li>
-                            <li>Phone: thama na</li>
-                            <li>Email: thama na</li>
+                            <li>Address: No 306/3A, Malabe,  SL</li>
+                            <li>Phone: (+94)71 123 4567</li>
+                            <li>Email: info@fashi.com</li>
                         </ul>
                         <div className="footer-social">
                             <a href=""><i className="fa fa-facebook"></i></a>
