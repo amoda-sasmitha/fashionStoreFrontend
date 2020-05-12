@@ -62,8 +62,8 @@ class AdminManagers extends Component {
         var year = monthandusers[0].year
         console.log(monthandusers)
         for (var i = 0; i < monthandusers.length; i++) {
-            months[i + 1] = monthandusers[i].month;
-            user[i + 1] = monthandusers[i].usersCount;
+            months[i ] = monthandusers[i].month;
+            user[i ] = monthandusers[i].usersCount;
         }
 
         await this.setState({
@@ -305,7 +305,7 @@ class AdminManagers extends Component {
                                             <div className="campaign ct-charts px-3">
                                                 <h6 className="mt-2 mb-3">User Sessions  in {MonthBasedYear}</h6>
                                                 <LineChart data={{
-                                                    labels: ['January', 'February', 'March', 'April', 'March', 'May', 'June', 'July', 'August', 'October', "November", 'December'],
+                                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September','October', "November", 'December'],
                                                     datasets: [
                                                         {
                                                             label: "Users",

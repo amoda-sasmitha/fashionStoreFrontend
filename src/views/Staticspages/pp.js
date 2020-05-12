@@ -7,8 +7,8 @@ import MainNavbar from '../../components/MainNavbar';
 // import footer
 import Footer from '../../components/Footer';
 class PP extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
 
         };
@@ -22,7 +22,7 @@ class PP extends Component {
     render() {
         return (
             <div className="wrapper">
-                <MainNavbar></MainNavbar>
+                <MainNavbar isAuthed = {this.props.isAuthed}></MainNavbar>
                 <div className="container mt-4">
                     <div className="row mt-2 mb-2  p-1">
                         <div className="col-md-12">

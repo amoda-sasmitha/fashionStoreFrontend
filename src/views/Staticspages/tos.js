@@ -7,8 +7,8 @@ import MainNavbar from '../../components/MainNavbar';
 import Footer from '../../components/Footer';
 
 class TOS extends Component {
-    constructor() {
-        super();
+    constructor(props) {
+        super(props);
         this.state = {
 
         };
@@ -22,7 +22,7 @@ class TOS extends Component {
     render() {
         return (
             <div className="wrapper">
-                                <MainNavbar></MainNavbar>
+                                <MainNavbar isAuthed = {this.props.isAuthed}></MainNavbar>
             <div className="container mt-4">
                 <div className="row mt-2 mb-2 " style={{ padding: '10px' }}>
                     <div className="col-md-12 ">
