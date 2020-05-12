@@ -1,3 +1,5 @@
+      /*  eslint-disable */
+
 import React from 'react';
 
 class MainSlider extends React.Component {

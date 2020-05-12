@@ -1,3 +1,5 @@
+      /*  eslint-disable */
+
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import A_Admin from '../../../controllers/Admin'

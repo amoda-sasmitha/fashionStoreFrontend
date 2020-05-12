@@ -1,3 +1,5 @@
+      /*  eslint-disable */
+
 import React from 'react';
 import { BrowserRouter as Router, Route, Switch, useHistory, withRouter } from 'react-router-dom';
 import indexRoutes from './routes/index'

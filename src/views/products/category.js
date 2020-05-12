@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MainNavbar from '../../components/MainNavbar';
 import ProductItem from '../../components/ProductItem';
 import Footer from '../../components/Footer';
@@ -6,7 +6,7 @@ import Footer from '../../components/Footer';
 import { getAllProductByCategory } from '../../controllers/Products'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faEye, faCircle, faWindowClose , faPlus, faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
-class Category extends React.Component {
+class Category extends Component {
  
 constructor(props){
      super(props);

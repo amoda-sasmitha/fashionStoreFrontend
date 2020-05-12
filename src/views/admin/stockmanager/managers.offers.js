@@ -1,3 +1,5 @@
+      /*  eslint-disable */
+
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import AdminSidebar from '../../../components/AdminSidebar'
@@ -9,14 +11,17 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import Config from "../../../controllers/Config";
 import moment from 'moment'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { faEye, faCircle, faWindowClose , faPlus } from '@fortawesome/free-solid-svg-icons'
+import { faEye, faCircle, faWindowClose , faPlus, faTrash, faBan,  faEnvelope } from '@fortawesome/free-solid-svg-icons'
 import CKEditor from '@ckeditor/ckeditor5-react';
 import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
 import { getAllCategories } from '../../../controllers/Category'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import CreatableSelect from 'react-select/creatable';
-import { insertProduct } from '../../../controllers/Products'
+import { insertProduct} from '../../../controllers/Products'
+import M_Manager from '../../../controllers/Manager'
+import { Modal } from 'react-bootstrap';
+import image from '../../../asserts/Images/user.png'
 
 const animatedComponents = makeAnimated();
 
@@ -25,6 +30,7 @@ class ManagersOffers extends Component {
     constructor(props){
         super(props);
         this.state = {
+            showUserModal: false,
             title : '',
             stitle : '',
             discount : '',
@@ -34,47 +40,54 @@ class ManagersOffers extends Component {
             products : [],
             files : [] ,
             errors : {} ,
+            offers:[],
+            viewOffer: '',
+
         }
     }
 
-    componentDidMount(){
+    UNSAFE_componentDidMount(){
 
     }
+
+    UNSAFE_componentWillMount(){
+        this.getAllOffers()
+    }
+
+
+
+
+
+    async showOffer(i) {
+        var singleOffer = this.state.offers.filter(offer => offer._id == i);
+        await this.setState({
+            showUserModal: true,
+            viewOffer: singleOffer[0]
+        })
+        console.log(this.state.viewOffer);
+        console.log(this.state.viewOffer.product_list[0].value);
+
+    }
+
+
+
+
 
     onFormSubmit = (e) => {
         e.preventDefault();
 
 
         if(this.validate()){
-
-            console.log("Done")
-            console.log("TITLE", this.state.title)
-            console.log("S TTITLE",this.state.stitle)
-            console.log("DISCOUNT",this.state.discount)
-            console.log("sIZE",this.state.size)
-            console.log("PRODUCT",this.state.products)
-            console.log("FILES",this.state.files)
-
-            insertProduct( this.state.files , {
-                title : this.state.name,
-                stitle : this.state.price,
-                description : this.state.description,
-                brand : this.state.brand,
-                category : this.state.category,
-                sizes : this.state.sizes,
-                tags : this.state.tags,
-                colors : this.state.colors,
-                added_by : 1 ,
+            M_Manager.addOffers(this.state.title, this.state.stitle,this.state.discount, this.state.size, this.state.products, this.state.files).then( result => {
+                this.clearAll();
+                Config.setToast(" Offer Added Successfully" );
             })
-                .then( result => {
-                    this.clearAll();
-                    Config.setToast(" Offer Updated Successfully" );
-                })
-                .catch( err => {
-                    console.log(err);
-                    Config.setErrorToast(" Somthing Went Wrong!");
-
-                })
+            .catch( err => {
+                console.log(err);
+                Config.setErrorToast(" Somthing Went Wrong!");
+               
+            })
+           
         }
     }
 
@@ -87,11 +100,30 @@ class ManagersOffers extends Component {
     };
 
 
+    getAllOffers(){
+     M_Manager.getAllOffersDetails().then( result => {
+            
+            console.log(result.data);
 
+            this.setState({
+                offers : result.data
+            })
+
+        })
+        .catch( err => {
+            console.log(err);
+            Config.setErrorToast(" Somthing Went Wrong!");
+           
+        })
+
+
+        
+        
+    }
 
     render(){
 
-        const { title ,stitle , discount , size , errors, products } = this.state;
+        const { title ,stitle , discount , size , errors, products, offers, viewOffer } = this.state;
 
         return(
             <div className="bg-light wd-wrapper">
@@ -108,7 +140,7 @@ class ManagersOffers extends Component {
                             </div>
                             <div className="col-12">
                                 <div className="card border-0 shadow-sm rounded mt-3 bg-white pb-3 mb-5">
-                                    <form className=" py-2  px-3" method="POST" onSubmit={(e) => this.onFormSubmit(e)}>
+                                    <form className="py-2  px-3" method="POST" onSubmit={(e) => this.onFormSubmit(e)}>
                                         <div className="row">
 
                                             {/*---------Product Name--------------  */}
@@ -216,14 +248,14 @@ class ManagersOffers extends Component {
                                         <table className="table table-stripped">
                                             <thead>
                                             <tr>
-                                                <th scope="col">Name</th>
-                                                <th scope="col">Date</th>
-                                                <th scope="col">Offer Price</th>
+                                                <th scope="col">Title</th>
+                                                <th scope="col">Discount</th>
+                                                <th scope="col">Created At</th>
                                                 <th scope="col">Actions</th>
                                             </tr>
                                             </thead>
                                             <tbody>
-
+                                            {offers.map(item => this.displayAllUsers(item))}
                                             </tbody>
                                         </table>
                                     </div>
@@ -231,11 +263,103 @@ class ManagersOffers extends Component {
                             </div>
                         </div>
                     </div>
+                      {/*======================================*/}
+                {/*=============== View Offer===============*/}
+                {/*======================================*/}
+                <Modal
+                    size="lg"
+                    show={this.state.showUserModal}
+                    centered
+                    onHide={() => this.setState({ showUserModal: false })}
+                >
+                    <Modal.Header closeButton>
+                        <Modal.Title>View Offer</Modal.Title>
+                    </Modal.Header>
+                    <Modal.Body>
+                        <div className="row">
+                            <div className="col-md-12">
+
+                                <div className="IS_UI_profilePic" >
+                                        <center>
+                                    <div className="img-fluid" style={{width:'50%'}}>
+                                        <img src={viewOffer.banner_image == undefined || viewOffer.banner_image == null ? image : `${Config.host}${Config.port}/${viewOffer.banner_image}`} alt="lucidex user" />
+                                    </div>
+                                        </center>
+                                </div>
+
+                            </div>
+                            <div className="col-md-12">
+                                <div className="row">
+                                    <div className="col-md-12"><h5 className="card-title"> < b>Details </b></h5></div>
+                                    <div className="col-md-6">
+                                        <p><b>Title : </b> {viewOffer.title} </p>
+                                    </div>
+
+                                    <div className="col-md-6"> <p><b>Subtitle : </b>   {viewOffer.subtitle}</p></div>
+                                    <div className="col-md-12"> <p><b>Product List : </b>   </p></div>
+
+                                    {/* {viewOffer.product_list[0].label} */}
+
+                                    {/* {viewOffer.product_list.map((data, i) => { return (   <p  key={i}>{data.label} </p>)    })} */}
+
+
+
+
+                                    <div className="col-md-6"> <p><b>Discount  : </b>   {viewOffer.discount}</p></div>
+                                    <div className="col-md-6"> <p><b>Size  : </b>   {viewOffer.size}</p></div>
+
+                                    <div className="col-md-6">
+                                        <p><b>Created At  : </b>  {moment(new Date(viewOffer.created_at)).format('YYYY MMM DD')}</p>
+
+                                    </div>
+                                    <div className="col-md-6">
+                                        <p><b>Updated  At  : </b>  {moment(new Date(viewOffer.updated_at)).format('YYYY MMM DD')}</p>
+
+                                    </div>
+                                </div>
+                            </div>
+                            <div className="col-md-12">
+                                <center>
+                                    <button className="btn btn-danger btn-sm px-2 mr-2 mt-1">
+                                        <FontAwesomeIcon icon={faTrash} /> Remove
+                                      </button>
+                                    {/* <button className="btn btn-info btn-sm px-2 mr-2 mt-1">
+                                        <FontAwesomeIcon icon={faEnvelope} /> Email
+                               </button> */}
+                                </center>
+                            </div>
+                        </div>
+
+                    </Modal.Body>
+                </Modal>
                 </div>
             </div>
         );
     }
 
+
+    displayAllUsers = item => {
+
+        return (
+            <tr key={item._id}>
+    
+                <td><b>{item.title} </b></td>
+                <td>{item.discount}</td>
+                <td>{moment(new Date(item.created_at)).format('YYYY MMM DD')}</td>
+                <td>
+                    <button className="btn btn-success btn-sm px-2 mr-2 mt-1" onClick={() => this.showOffer(item._id)}>
+                        <FontAwesomeIcon icon={faEye}  /> View
+                    </button>
+                    {/* <button className="btn btn-danger btn-sm px-2 mr-2 mt-1">
+                                        <FontAwesomeIcon icon={faTrash} /> Remove
+                                      </button> */}
+    
+    
+                </td>
+            </tr>
+        );
+    }
+    
 
 
     validate = () => {
@@ -244,21 +368,21 @@ class ManagersOffers extends Component {
         let count = 0;
 
         if( title.length == 0 ){
-            errors.title = "Name can not be empty"
+            errors.title = "Title can not be empty"
             count++
         }else{
             errors.title = ""
         }
 
         if( stitle.length == 0 ){
-            errors.stitle = "Price can not be empty"
+            errors.stitle = "Sub Title can not be empty"
             count++
         }else{
             errors.stitle = ""
         }
 
         if( discount.length == 0 ){
-            errors.discount = "Description can not be empty"
+            errors.discount = "Discount  can not be empty"
             count++
         }else{
             errors.discount = ""
@@ -292,7 +416,6 @@ class ManagersOffers extends Component {
         });
     }
 }
-
 const Sizes = [ { value: 'FA001', label: 'FA001' }, { value: 'FA002', label: 'FA002' },
     { value: 'FA003', label: 'FA003' },{ value: 'FA004', label: 'FA004' },{ value: 'FA005', label: 'FA005' },
 ]

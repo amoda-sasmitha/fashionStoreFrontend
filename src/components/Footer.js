@@ -1,4 +1,10 @@
+      /*  eslint-disable */
+
 import React from 'react';
+
+
+
+
 // import rect router
 import { Link } from "react-router-dom";
 class Footer extends React.Component {
@@ -30,10 +36,10 @@ class Footer extends React.Component {
                     <div className="footer-widget">
                         <h5>Information</h5>
                         <ul>
-                            <li><a href="">About Us</a></li>
-                            <li><a href="">Checkout</a></li>
-                            <li><a href="">Contact</a></li>
-                            <li><a href="">Serivius</a></li>
+                            <li><Link to="/aboutus" >About Us</Link></li>
+                            <li><Link to="contactus">Contat Us</Link></li>
+                            <li><Link  to="/pp">Privacy Policies</Link></li>
+                            <li><Link to="/tos">Terms and Conditions</Link></li>
                         </ul>
                     </div>
                 </div>
