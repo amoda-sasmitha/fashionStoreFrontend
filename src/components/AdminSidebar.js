@@ -1,3 +1,5 @@
+      /*  eslint-disable */
+
 import React from 'react';
 import '../asserts/commoncss/sidebar.css'
 import {Link} from "react-router-dom";

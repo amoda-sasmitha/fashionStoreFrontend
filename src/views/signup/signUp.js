@@ -1,3 +1,5 @@
+      /*  eslint-disable */
+
 import React, { Component } from 'react';
 // import rect router
 import { Link ,Redirect  } from "react-router-dom";

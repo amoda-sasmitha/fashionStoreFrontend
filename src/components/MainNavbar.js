@@ -1,3 +1,5 @@
+      /*  eslint-disable */
+
 import React from 'react';
 // import rect router
 import {Link} from "react-router-dom";

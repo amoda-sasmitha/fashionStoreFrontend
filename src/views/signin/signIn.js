@@ -1,3 +1,5 @@
+      /*  eslint-disable */
+
 import React, { Component } from 'react';
 // import loading 
 import Loading from '../../components/loading'

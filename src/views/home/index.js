@@ -1,3 +1,5 @@
+      /*  eslint-disable */
+
 import React from 'react';
 import MainNavbar from '../../components/MainNavbar';
 import MainSlider from '../../components/MainSlider';

@@ -10,7 +10,7 @@ import Config from "./Config";
 import Crypto from "crypto-js";
 
 // import cookies
-import Cookies from "js-cookie";
+// import Cookies from "js-cookie";
 
 import A_ADMIN from './Admin'
 class User {
@@ -20,6 +20,8 @@ class User {
             test: "/api/news/my",
             signin: "/manager/sign",
             getsalt: "/manager/g/salt",
+            addOffer :"/offer/insert",
+            getAllOffers : "/offer/getall"
 
 
 
@@ -103,9 +105,56 @@ class User {
 
 
 
+    addOffers(title, stitle, discount, size, products, file){
+        let formdata = new FormData();
+        formdata.set("token" , A_ADMIN.getToken() );
+        formdata.set("type" , A_ADMIN.getType() );
+        formdata.set("title" ,title );
+        formdata.set("subtitle" , stitle );
+        formdata.set("discount" , discount );
+        formdata.set("size" , size );
+        formdata.set("product_list" , JSON.stringify( products ) );
+        formdata.append("photos" , file[0]);    
+        console.log(file);
+        var resp = 600;
+
+        console.log(formdata);
+        
+        return new Promise( (resolve,reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.addOffer}` , formdata)
+                .then( result => {
+                    console.log(result);
+                    
+                        resolve({code : 200 , message : result.data.message })
+                })
+                .catch( err => {
+                    console.log(err);
+                    
+                    reject({ code : 0 , error : err})
+                })
+        })
+
+    }
 
 
 
+
+
+    getAllOffersDetails(){
+        return new Promise( (resolve,reject) => {
+            return Axios.get(`${Config.host}${Config.port}${this.api.getAllOffers}` )
+                .then( result => {
+                    
+                    
+                        resolve({code : 200 , data : result.data.data })
+                })
+                .catch( err => {
+                    console.log(err);
+                    
+                    reject({ code : 0 , error : err})
+                })
+        })
+    }
 
 
 

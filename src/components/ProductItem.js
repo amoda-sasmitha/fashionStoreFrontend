@@ -1,3 +1,5 @@
+      /*  eslint-disable */
+
 import React from 'react';
 import Config from "../controllers/Config";
 import {Link} from 'react-router-dom'

@@ -1,14 +1,14 @@
-import React from 'react';
+import React, { Component } from 'react';
 import MainNavbar from '../../components/MainNavbar';
-import Footer from '../../components/Footer';
+// import Footer from '../../components/Footer';
 import { getProductById} from '../../controllers/Products'
 import Config from "../../controllers/Config";
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { faEye, faCircle, faWindowClose , faPlus, faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
+// import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+// import { faEye, faCircle, faWindowClose , faPlus, faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import ReactHtmlParser from 'react-html-parser';
-class SingleProduct  extends React.Component {
+class SingleProduct  extends Component {
  
 constructor(props){
      super(props);

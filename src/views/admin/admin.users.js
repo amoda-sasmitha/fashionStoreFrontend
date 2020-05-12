@@ -1,3 +1,5 @@
+/*  eslint-disable */
+
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import { Modal } from 'react-bootstrap';
@@ -17,7 +19,7 @@ import U_User from '../../controllers/User'
 import Uniqid from 'uniqid'
 import A_Admin from '../../controllers/Admin'
 import image from '../../asserts/Images/user.png'
-import {  Line as LineChart, Bar, Doughnut } from 'react-chartjs-2';
+import { Line as LineChart, Bar, Doughnut } from 'react-chartjs-2';
 
 class AdminManagers extends Component {
 
@@ -32,16 +34,16 @@ class AdminManagers extends Component {
             users: [],
             managersState: 0,
             viewUser: '',
-            browsers:[],
-            lastLogins:[],
+            browsers: [],
+            lastLogins: [],
             statsBrowser: [],
-            statYears:[],
-            Yyears:[],
-            Yuser:[],
-            monthBaseUsers:[],
-            monthBaseMonths:[],
-            userUsage:[],
-            MonthBasedYear:'',
+            statYears: [],
+            Yyears: [],
+            Yuser: [],
+            monthBaseUsers: [],
+            monthBaseMonths: [],
+            userUsage: [],
+            MonthBasedYear: '',
 
         }
 
@@ -53,21 +55,21 @@ class AdminManagers extends Component {
 
 
     //sentMonth wise usge
-    sentMonthwiseusge =  async () => {
+    sentMonthwiseusge = async () => {
         var monthandusers = this.state.monthBaseUsers;
-        var months =[];
+        var months = [];
         var user = [];
         var year = monthandusers[0].year
         console.log(monthandusers)
-        for(var i = 0 ; i <  monthandusers.length; i++){
-            months[i+1] = monthandusers[i].month;
-            user[i+1] = monthandusers[i].usersCount;
+        for (var i = 0; i < monthandusers.length; i++) {
+            months[i + 1] = monthandusers[i].month;
+            user[i + 1] = monthandusers[i].usersCount;
         }
 
         await this.setState({
-            monthBaseMonths : months,
-            userUsage : user,
-            MonthBasedYear : year
+            monthBaseMonths: months,
+            userUsage: user,
+            MonthBasedYear: year
         })
 
         console.log(this.state.monthBaseMonths)
@@ -81,7 +83,7 @@ class AdminManagers extends Component {
 
     //get users from monthbase use
 
-    setMonthBasedUsers =   () => {
+    setMonthBasedUsers = () => {
         return new Promise((resolve, reject) => {
             return A_Admin.getUsageOfMonthBased()
                 .then(result => {
@@ -104,24 +106,24 @@ class AdminManagers extends Component {
 
     // set users from year
 
-    setUsersfromyear =  async () => {
-         var ss = this.state.statYears;
-            var years =[];
-            var user = [];
-            for(var i = 0 ; i < ss.length; i++){
-                years[i] = ss[i].year;
-                user[i] = ss[i].usersCount;
-              }
+    setUsersfromyear = async () => {
+        var ss = this.state.statYears;
+        var years = [];
+        var user = [];
+        for (var i = 0; i < ss.length; i++) {
+            years[i] = ss[i].year;
+            user[i] = ss[i].usersCount;
+        }
 
-              await this.setState({
-                Yyears : years.reverse(),
-                Yuser : user.reverse()
-              })
+        await this.setState({
+            Yyears: years.reverse(),
+            Yuser: user.reverse()
+        })
 
     }
 
 
-// get user stats
+    // get user stats
     getAllUsersStats = () => {
         return new Promise((resolve, reject) => {
             return A_Admin.getUserStats()
@@ -143,7 +145,7 @@ class AdminManagers extends Component {
 
 
 
-// get user details
+    // get user details
     getAllUsers = () => {
         return new Promise((resolve, reject) => {
             return A_Admin.getAllUsersAdmin()
@@ -159,17 +161,17 @@ class AdminManagers extends Component {
                 })
                 .catch(err => {
                     // if(err){
-                            // if(err.code == 403){
-                            //     Config.showAlert("Your session is expired please sign in", "Oops!");
-                            //       // this.props.history.push('/admin')
-                            //
-                            //
-                            // }else{
-                            //     Config.showAlert("Something went wrong. Please try again", "Oops!");
-                            //     this.props.history.push('/')
-                            //
-                            // }
-                        reject({ code: 0, error: err })
+                    // if(err.code == 403){
+                    //     Config.showAlert("Your session is expired please sign in", "Oops!");
+                    //       // this.props.history.push('/admin')
+                    //
+                    //
+                    // }else{
+                    //     Config.showAlert("Something went wrong. Please try again", "Oops!");
+                    //     this.props.history.push('/')
+                    //
+                    // }
+                    reject({ code: 0, error: err })
 
                     // }
                 })
@@ -177,7 +179,7 @@ class AdminManagers extends Component {
     }
 
 
-// get browser details
+    // get browser details
     getBrowsers = () => {
         return new Promise((resolve, reject) => {
             return A_Admin.getUsersBrowsers()
@@ -194,7 +196,7 @@ class AdminManagers extends Component {
                 })
         })
     }
-// get lastlogin  details
+    // get lastlogin  details
     getLastLogins = () => {
         return new Promise((resolve, reject) => {
             return A_Admin.getUserLastLogin()
@@ -219,7 +221,7 @@ class AdminManagers extends Component {
         await this.getLastLogins()
         await this.getAllUsersStats()
         await this.setUsersfromyear()
-        await  this.setMonthBasedUsers()
+        await this.setMonthBasedUsers()
         await this.sentMonthwiseusge()
 
 
@@ -272,7 +274,7 @@ class AdminManagers extends Component {
                                         <div className="col-md-4 mt-2 ">
                                             <div className="card" >
                                                 <div className="card-body">
-                                                  {users.length < 10 ? <h5 className="card-title">0{users.length}</h5>   : <h5 className="card-title">{users.length}</h5> }
+                                                    {users.length < 10 ? <h5 className="card-title">0{users.length}</h5> : <h5 className="card-title">{users.length}</h5>}
                                                     <h6 className="card-subtitle mb-2 text-muted">All Users</h6>
 
                                                 </div>
@@ -298,79 +300,79 @@ class AdminManagers extends Component {
                                 </div>
                                 {/* charts --------------- */}
                                 <div className="card border-0 shadow-sm rounded mt-3 bg-white pb-2">
-                                <div className="row">
+                                    <div className="row">
                                         <div className="col-md-12 ">
                                             <div className="campaign ct-charts px-3">
                                                 <h6 className="mt-2 mb-3">User Sessions  in {MonthBasedYear}</h6>
-                                            <LineChart data={{
-                                            labels: ['January', 'February', 'March', 'April', 'March', 'May', 'June', 'July', 'August', 'October', "November", 'December'] ,
-                                                datasets:[
-                                                   {
-                                                    label : "Users",
-                                                    backgroundColor: 'rgba(26, 188, 156,0.5)',
-                                                    borderColor: 'rgba(39, 174, 96,0.4)',
-                                                    data: userUsage
+                                                <LineChart data={{
+                                                    labels: ['January', 'February', 'March', 'April', 'March', 'May', 'June', 'July', 'August', 'October', "November", 'December'],
+                                                    datasets: [
+                                                        {
+                                                            label: "Users",
+                                                            backgroundColor: 'rgba(26, 188, 156,0.5)',
+                                                            borderColor: 'rgba(39, 174, 96,0.4)',
+                                                            data: userUsage
 
-                                                   } 
-                                                ]
-                                            }}
-                                            options={options2}
-                                            width="600" height="220"/>
+                                                        }
+                                                    ]
+                                                }}
+                                                    options={options2}
+                                                    width="600" height="220" />
                                             </div>
 
                                         </div>
 
                                         <div className="col-md-6 mt-3">
                                             <div className="campaign ct-charts px-3">
-                                            <h6 className="mt-2 mb-3">User Registration in past years</h6>
-                                            <Bar data={{
-                                            labels: Yyears ,
-                                                datasets:[
-                                                   {
-                                                    label : "Users",
-                                                    backgroundColor: 'rgba(220, 231, 117,0.5)',
-                                                    borderColor: 'rgba(220, 231, 117,1.0)',
-                                                    borderWidth: 1,
-                                                    hoverBackgroundColor: 'rgba(220, 231, 117,0.4)',
-                                                    hoverBorderColor: 'rgba(220, 231, 117,1)',
-                                                    data: Yuser
-                                                   } 
-                                                ]
-                                            }}
-                                            options={options1}
-                                            width="600" height="220"/>
+                                                <h6 className="mt-2 mb-3">User Registration in past years</h6>
+                                                <Bar data={{
+                                                    labels: Yyears,
+                                                    datasets: [
+                                                        {
+                                                            label: "Users",
+                                                            backgroundColor: 'rgba(220, 231, 117,0.5)',
+                                                            borderColor: 'rgba(220, 231, 117,1.0)',
+                                                            borderWidth: 1,
+                                                            hoverBackgroundColor: 'rgba(220, 231, 117,0.4)',
+                                                            hoverBorderColor: 'rgba(220, 231, 117,1)',
+                                                            data: Yuser
+                                                        }
+                                                    ]
+                                                }}
+                                                    options={options1}
+                                                    width="600" height="220" />
                                             </div>
 
                                         </div>
                                         <div className="col-md-6  mt-3">
                                             <div className="campaign ct-charts px-3">
-                                            <h6 className="mt-2 mb-3">User Browsers in {MonthBasedYear} </h6>
+                                                <h6 className="mt-2 mb-3">User Browsers in {MonthBasedYear} </h6>
 
-                                            <Doughnut  data={{
-                                            labels: ['Chrome', 'IExplorer', 'Safari', 'Opera', 'Firefox'] ,
-                                                datasets:[
-                                                   {
-                                                    label : "Users",
-                                                    backgroundColor: [
-                                                        '#4FC3F7',
-                                                        'rgba(161, 136, 127,1.0)',
-                                                        'rgba(144, 164, 174,1.0)',
-                                                        'rgba(121, 134, 203,1.0)',
-                                                        'rgba(255, 138, 101,1.0)',
-                                                        ],
-                                                        hoverBackgroundColor: [
-                                                            '#4FC3F7',
-                                                        'rgba(161, 136, 127,1.0)',
-                                                        'rgba(144, 164, 174,1.0)',
-                                                        'rgba(121, 134, 203,1.0)',
-                                                        'rgba(255, 138, 101,1.0)',
-                                                        ],
-                                                    data: [statsBrowser.Chrome, statsBrowser.Firefox, statsBrowser.IExplorer, statsBrowser.Opera, statsBrowser.Safari]
+                                                <Doughnut data={{
+                                                    labels: ['Chrome', 'IExplorer', 'Safari', 'Opera', 'Firefox'],
+                                                    datasets: [
+                                                        {
+                                                            label: "Users",
+                                                            backgroundColor: [
+                                                                '#4FC3F7',
+                                                                'rgba(161, 136, 127,1.0)',
+                                                                'rgba(144, 164, 174,1.0)',
+                                                                'rgba(121, 134, 203,1.0)',
+                                                                'rgba(255, 138, 101,1.0)',
+                                                            ],
+                                                            hoverBackgroundColor: [
+                                                                '#4FC3F7',
+                                                                'rgba(161, 136, 127,1.0)',
+                                                                'rgba(144, 164, 174,1.0)',
+                                                                'rgba(121, 134, 203,1.0)',
+                                                                'rgba(255, 138, 101,1.0)',
+                                                            ],
+                                                            data: [statsBrowser.Chrome, statsBrowser.Firefox, statsBrowser.IExplorer, statsBrowser.Opera, statsBrowser.Safari]
 
-                                                   } 
-                                                ]
-                                            }}
-                                            width="600" height="220"/>
+                                                        }
+                                                    ]
+                                                }}
+                                                    width="600" height="220" />
                                             </div>
 
                                         </div>
@@ -467,12 +469,12 @@ class AdminManagers extends Component {
         return (
             <tr key={item._id}>
 
-                <td><b>{item.fname} &nbsp; {item.lname}</b></td>
+                <td><b>{item.fname}  {item.lname}</b></td>
                 <td>{item.email}</td>
                 <td>{moment(new Date(item.created_at)).format('YYYY MMM DD')}</td>
                 <td>
                     <button className="btn btn-success btn-sm px-2 mr-2 mt-1" onClick={() => this.showViewUser(item._id)}>
-                        <FontAwesomeIcon icon={faEye}  /> View
+                        <FontAwesomeIcon icon={faEye} /> View
                     </button>
 
 
@@ -480,11 +482,11 @@ class AdminManagers extends Component {
             </tr>
         );
     }
-  
 
 
 
-    
+
+
 }
 
 
@@ -521,22 +523,22 @@ const options1 = {
 }
 const options2 = {
     fill: false,
-      lineTension: 0.1,
-      backgroundColor: 'rgba(75,192,192,0.4)',
-      borderColor: 'rgba(75,192,192,1)',
-      borderCapStyle: 'butt',
-      borderDash: [],
-      borderDashOffset: 0.0,
-      borderJoinStyle: 'miter',
-      pointBorderColor: 'rgba(75,192,192,1)',
-      pointBackgroundColor: '#fff',
-      pointBorderWidth: 1,
-      pointHoverRadius: 5,
-      pointHoverBackgroundColor: 'rgba(75,192,192,1)',
-      pointHoverBorderColor: 'rgba(220,220,220,1)',
-      pointHoverBorderWidth: 2,
-      pointRadius: 1,
-      pointHitRadius: 10,
+    lineTension: 0.1,
+    backgroundColor: 'rgba(75,192,192,0.4)',
+    borderColor: 'rgba(75,192,192,1)',
+    borderCapStyle: 'butt',
+    borderDash: [],
+    borderDashOffset: 0.0,
+    borderJoinStyle: 'miter',
+    pointBorderColor: 'rgba(75,192,192,1)',
+    pointBackgroundColor: '#fff',
+    pointBorderWidth: 1,
+    pointHoverRadius: 5,
+    pointHoverBackgroundColor: 'rgba(75,192,192,1)',
+    pointHoverBorderColor: 'rgba(220,220,220,1)',
+    pointHoverBorderWidth: 2,
+    pointRadius: 1,
+    pointHitRadius: 10,
     legend: {
         display: false
     },
