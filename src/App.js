@@ -4,6 +4,8 @@ import React from 'react';
 import { BrowserRouter as Router, Route, Switch, useHistory, withRouter } from 'react-router-dom';
 import indexRoutes from './routes/index'
 
+import { PersistGate } from 'redux-persist/integration/react'
+
 import adminRoutes from './routes/adminroutes'
 import loginUserRoutes from './routes/loginUser'
 
@@ -19,7 +21,7 @@ import managerRoutes from './routes/manager.routes'
 
 // import redux
 import { Provider } from 'react-redux'
-import store from './store/store'
+import {store, persistor } from './store/store'
 //custome alert css
 import "./asserts/commoncss/alerts.css";
 
@@ -51,6 +53,7 @@ class App extends React.Component {
   render(){
     return(
       <Provider store={store}>
+        <PersistGate persistor={persistor} >
         <Router >
            <Switch>
              { this.router().map((prop, key) => {
@@ -66,6 +69,7 @@ class App extends React.Component {
              })}
            </Switch>
         </Router>
+        </PersistGate>
       </Provider>
     );
     }

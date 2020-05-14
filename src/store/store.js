@@ -3,11 +3,12 @@ import thunk from 'redux-thunk';
 import rootReducer from '../reducers/index'
 import C_User from '../controllers/User'
 import {setCurrentUser} from '../actions/authActions'
+import { persistStore }  from 'redux-persist'
 
 const initialState = {};
 const middleware = [thunk];
 
-const store = createStore(
+export const store = createStore(
     rootReducer,
     initialState,
     compose(
@@ -18,9 +19,12 @@ const store = createStore(
     )
 );
 
+export const persistor = persistStore(store);
+
+
 if(C_User.checkSignedIn() == true){
     store.dispatch(setCurrentUser( C_User.getToken() ))
 }
 
 
-export default store;
+export default { store , persistor };

@@ -1,23 +1,28 @@
 import React, { Component } from 'react';
 import MainNavbar from '../../components/MainNavbar';
-// import Footer from '../../components/Footer';
+import Footer from '../../components/Footer';
 import { getProductById} from '../../controllers/Products'
 import Config from "../../controllers/Config";
-// import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-// import { faEye, faCircle, faWindowClose , faPlus, faCheckSquare, faSquare } from '@fortawesome/free-solid-svg-icons'
 import "react-responsive-carousel/lib/styles/carousel.min.css"; // requires a loader
 import { Carousel } from 'react-responsive-carousel';
 import ReactHtmlParser from 'react-html-parser';
+import User from '../../controllers/User'
+import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
+import { addtocart} from '../../actions/cartActions';
+
 class SingleProduct  extends Component {
  
 constructor(props){
      super(props);
      this.state = {
         selected_size : '',
+        selected_color : '',
         product : {},
         quantity : 1 ,
         id : props.match.params.id,
         loading : true,
+        errors : {}
      }
 }
 
@@ -41,8 +46,61 @@ loadProducts = () => {
         })
   }
 
+  addtoCart = () => {
+      const {product , selected_color , selected_size , quantity } = this.state;
+      const {cart } = this.props;
+       if ( User.checkSignedIn() ){
+        if(this.validate()){
+           
+            //insert to redux store and database
+            this.props.addtocart({
+                product_id : product._id ,
+                quantity : quantity,
+                selected_color : selected_color,
+                selected_size : selected_size
+            })
+            .then( result => {
+                console.log(result);
+            })
+            .catch( err => {
+                console.log(err)
+            })
+
+        }
+       }else{
+        this.props.history.push("/signin");
+       }
+  }
+
+  validate = () => {
+    const {product , selected_color , selected_size , quantity } = this.state;
+    let errors = {};
+    let count = 0;
+    if( product.colors && product.colors.length > 0 ){
+        if(selected_color == ""){
+            count++;
+            errors.color = true;
+        }else{
+            errors.color = false;
+        }
+    }else{
+        errors.size = false; 
+    }
+
+    if(selected_size == ""){
+        count++;
+        errors.size = true;
+    }else{
+        errors.size = false;
+    }
+
+    console.log(errors)
+    this.setState({errors});
+    return count == 0;
+  }
+
 render(){
-    const { quantity , product  , loading } = this.state;
+    const { quantity , product  , loading  , selected_color , errors} = this.state;
     return(
         <div className="wrapper" >
         <MainNavbar></MainNavbar>
@@ -55,9 +113,9 @@ render(){
                             swipeable={true}
                             showArrows={false}   
                         >
-                            { product.images && product.images.map( item => {
+                            { product.images && product.images.map( (item, index ) => {
                                 return(
-                                    <img src={Config.setImage(item)} />
+                                    <img key={index}  src={Config.setImage(item)} />
                                 );
                             })}  
                         </Carousel>
@@ -77,28 +135,44 @@ render(){
                                     </h5>
                                 </div>
                                 <div className="pd-color">
-                                    <h6 className="text-secondary">Avaiable Colors</h6>
+                                    <h6 className="text-secondary pt-1">Avaiable Colors</h6>
                                     <div className="pd-color-choose">
-                                        <div className="cc-item">
-                                            <label ></label>
-                                        </div>
-                                        <div className="cc-item">
-                                            <label className="bg-primary"></label>
-                                        </div>
-                                        <div className="cc-item">
-                                            <label className="bg-success"></label>
-                                        </div>
-                                    </div>
+                                        {
+                                           product.colors && product.colors.map ( (item, index ) => {
+                                                return(
+                                                    <div key={index}  
+                                                         onClick={() => this.setState({selected_color : item.name})}
+                                                         className={`cc-item border px-2 pt-1 
+                                                            ${selected_color == item.name ? 'bg-secondary' : ''}`}>
+                                                    <label style={{backgroundColor : item.code}} className="border"></label>
+                                                </div>
+                                                )
+                                            })
+                                        }  
+                                    </div><br></br>
+                                    { errors.color && 
+                                        <span className="text-danger small font-weight-bold">
+                                            Please Select A Color
+                                        </span>
+                                    }
                                 </div>
                                 <div className="pd-size-choose">
                                 <this.renderSizes/>  
+                                { errors.size && 
+                                        <span className="text-danger small font-weight-bold">
+                                            Please Select A Size
+                                        </span>
+                                    }
                                 </div>
                                 <div className="quantity">
                                     <div className="pro-qty">
                                         <input type="number" value={quantity} 
-                                        onChange={ e => this.setState({quantity : e.target.value}) }/>
+                                        onChange={ e => this.setState({quantity : e.target.value == 0 ?
+                                         this.state.quantity : e.target.value}) }/>
                                     </div>
-                                    <span  className="primary-btn pd-cart click">Add To Cart</span>
+                                    <span 
+                                    onClick={this.addtoCart}
+                                    className="primary-btn pd-cart click">Add To Cart</span>
                                 </div>
                                 <ul className="pd-tags">
                                     <li><span>CATEGORIES</span>: {product.category_name}</li>
@@ -136,7 +210,7 @@ render(){
                                 </div>
                                 <div className="tab-pane fade" id="tab-2" role="tabpanel">
                                     <div className="row">
-                                    <div class="pt-3 col-12">
+                                    <div className="pt-3 col-12">
                                                 <h5 className="font-weight-bold py-2">Introduction</h5>
                                                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do
                                                     eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
@@ -160,33 +234,41 @@ render(){
                 </div>
             </div>
         </section>
-        {/* <Footer></Footer> */}
+        <Footer></Footer>
         </div>
     );
 }
 
-renderSizes = () => (
-   
-    <div className="fw-tags">
-    <div className="fw-size-choose">
-        { ['XS', 'S' , 'M' , 'L' , 'XL'].map( (item , i) => (
-            <div
-            key={i} 
-            onClick={ () => this.setState({ selected_size : 
-                    (this.state.selected_size == item ) ? '' : item }) } 
-            className="sc-item">
-                <label className={this.state.selected_size === item ? 
-                    'bg-secondary text-white pt-0' : 'pt-0'}>
-                    {item}
-                </label>
-            </div>
-            ))
-        }
-    </div>
-    </div>
-
-  );
-
+renderSizes = () => {
+    return(
+        <div className="fw-tags">
+        <div className="fw-size-choose">
+            {this.state.product.sizes && this.state.product.sizes.map( (item , i) => (
+                <div
+                key={i} 
+                onClick={ () => this.setState({ selected_size : 
+                        (this.state.selected_size == item.value ) ? '' : item.value }) } 
+                className="sc-item">
+                    <label className={this.state.selected_size === item.value ? 
+                        'bg-secondary text-white pt-0' : 'pt-0'}>
+                        {item.value}
+                    </label>
+                </div>
+                ))
+            }
+        </div>
+        </div>
+    );
+    }
 }
 
-export default SingleProduct;
+const mapStateToProps = state => ({
+    cart : state.cart || {} ,
+  });
+  
+  const mapDispatchToProps = {
+    addtocart
+  };
+  
+  export default connect(mapStateToProps , mapDispatchToProps)(withRouter(SingleProduct));
+

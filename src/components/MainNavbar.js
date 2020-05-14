@@ -3,16 +3,18 @@
 import React from 'react';
 // import rect router
 import {Link} from "react-router-dom";
-
 import U_User from '../controllers/User'
 import A_Admin from '../controllers/Admin'
-
-
+import { connect } from 'react-redux';
+ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+ import { faHeart , faShoppingCart } from '@fortawesome/free-solid-svg-icons'
+ import { SignOut} from '../actions/authActions'
 
 class MainNavbar extends React.Component {
 
     constructor(props) {
         super(props);
+        //console.log(props)
         this.state = {
             loginState: false,
             Title: 'Sign',
@@ -71,6 +73,11 @@ class MainNavbar extends React.Component {
 
     }
 
+    signoutuser = () => {
+        this.props.SignOut &&  this.props.SignOut();
+        U_User.signOut();
+    }
+
     checkButton = () => {
         const {loginState, adminState, mangerState } =this.state
         if(loginState == true && adminState== true ){
@@ -90,6 +97,9 @@ class MainNavbar extends React.Component {
     }
 
     render() {
+        const cart = this.props.cart.cart;
+        const length = cart.length;
+        const wishlist = 0;
         return (
             <header className="header-section">
                 <div className="header-top">
@@ -110,7 +120,7 @@ class MainNavbar extends React.Component {
                         {
                             this.state.loginState == true ? <div className="ht-right">
 
-                                <Link to="" className="login-panel"   onClick={() => U_User.signOut()} > <i className="fa fa-sign-out-alt"
+                                <Link to="" className="login-panel"   onClick={() => this.signoutuser()} > <i className="fa fa-sign-out-alt"
                                                                              ></i></Link>
 
                             </div> : null
@@ -155,17 +165,17 @@ class MainNavbar extends React.Component {
                                 <ul className="nav-right">
                                     <li className="heart-icon">
                                         <Link to="/">
-                                            <i className="icon_heart_alt"></i>
-                                            <span>1</span>
+                                        <FontAwesomeIcon icon={faHeart}/>
+                                        { wishlist != 0 && <span>{("0"+ wishlist ).slice(-2) }</span> }
                                         </Link>
                                     </li>
                                     <li className="cart-icon">
                                         <Link to="/">
-                                            <i className="icon_bag_alt"></i>
-                                            <span>3</span>
+                                            <FontAwesomeIcon icon={faShoppingCart}/>
+                                            { length != 0 && <span>{ length }</span> }
                                         </Link>
                                     </li>
-                                    <li className="cart-price">$150.00</li>
+                                    <li className="cart-price">LKR 0.00</li>
                                 </ul>
                             </div>
                         </div>
@@ -194,6 +204,12 @@ class MainNavbar extends React.Component {
 }
 
 
-
-
-export default MainNavbar;
+const mapStateToProps = state => ({
+    cart : state.cart || {} ,
+  });
+  
+  const mapDispatchToProps = {
+    SignOut
+  };
+  
+  export default connect(mapStateToProps , mapDispatchToProps)(MainNavbar);

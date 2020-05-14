@@ -7,3 +7,9 @@ export function setCurrentUser(user){
         user
     };
 }
+
+export function SignOut(){
+    return {
+        type : 'USER_LOGOUT'
+    };
+}
