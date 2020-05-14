@@ -17,6 +17,7 @@ import Footer from '../../components/Footer';
 // import css file
 import './signin.css'
 import { setCurrentUser } from '../../actions/authActions'
+import { getCart } from '../../actions/cartActions'
 import { connect } from 'react-redux'
 import {isMobile, isMobileOnly, isTablet, isSmartTV, isWinPhone, isIOS, isAndroid, isBrowser} from 'react-device-detect';
 
@@ -271,9 +272,12 @@ class SignIn extends Component {
                         keepMesignedIn
                     )
                     this.props.setCurrentUser(curretUser.token);
-                    await this.setState({ loading: false })
-                    // await this.props.history.push('/')
-                    window.location.replace("/");
+                    this.props.getCart()
+                        .then( result => {
+                            window.location.replace("/");
+                            this.setState({ loading: false })
+                        })
+                        .catch( error => console.log(error))
                     break;
             }
 
@@ -380,5 +384,5 @@ class SignIn extends Component {
 }
 
 
-export default connect(null, { setCurrentUser })(SignIn);;
+export default connect(null, { setCurrentUser  , getCart})(SignIn);;
 

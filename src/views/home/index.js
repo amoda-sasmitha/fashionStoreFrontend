@@ -1,5 +1,5 @@
       /*  eslint-disable */
-
+import { connect } from 'react-redux';
 import React from 'react';
 import MainNavbar from '../../components/MainNavbar';
 import MainSlider from '../../components/MainSlider';
@@ -8,14 +8,13 @@ import { getAllCategories , insertCategory , updateCategory , deleteCategory } f
 import Config from "../../controllers/Config";
 import moment from 'moment'
 import {Link} from "react-router-dom";
+
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categories : [],
     }
-
-
 }
 
  componentWillMount(){
@@ -113,4 +112,11 @@ class Home extends React.Component {
     );
   }
 }
-export default Home;
+
+const mapStateToProps = state => ({
+  cart : state.cart || {} ,
+});
+
+const mapDispatchToProps = {};
+
+export default connect(mapStateToProps)(Home);
