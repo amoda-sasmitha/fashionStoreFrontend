@@ -22,9 +22,6 @@ export const store = createStore(
 export const persistor = persistStore(store);
 
 
-if(C_User.checkSignedIn() == true){
-    store.dispatch(setCurrentUser( C_User.getToken() ))
-}
 
 
 export default { store , persistor };

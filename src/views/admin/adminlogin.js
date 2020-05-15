@@ -4,6 +4,10 @@ import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import A_Admin from '../../controllers/Admin'
 import C_Config from '../../controllers/Config'
+import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux'
+import { getCart } from '../../actions/cartActions'
+import { setCurrentUser } from '../../actions/authActions'
 
 class Adminlogin extends Component {
     constructor() {
@@ -118,20 +122,26 @@ class Adminlogin extends Component {
             await console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             await console.log("User Details");
             await console.log(curretUser);
-            A_Admin.setCookies(
-                curretUser.token,
-                curretUser.fname,
-                curretUser.lname,
-                curretUser.email,
-                curretUser.createdat,
-                curretUser.createdat,
-                curretUser.id,
-                keepMesignedIn,
-                curretUser.type
-            )
-            console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+            // A_Admin.setCookies(
+            //     curretUser.token,
+            //     curretUser.fname,
+            //     curretUser.lname,
+            //     curretUser.email,
+            //     curretUser.createdat,
+            //     curretUser.createdat,
+            //     curretUser.id,
+            //     keepMesignedIn,
+            //     curretUser.type
+            // )
+            // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             console.log(keepMesignedIn);
-            await window.location.replace("/admin/category");
+            this.props.setCurrentUser(curretUser);
+            this.props.getCart(curretUser.id)
+                .then( result => {
+                    this.props.history.push("/admin/category");
+
+                })
+                .catch( error => console.log(error))
 
         }
 
@@ -283,5 +293,4 @@ class Adminlogin extends Component {
     }
 }
 
-
-export default Adminlogin;
+export default connect(null, { setCurrentUser  , getCart})(withRouter(Adminlogin));

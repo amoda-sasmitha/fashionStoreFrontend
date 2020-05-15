@@ -17,7 +17,7 @@ import { FilePond, registerPlugin } from 'react-filepond';
 
 // Import FilePond styles
 import 'filepond/dist/filepond.min.css';
-
+import { connect } from 'react-redux';
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 
@@ -96,7 +96,8 @@ class Userinfo extends Component {
 
   // get user detaisl
   async getUserDetails() {
-    var status = await C_User.getSpecificUser();
+    const user = this.props.auth.user;
+    var status = await C_User.getSpecificUser(user.email, user.token );
 
     switch (status.res) {
       case 200:
@@ -193,7 +194,8 @@ class Userinfo extends Component {
       C_Config.showAlert("Please fill user name", "Warning");
 
     } else {
-      var status = await C_User.changeUsernameFunction(fname, lname);
+      const user = this.props.auth.user;
+      var status = await C_User.changeUsernameFunction(fname, lname , user.email , user.token );
 
       switch (status) {
         case 200:
@@ -268,11 +270,9 @@ class Userinfo extends Component {
       C_Config.showAlert("Please fill password", "Warning");
 
     } else {
-
-      var reset = await C_User.resetPassoword(this.state.uNewPass)
-      console.log(reset);
-
-
+      const user = this.props.auth.user;
+      var reset = await C_User.resetPassoword(this.state.uNewPass, user.email, user.token, user.id)
+      // console.log(reset);
       switch (reset) {
         case 200:
           await C_Config.showAlert("Sucessfully reset", "Done");
@@ -611,4 +611,11 @@ class Userinfo extends Component {
     );
   }
 }
-export default Userinfo;
+
+const mapStateToProps = state => ({
+  auth : state.auth || {} ,
+});
+
+
+
+export default connect(mapStateToProps)(Userinfo);
