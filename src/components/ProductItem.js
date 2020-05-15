@@ -17,7 +17,7 @@ class ProductItem extends React.Component {
                         <i className="icon_heart_alt"></i>
                     </div>
                     <ul className="mb-2" >
-                        <li className="w-icon active"><span href="#">Cart</span></li>
+                        {/* <li className="w-icon active"><span href="#">Cart</span></li> */}
                         <Link to={`/product/${item._id}`}>
                         <li className="quick-view z-icon"><span >View Item</span></li>
                         </Link>

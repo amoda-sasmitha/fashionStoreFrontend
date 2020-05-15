@@ -45,6 +45,18 @@ class Config {
       });
     }
 
+    calcualte_total = cart => {
+      let sum = cart.reduce( ( acc , current ) => {
+          let total = parseFloat(current.product.price) * parseFloat(current.quantity)
+          if(current.product.discount){
+            let discount =  parseFloat(current.product.discount);
+            total = total - ( total * discount / 100 )
+        }
+          return acc + total
+      } , 0)
+      return (Math.round(sum * 100) / 100).toFixed(2);
+  }
+
     setDeleteConfirmAlert(title , msg , confirm , cancel ){
       confirmAlert({
         title: title,

@@ -1277,8 +1277,7 @@ ol {
 	font-weight: 700;
 	color: #252525;
 	background: #ffffff;
-	border-top-right-radius : .4rem!important;
-	border-bottom-right-radius : .4rem!important;
+	border-radius : .4rem!important;
 	display: block;
 	padding: 14px 18px 12px 14px;
 }

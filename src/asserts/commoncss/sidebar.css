@@ -101,6 +101,11 @@ ul.sidebar {
     font-size: 14px;
 }
 
+.form-label-table{
+    font-weight: 500;
+    font-size: 1rem;
+}
+
 .categorylink:hover {
     color: #F4F4F4 !important;
 }

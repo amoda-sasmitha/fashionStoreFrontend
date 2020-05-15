@@ -18,15 +18,17 @@ import { getAllCategories } from '../../controllers/Category'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import CreatableSelect from 'react-select/creatable';
-import { insertProduct } from '../../controllers/Products'
+import { getProductById  , updateproduct} from '../../controllers/Products'
 
 const animatedComponents = makeAnimated();
 
-class AddProducts extends Component {
+class UpdateProducts extends Component {
 
     constructor(props){
         super(props);
         this.state = {
+            loading : true,
+            id : props.match.params.id,
             name : '',
             price : '',
             description : '',
@@ -35,6 +37,7 @@ class AddProducts extends Component {
             categories : [],
             sizes : [],
             tags : [],
+            images : [],
             files : [] ,
             colors : [],
             color_name : '',
@@ -45,13 +48,41 @@ class AddProducts extends Component {
 
     componentDidMount(){
         this.loadCategories();
+        this.loadProducts();
+    }
+
+    
+    loadProducts = () => {
+        getProductById(this.state.id)
+            .then( result => {
+                console.log(result.images);
+                this.setState({
+                    name : result.name,
+                    price : result.price ,
+                    description : result.description,
+                    brand : result.brand ,
+                    category : { id : result.category_id ,
+                    name : result.category_name },
+                    sizes : result.sizes,
+                    tags : result.tags,
+                    images : result.images ,
+                    colors : result.colors,
+                    loading : false ,
+                })
+                
+            })
+            .catch ( err => {
+                console.log(err);
+                this.setState({loading: false})
+            })
     }
 
     onFormSubmit = (e) => {
         e.preventDefault();
 
         if(this.validate()){
-            insertProduct( this.state.files , {
+            updateproduct( this.state.files , {
+                id : this.state.id,
                 name : this.state.name, 
                 price : this.state.price, 
                 description : this.state.description, 
@@ -60,11 +91,12 @@ class AddProducts extends Component {
                 sizes : this.state.sizes, 
                 tags : this.state.tags, 
                 colors : this.state.colors, 
-                added_by : 1 ,
+                prev_images : this.state.images
             })
             .then( result => {
-                this.clearAll();
-                Config.setToast(" Category Updated Successfully" );
+                Config.setToast(" Product Updated Successfully" );
+                this.setState({files : []});
+                this.loadProducts();
             })
             .catch( err => {
                 console.log(err);
@@ -111,7 +143,8 @@ class AddProducts extends Component {
 
     render(){
         
-        const { name ,colors , description , price ,categories , category  , color_name , color_code ,brand , errors } = this.state;
+        const { loading ,name ,colors , description , price ,categories ,images,
+             category  , color_name , color_code ,brand , errors } = this.state;
 
         return(
             <div className="bg-light wd-wrapper">
@@ -123,7 +156,7 @@ class AddProducts extends Component {
                             <h5 className="text-dark bold-normal py-2 bg-white shadow-sm px-2 mt-3 rounded">
                                 Products
                             <span className={`badge mx-2 badge-success`}>
-                                 Add New</span>
+                                 Update</span>
                             </h5>
                          </div>
                          <div className="col-12">
@@ -137,7 +170,7 @@ class AddProducts extends Component {
                                             <input 
                                                 type="text" 
                                                 name="name"
-                                                 value={name}
+                                                value={name}
                                                 onChange={ (e) => this.formValueChange(e)}
                                                 placeholder="Enter Product Name" 
                                                 className="form-control" ></input>
@@ -164,7 +197,7 @@ class AddProducts extends Component {
                                         <h6 className="form-label py-2">Product Description</h6>
                                             <CKEditor
                                                 editor={ ClassicEditor }
-                                                data="<p>Enter Product Description</p>"                                    
+                                                data={description}                                   
                                                 onChange={ ( event, editor ) => this.setState({description :editor.getData()}) }
                                             />
                                              { errors.description && errors.description.length > 0 && 
@@ -197,8 +230,9 @@ class AddProducts extends Component {
                                         </div> 
 
                                         {/*---------Product sizes--------------  */}
+                                        { !loading &&
                                         <div className="col-md-6 mt-2">
-                                        <h6 className="form-label py-2">Available Sizes</h6>
+                                            <h6 className="form-label py-2">Available Sizes</h6>
                                         <Select
                                             closeMenuOnSelect={false}
                                             components={animatedComponents}
@@ -210,9 +244,11 @@ class AddProducts extends Component {
                                             />
                                              { errors.sizes && errors.sizes.length > 0 && 
                                             <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.sizes}</h4>}
-                                        </div>  
+                                        </div>
+                                        }  
 
                                         {/*---------Product tags--------------  */}
+                                        { !loading &&
                                         <div className="col-md-6 mt-2">
                                         <h6 className="form-label py-2">Product Tags</h6>
                                         <CreatableSelect
@@ -222,11 +258,11 @@ class AddProducts extends Component {
                                             defaultValue={this.state.tags}
                                             placeholder="Create or Select Tags"
                                             onChange={this.handleChangeTags}
-                                            options={[]}
+                                            options={this.state.tags}
                                             />
                                               { errors.tags && errors.tags.length > 0 && 
                                             <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.tags}</h4>}
-                                        </div>  
+                                        </div>  }
 
                                         {/*---------Product colors--------------  */}
                                         <div className="col-md-6 mt-2">
@@ -259,7 +295,7 @@ class AddProducts extends Component {
                                         <div className="col-md-6 mt-2">
                                         <h6 className="form-label py-2">Selected Colors</h6>
                                         { colors.map ( (color,id) => { 
-                                            return (<span key={id}                                         
+                                            return (<span key={id}                                            
                                                         className="badge mx-2 badge-light px-3 py-2 border border-secondary h6 text-muted">
                                                         <FontAwesomeIcon icon={faCircle} color={color.code}  className="mr-2"/>{color.name}                                                        
                                                         <FontAwesomeIcon 
@@ -274,6 +310,22 @@ class AddProducts extends Component {
                                         {/* Images------------------------------------ */}
                                         <div className="col-md-12 mt-3">
                                         <h6 className="form-label py-2">Add Images</h6>
+                                        <div class="row mx-1">
+                                        {
+                                            images.map( (image,i) => {
+                                                return(
+                                                <div key={i}  className="mb-3 img-wrap column mx-2">
+                                                    <img className="rounded" src={Config.setImage(image)} height={140}/> 
+                                                <span className="text-white badge badge-danger close-btn"
+                                                onClick={() => this.setState({ images : 
+                                                    this.state.images.filter(item => item !== image )})}
+                                                >Remove  
+                                                <FontAwesomeIcon className="ml-1" icon={faWindowClose} ></FontAwesomeIcon>
+                                                </span>    
+                                                </div>)
+                                            })
+                                        }
+                                        </div>
                                         <FilePond
                                                 ref={ref => (this.pond = ref)}
                                                 files={this.state.files}
@@ -291,7 +343,7 @@ class AddProducts extends Component {
                                         <div className="col-md-12 mt-2">
                                         <div className="d-flex">
                                                 <button className="px-4 btn btn-dark  btn-sm bold-normal" type="submit">
-                                                <FontAwesomeIcon  icon={faPlus} /> Add Product</button>
+                                                Update Product</button>
                                          </div>                                                      
                                         </div>
                                     </div>
@@ -370,8 +422,14 @@ class AddProducts extends Component {
             errors.tags = "" 
         }
 
+        if( tags.length == 0 ){
+            errors.tags = "At least one tag must be required"
+            count++
+        }else{
+            errors.tags = "" 
+        }
 
-        if(this.state.files.length == 0  ){
+        if(this.state.files.length == 0 && this.state.images.length == 0 ){
             errors.images = "At least one tag must be required"
             count++    
         }else{
@@ -417,4 +475,4 @@ const Sizes = [ { value: 'XS', label: 'XS' }, { value: 'S', label: 'S' },
                 { value: 'M', label: 'M' },{ value: 'L', label: 'L' },{ value: 'XL', label: 'XL' },
                ]
 
-export default AddProducts;
+export default UpdateProducts;

@@ -1,14 +1,13 @@
       /*  eslint-disable */
-
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link , withRouter } from "react-router-dom";
 import AdminSidebar from '../../components/AdminSidebar'
 import '../../asserts/commoncss/sidebar.css'
 import Config from "../../controllers/Config";
 import moment from 'moment'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import { faTrash , faPenAlt , faEye , faPlus,faWindowClose} from '@fortawesome/free-solid-svg-icons'
-import { getAllProducts } from '../../controllers/Products'
+import { getAllProducts , deleteProduct} from '../../controllers/Products'
 import { getAllCategories } from '../../controllers/Category'
 
 class AdminProduct extends Component {
@@ -63,16 +62,15 @@ class AdminProduct extends Component {
                          <div className="col-12">
                             <h5 className="text-dark bold-normal py-2 bg-white shadow-sm px-2 mt-3 rounded">
                                 Product Categories 
-                            <span className="badge mx-2 badge-success" > Add Products</span>
                             </h5>
                          </div>
                          {/* ----------------------------------------------------------- */}
                          <div className="col-12">
                             <div className="card border-0 shadow-sm rounded mt-3 bg-white pb-2">
                                 <h5 className="text-dark bold-normal py-2 px-2 mb-0 mt-2">
-                                { categories.map ( c => {
+                                { categories.map ( (c,i) => {
                                     return(
-                                        <span 
+                                        <span key={i}
                                             onClick={() => this.setState({active_category : c})}
                                             className={`badge mx-2 px-2 ${active_category == c ? 
                                             'badge-info click' : 'border text-muted click'}`} >
@@ -81,13 +79,13 @@ class AdminProduct extends Component {
                                     );
                                 })}
                                 </h5>
-                                <input 
+                                {/* <input 
                                 //style={focus:border : none}
                                     placeholder="Search Products"
                                     className="form-control mb-2 border-0"
                                     type="text"
-                                />
-                                <div className="table-responsive px-2">
+                                /> */}
+                                <div className="table-responsive px-2 pt-2">
                                     <table className="table table-stripped">
                                     <thead>
                                         <tr>
@@ -142,7 +140,9 @@ class AdminProduct extends Component {
                 </td>
                 <td>{moment(new Date(item.created_at) ).format('YYYY MMM DD') }</td>
                 <td>
-                    <button className="btn btn-success btn-sm px-2 mr-2">
+                    <button 
+                        onClick={() => this.onClickView(item) }
+                        className="btn btn-success btn-sm px-2 mr-2">
                         <FontAwesomeIcon icon={faEye} />
                     </button>
                     <button className="btn btn-secondary btn-sm px-2 mr-2"
@@ -158,14 +158,36 @@ class AdminProduct extends Component {
         );
     }
 
+    onClickView = item => {
+       this.props.history.push(`/product/${item._id}`)
+    }
+
     onClickUpdate = item => {
-       
+        this.props.history.push(`/admin/products/update/${item._id}`)
     }
 
     onClickDelete = item => {
-        
+        Config.setDeleteConfirmAlert(
+            "", 
+            "Are you sure you want to delete this Product ?",
+            () => this.clickDeleteProduct(item._id) ,
+            () => {}
+        )
+    }
+
+    clickDeleteProduct = id => {
+        console.log(id)
+        deleteProduct(id)
+        .then( result => {
+            this.loadProducts();
+            Config.setToast(" Product Deleted Successfully" );
+        })
+        .catch( err => {
+            console.log(err);
+            Config.setErrorToast(" Somthing Went Wrong!");
+        })
     }
 
 }
 
-export default AdminProduct;
+export default withRouter(AdminProduct);

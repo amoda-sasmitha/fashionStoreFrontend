@@ -11,7 +11,8 @@ import {
     faTags,
     faBarcode,
     faClipboardCheck,
-    faGift
+    faGift,
+    faPlusSquare
 } from '@fortawesome/free-solid-svg-icons'
 
 class AdminSidebar extends React.Component {
@@ -29,7 +30,7 @@ class AdminSidebar extends React.Component {
         const {active} = this.props;
         return (
             <>
-                <nav className="navbar navbar-dark bg-dark py-0 shadow-sm topnav fixed-top">
+                <nav className="navbar navbar-dark bg-dark py-0 shadow-sm  fixed-top">
                     <span className="navbar-brand mb-0 h6 text-light ml-2">Fashi Dashboard
         <FontAwesomeIcon
             onClick={() => this.setState({side_bar_toggle: !this.state.side_bar_toggle})}
@@ -69,9 +70,9 @@ class AdminSidebar extends React.Component {
                             </li>
                         </Link>
                         <Link to="/admin/products/add">
-                            <li className={`listitem ${active == 'products' && 'active_category'}`}>
-                                <h6 className={`categorylink px-2 ${active == 'products' && 'active_category'}`}>
-                                    <FontAwesomeIcon icon={faBarcode} className="mx-3 sidebar-icon"></FontAwesomeIcon>Products
+                            <li className={`listitem ${active == 'add_products' && 'active_category'}`}>
+                                <h6 className={`categorylink px-2 ${active == 'add_products' && 'active_category'}`}>
+                                    <FontAwesomeIcon icon={faPlusSquare} className="mx-3 sidebar-icon"></FontAwesomeIcon>Add Products
                                 </h6>
                             </li>
                         </Link>

@@ -9,7 +9,7 @@ import ReactHtmlParser from 'react-html-parser';
 import User from '../../controllers/User'
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
-import { addtocart} from '../../actions/cartActions';
+import { addtocart , updateCartItem} from '../../actions/cartActions';
 
 class SingleProduct  extends Component {
  
@@ -48,28 +48,67 @@ loadProducts = () => {
 
   addtoCart = () => {
       const {product , selected_color , selected_size , quantity } = this.state;
-      const {cart } = this.props;
+      const cart = this.props.cart.cart;
        if ( User.checkSignedIn() ){
         if(this.validate()){
-           
-            //insert to redux store and database
-            this.props.addtocart({
-                product_id : product._id ,
-                quantity : quantity,
-                selected_color : selected_color,
-                selected_size : selected_size
-            })
-            .then( result => {
-                console.log(result);
-            })
-            .catch( err => {
-                console.log(err)
-            })
-
+            let index = this.checkInCart();
+            if( index == -1 ){
+              //insert to redux store and database
+              this.props.addtocart({
+                  product_id : product._id ,
+                  quantity : quantity,
+                  selected_color : selected_color,
+                  selected_size : selected_size
+              })
+              .then( result => {
+                Config
+                .setToast(`${product.name} Added to Cart`)
+                this.props.history.push("/cart");
+              })
+              .catch( err => {
+                  console.log(err)
+              })
+            }else{
+              //update item in redux store and database
+              let item = cart[index];
+              this.props.updateCartItem({
+                id : item._id,
+                quantity : parseInt(quantity) + parseInt(item.quantity),
+              })
+              .then( result => {
+                Config
+                .setToast(`Update Quantity in ${product.name}`)
+                this.props.history.push("/cart");
+              })
+              .catch( err => {
+                  console.log(err)
+              })
+            }
         }
        }else{
         this.props.history.push("/signin");
        }
+  }
+
+  checkInCart = () => {
+    const {product , selected_color , selected_size , quantity } = this.state;
+    const cart = this.props.cart.cart;
+    return cart.findIndex( item => {
+      if(item.product._id == product._id){
+        if(item.selected_size == selected_size){
+         if(item.selected_color){
+            if(item.selected_color == selected_color){
+              return true;
+            }else{
+              return false;
+            }
+         }else{
+           return true;
+         }
+        }
+      }
+        return false;
+     });
   }
 
   validate = () => {
@@ -131,10 +170,12 @@ render(){
                                 <div className="pd-desc mt-2">
                                     <h5>
                                         <b>LKR {product.price}</b>
-                                        {product.discount && <span>629.99</span>}
+                                      {product.discount && <span>{product.discount}</span>}
                                     </h5>
                                 </div>
+                                {product.colors && product.colors.length > 0 &&
                                 <div className="pd-color">
+                                   
                                     <h6 className="text-secondary pt-1">Avaiable Colors</h6>
                                     <div className="pd-color-choose">
                                         {
@@ -155,7 +196,7 @@ render(){
                                             Please Select A Color
                                         </span>
                                     }
-                                </div>
+                                </div>}
                                 <div className="pd-size-choose">
                                 <this.renderSizes/>  
                                 { errors.size && 
@@ -232,10 +273,10 @@ render(){
                           padding: "20px",
                         }}
                       >
-                        <form
+                        <htmlForm
                           className="py-2  px-3"
                           method="POST"
-                          onSubmit={(e) => this.onFormSubmit(e)}
+                          onSubmit={(e) => this.onhtmlFormSubmit(e)}
                         >
                           <div className="row">
                             <div className="col-6">
@@ -245,12 +286,12 @@ render(){
                                   padding: "20px",
                                 }}
                               >
-                                <h6 className="form-label py-2">Full Name</h6>
+                                <h6 className="htmlForm-label py-2">Full Name</h6>
                                 <input
                                   type="text"
                                   name="name"
                                   placeholder="Enter Full Name"
-                                  className="form-control"
+                                  className="htmlForm-control"
                                 />
                                 <br></br>
                                 <div className="rate">
@@ -261,7 +302,7 @@ render(){
                                     name="rate"
                                     value="5"
                                   />
-                                  <label for="star5" title="text">
+                                  <label htmlFor="star5" title="text">
                                     5 stars
                                   </label>
                                   <input
@@ -270,7 +311,7 @@ render(){
                                     name="rate"
                                     value="4"
                                   />
-                                  <label for="star4" title="text">
+                                  <label htmlFor="star4" title="text">
                                     4 stars
                                   </label>
                                   <input
@@ -279,7 +320,7 @@ render(){
                                     name="rate"
                                     value="3"
                                   />
-                                  <label for="star3" title="text">
+                                  <label htmlFor="star3" title="text">
                                     3 stars
                                   </label>
                                   <input
@@ -288,7 +329,7 @@ render(){
                                     name="rate"
                                     value="2"
                                   />
-                                  <label for="star2" title="text">
+                                  <label htmlFor="star2" title="text">
                                     2 stars
                                   </label>
                                   <input
@@ -297,16 +338,16 @@ render(){
                                     name="rate"
                                     value="1"
                                   />
-                                  <label for="star1" title="text">
+                                  <label htmlFor="star1" title="text">
                                     1 star
                                   </label>
                                 </div>
                                 <br></br>
-                                <div class="form-group">
+                                <div className="htmlForm-group">
                                   <h6>Comment</h6>
                                   <textarea
-                                    class="form-control"
-                                    id="exampleFormControlTextarea1"
+                                    className="htmlForm-control"
+                                    id="examplehtmlFormControlTextarea1"
                                     rows="3"
                                     placeholder="Describe your experience"
                                   ></textarea>
@@ -343,7 +384,7 @@ render(){
                                     }}
                                   >
                                     <div
-                                      class="progress-bar"
+                                      className="progress-bar"
                                       role="progressbar"
                                       style={{
                                         width: "100%",
@@ -358,7 +399,7 @@ render(){
                                     }}
                                   >
                                     <div
-                                      class="progress-bar"
+                                      className="progress-bar"
                                       role="progressbar"
                                       style={{
                                         width: "75%",
@@ -373,7 +414,7 @@ render(){
                                     }}
                                   >
                                     <div
-                                      class="progress-bar"
+                                      className="progress-bar"
                                       role="progressbar"
                                       style={{
                                         width: "20%",
@@ -388,7 +429,7 @@ render(){
                                     }}
                                   >
                                     <div
-                                      class="progress-bar"
+                                      className="progress-bar"
                                       role="progressbar"
                                       style={{
                                         width: "10%",
@@ -403,7 +444,7 @@ render(){
                                     }}
                                   >
                                     <div
-                                      class="progress-bar"
+                                      className="progress-bar"
                                       role="progressbar"
                                       style={{
                                         width: "0%",
@@ -414,7 +455,7 @@ render(){
                               </div>
                             </div>
                           </div>
-                        </form>
+                        </htmlForm>
                       </div>
                     </div>
                                 {/* ssss */}
@@ -457,7 +498,8 @@ const mapStateToProps = state => ({
   });
   
   const mapDispatchToProps = {
-    addtocart
+    addtocart,
+    updateCartItem
   };
   
   export default connect(mapStateToProps , mapDispatchToProps)(withRouter(SingleProduct));
