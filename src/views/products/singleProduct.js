@@ -49,7 +49,7 @@ loadProducts = () => {
   addtoCart = () => {
       const {product , selected_color , selected_size , quantity } = this.state;
       const cart = this.props.cart.cart;
-       if ( User.checkSignedIn() ){
+       if ( this.props.auth.isAuthenticated ){
         if(this.validate()){
             let index = this.checkInCart();
             if( index == -1 ){
@@ -59,7 +59,7 @@ loadProducts = () => {
                   quantity : quantity,
                   selected_color : selected_color,
                   selected_size : selected_size
-              })
+              }, this.props.auth.user.id)
               .then( result => {
                 Config
                 .setToast(`${product.name} Added to Cart`)
@@ -74,7 +74,7 @@ loadProducts = () => {
               this.props.updateCartItem({
                 id : item._id,
                 quantity : parseInt(quantity) + parseInt(item.quantity),
-              })
+              } , this.props.auth.user.id )
               .then( result => {
                 Config
                 .setToast(`Update Quantity in ${product.name}`)
@@ -495,6 +495,7 @@ renderSizes = () => {
 
 const mapStateToProps = state => ({
     cart : state.cart || {} ,
+    auth : state.auth || {} ,
   });
   
   const mapDispatchToProps = {

@@ -21,7 +21,7 @@ class Cart extends Component {
 
     componentDidMount(){
         this.props.getCart && 
-        this.props.getCart()
+        this.props.getCart(this.props.auth.user.id )
         .then(result => {
             this.setState({loading: false});
         })
@@ -40,7 +40,7 @@ class Cart extends Component {
             this.props.updateCartItem({
                 id : item._id,
                 quantity : is_increment ? qty + 1 : qty - 1
-            })
+            }, this.props.auth.user.id )
             .then( result => {
                 Config.setToast(`One ${item.product.name} ${is_increment ? 'Added':'Removed'} to Cart`)
             })
@@ -53,7 +53,7 @@ class Cart extends Component {
             `Are You Sure You Want to Delete ${item.product.name} ?`,
             () => {
                 this.props.deleteCartItem &&
-                this.props.deleteCartItem(item._id)
+                this.props.deleteCartItem(item._id , this.props.auth.user.id )
                 .then( result => {
                     Config.setToast("Item Deleted Successfully!")
                 })
@@ -75,7 +75,7 @@ class Cart extends Component {
             `Are You Sure You Want to Clear Cart ?`,
             () => {
                 this.props.cleartCart &&
-                this.props.cleartCart()
+                this.props.cleartCart(this.props.auth.user.id )
                 .then( result => {
                     Config.setToast("Cart Cleared Successfully!")
                 })
@@ -228,6 +228,7 @@ class Cart extends Component {
 
 const mapStateToProps = state => ({
     cart : state.cart || {} ,
+    auth : state.auth || {} ,
   });
   
   const mapDispatchToProps = {

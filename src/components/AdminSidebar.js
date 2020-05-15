@@ -3,6 +3,7 @@
 import React from 'react';
 import '../asserts/commoncss/sidebar.css'
 import {Link} from "react-router-dom";
+import { connect} from 'react-redux'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import {
     faUser,
@@ -45,7 +46,7 @@ class AdminSidebar extends React.Component {
                             <div className="my-auto">
                                 <h6 style={{lineHeight: '12px', fontWeight: 600}}
                                     className={`text-white mb-0 mt-1`}>Admin</h6>
-                                <span className="small text-light ">amoda29@gmail.com</span>
+                                <span className="small text-light ">{this.props.auth.user.email}</span>
                             </div>
                         </div>
                     </div>
@@ -120,5 +121,9 @@ class AdminSidebar extends React.Component {
         );
     }
 }
-
-export default AdminSidebar;
+const mapStateToProps = state => ({
+    auth : state.auth || {} ,
+  });
+  
+  
+export default connect(mapStateToProps)(AdminSidebar);
