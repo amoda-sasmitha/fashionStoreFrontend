@@ -91,12 +91,15 @@ class AdminSidebar extends React.Component {
                                 <FontAwesomeIcon icon={faEnvelopeSquare} className="mx-3 sidebar-icon"></FontAwesomeIcon>Add Products
                                 </span>
                             </li>   */}
-                        <li className="listitem">
+            
+                            <Link to="/manager/orders">
+                            <li className="listitem">
                             <h6 className="categorylink px-2">
                                 <FontAwesomeIcon icon={faClipboardCheck}
                                                  className="mx-3 sidebar-icon"></FontAwesomeIcon>Orders
                             </h6>
-                        </li>
+                            </li>
+                            </Link>
                         <Link to="/manager/offers">
 
                         <li className="listitem" className={`listitem ${active == 'offers' && 'active_category'}`}>
