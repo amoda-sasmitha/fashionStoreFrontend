@@ -20,6 +20,7 @@ import Uniqid from 'uniqid'
 import A_Admin from '../../controllers/Admin'
 import image from '../../asserts/Images/user.png'
 import { Line as LineChart, Bar, Doughnut } from 'react-chartjs-2';
+import { connect } from 'react-redux';
 
 class AdminManagers extends Component {
 
@@ -84,8 +85,9 @@ class AdminManagers extends Component {
     //get users from monthbase use
 
     setMonthBasedUsers = () => {
+        
         return new Promise((resolve, reject) => {
-            return A_Admin.getUsageOfMonthBased()
+            return A_Admin.getUsageOfMonthBased(this.props.auth.user.token, this.props.auth.user)
                 .then(result => {
                     resolve({ code: 200, data: result.data })
                     // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
@@ -126,7 +128,7 @@ class AdminManagers extends Component {
     // get user stats
     getAllUsersStats = () => {
         return new Promise((resolve, reject) => {
-            return A_Admin.getUserStats()
+            return A_Admin.getUserStats(this.props.auth.user.token, this.props.auth.user.type)
                 .then(result => {
                     resolve({ code: 200, data: result.data })
                     // console.log(result.data);
@@ -148,7 +150,7 @@ class AdminManagers extends Component {
     // get user details
     getAllUsers = () => {
         return new Promise((resolve, reject) => {
-            return A_Admin.getAllUsersAdmin()
+            return A_Admin.getAllUsersAdmin(this.props.auth.user.token, this.props.auth.user.type)
                 .then(result => {
                     resolve({ code: 200, data: result.data })
                     console.log("dsdsdsD", result);
@@ -160,20 +162,7 @@ class AdminManagers extends Component {
                     })
                 })
                 .catch(err => {
-                    // if(err){
-                    // if(err.code == 403){
-                    //     Config.showAlert("Your session is expired please sign in", "Oops!");
-                    //       // this.props.history.push('/admin')
-                    //
-                    //
-                    // }else{
-                    //     Config.showAlert("Something went wrong. Please try again", "Oops!");
-                    //     this.props.history.push('/')
-                    //
-                    // }
                     reject({ code: 0, error: err })
-
-                    // }
                 })
         })
     }
@@ -182,7 +171,7 @@ class AdminManagers extends Component {
     // get browser details
     getBrowsers = () => {
         return new Promise((resolve, reject) => {
-            return A_Admin.getUsersBrowsers()
+            return A_Admin.getUsersBrowsers(this.props.auth.user.token, this.props.auth.user.type)
                 .then(result => {
                     resolve({ code: 200, data: result.data })
                     // console.log(result.data);
@@ -199,7 +188,7 @@ class AdminManagers extends Component {
     // get lastlogin  details
     getLastLogins = () => {
         return new Promise((resolve, reject) => {
-            return A_Admin.getUserLastLogin()
+            return A_Admin.getUserLastLogin(this.props.auth.user.token, this.props.auth.user.type)
                 .then(result => {
                     resolve({ code: 200, data: result.data })
                     // console.log(result.data);
@@ -213,6 +202,7 @@ class AdminManagers extends Component {
                 })
         })
     }
+
 
     async componentWillMount() {
         await this.getSignInStatus()
@@ -231,11 +221,8 @@ class AdminManagers extends Component {
 
     // checksignIn
     async getSignInStatus() {
-        var status = await U_User.checkSignedIn()
-        console.log(status);
-
-        if (status == false) {
-            await window.location.replace("/admin");
+        if (this.props.auth.isAuthenticated == false) {
+            this.props.history.push("/admin")
         }
     }
 
@@ -555,6 +542,10 @@ const options2 = {
         }]
     }
 }
-// dsdsdsd
 
-export default AdminManagers;
+const mapStateToProps = state => ({
+    auth : state.auth || {} ,
+  });
+  
+
+export default connect(mapStateToProps)(AdminManagers);
