@@ -10,6 +10,8 @@ import { connect } from 'react-redux';
  import { faHeart , faShoppingCart } from '@fortawesome/free-solid-svg-icons'
  import { SignOut} from '../actions/authActions'
  import Config from "../controllers/Config"
+ import { withRouter } from "react-router-dom";
+
 class MainNavbar extends React.Component {
 
     constructor(props) {
@@ -27,14 +29,14 @@ class MainNavbar extends React.Component {
 
     componentWillMount() {
 
-            if ( U_User.checkSignedIn() ) {
+            if ( this.props.auth.isAuthenticated ) {
                 console.log("called s");
                 this.setState({
                     loginState: true,
                     Title: 'My Account'
                 })
 
-                var type = A_Admin.getType()
+                var type = (this.props.auth.isAuthenticated) ? this.props.auth.user.type : "";
                 
                 if (type == "admin") {
                     this.setState({
@@ -70,7 +72,12 @@ class MainNavbar extends React.Component {
 
     signoutuser = () => {
         this.props.SignOut &&  this.props.SignOut();
-        U_User.signOut();
+            U_User.signOut();
+            this.setState({
+                loginState:false
+            })
+
+        this.props.history.push("/");
     }
 
     checkButton = () => {
@@ -196,10 +203,11 @@ class MainNavbar extends React.Component {
 
 const mapStateToProps = state => ({
     cart : state.cart || {} ,
+    auth : state.auth || {}
   });
   
   const mapDispatchToProps = {
     SignOut
   };
   
-  export default connect(mapStateToProps , mapDispatchToProps)(MainNavbar);
+  export default connect(mapStateToProps , mapDispatchToProps)(withRouter(MainNavbar));

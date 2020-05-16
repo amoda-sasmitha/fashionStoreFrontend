@@ -13,6 +13,7 @@ import { Link } from "react-router-dom";
 import MainNavbar from '../../components/MainNavbar';
 // import footer
 import Footer from '../../components/Footer';
+import { withRouter } from "react-router-dom";
 
 // import css file
 import './signin.css'
@@ -217,7 +218,7 @@ class SignIn extends Component {
         var uPass = this.state.uPass;
         var keepMesignedIn = this.state.isChecked;
         var userBrowser = this.state.browserUser
-      
+    
 
         if (uEmail != null && uPass != null) {
             await this.setState({ loading: true })
@@ -248,12 +249,9 @@ class SignIn extends Component {
                     });
                     C_Config.showAlert("Please check your network connection", "Oops!");
                     return -1;
-                    break;
-
-
-
                 default:
                     var curretUser = status;
+
                     if (keepMesignedIn == false) {
                         keepMesignedIn = false
                     } else {
@@ -261,20 +259,20 @@ class SignIn extends Component {
                     }
 
 
-                    C_User.setCookies(
-                        curretUser.token,
-                        curretUser.fname,
-                        curretUser.lname,
-                        curretUser.email,
-                        curretUser.createdat,
-                        curretUser.createdat,
-                        curretUser.id,
-                        keepMesignedIn
-                    )
-                    this.props.setCurrentUser(curretUser.token);
-                    this.props.getCart()
+                    // C_User.setCookies(
+                    //     curretUser.token,
+                    //     curretUser.fname,
+                    //     curretUser.lname,
+                    //     curretUser.email,
+                    //     curretUser.createdat,
+                    //     curretUser.createdat,
+                    //     curretUser.id,
+                    //     keepMesignedIn
+                    // )
+                    this.props.setCurrentUser(curretUser);
+                    this.props.getCart(curretUser.id)
                         .then( result => {
-                            window.location.replace("/");
+                            this.props.history.goBack();
                             this.setState({ loading: false })
                         })
                         .catch( error => console.log(error))
@@ -384,5 +382,5 @@ class SignIn extends Component {
 }
 
 
-export default connect(null, { setCurrentUser  , getCart})(SignIn);;
+export default connect(null, { setCurrentUser  , getCart})(withRouter(SignIn));
 

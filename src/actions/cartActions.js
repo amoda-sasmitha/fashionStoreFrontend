@@ -3,12 +3,12 @@ import axios from 'axios';
 import Config from "../controllers/Config";
 import User from '../controllers/User'
 
-export const addtocart =  data  => {
+export const addtocart =  (data,userid)  => {
     return dispatch =>
       new Promise( (resolve, reject) => {
          axios.post(`${Config.host}${Config.port}/cart/insert` ,
           {
-            userid : User.getId(),
+            userid : userid,
             productid : data.product_id ,
             quantity : data.quantity,
             selected_color : data.selected_color ? data.selected_color : '',
@@ -16,7 +16,7 @@ export const addtocart =  data  => {
 
           }).then( result => {
                 // console.log( "API" , result.data);
-                 dispatch(getCart());
+                 dispatch(getCart(userid));
                 return  resolve({ type : 'success' , message : "Item Added Successfully"  });               
               }).catch( error => {
                 console.log(error);
@@ -29,7 +29,7 @@ export const addtocart =  data  => {
   
     }
 
-export const updateCartItem =  data  => {
+export const updateCartItem =  (data,userid)  => {
   return dispatch =>
     new Promise( (resolve, reject) => {
         axios.patch(`${Config.host}${Config.port}/cart/update/${data.id}` ,
@@ -37,7 +37,7 @@ export const updateCartItem =  data  => {
           quantity : data.quantity,
         }).then( result => {
                // console.log( "API" , result.data);
-                dispatch(getCart());
+                dispatch(getCart(userid));
                 return  resolve({ type : 'success' , message : "Item Update Successfully"  });               
             }).catch( error => {
               console.log(error);
@@ -50,13 +50,13 @@ export const updateCartItem =  data  => {
 
   }
 
-  export const deleteCartItem =  id  => {
+  export const deleteCartItem =  (id, userid ) => {
     return dispatch =>
       new Promise( (resolve, reject) => {
           axios.delete(`${Config.host}${Config.port}/cart/delete/${id}`)
           .then( result => {
                   console.log( "API" , result.data);
-                  dispatch(getCart());
+                  dispatch(getCart(userid));
                   return  resolve({ type : 'success' , message : "Item Delete Successfully"  });               
               }).catch( error => {
                 console.log(error);
@@ -69,13 +69,13 @@ export const updateCartItem =  data  => {
   
     }
 
-  export const cleartCart =  () => {
+  export const cleartCart =  userid => {
     return dispatch =>
       new Promise( (resolve, reject) => {
-          axios.delete(`${Config.host}${Config.port}/cart/clear/${User.getId()}`)
+          axios.delete(`${Config.host}${Config.port}/cart/clear/${userid}`)
           .then( result => {
                   console.log( "API" , result.data);
-                  dispatch(getCart());
+                  dispatch(getCart(userid));
                   return  resolve({ type : 'success' , message : "Cart Clear Successfully"  });               
               }).catch( error => {
                 console.log(error);
@@ -88,10 +88,9 @@ export const updateCartItem =  data  => {
   
     }
 
-export const getCart = data => {
+export const getCart =  userid => {
     return dispatch =>
       new Promise( (resolve, reject) => {
-        let userid = User.getId()
          axios.get(`${Config.host}${Config.port}/cart/get/${userid}` 
          ).then( result => {
                 // console.log( "API" , result.data);

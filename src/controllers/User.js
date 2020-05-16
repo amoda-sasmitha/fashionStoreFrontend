@@ -176,21 +176,21 @@ class User {
     // ===============   Reset Password              start here  ===============================================================================================================
     // ======================================================== ================================================================================================================
 
-    async resetPassoword(password) {
+    async resetPassoword(password, email, token, id) {
         console.log("BEFORE HAS", password);
 
 
-        var token = this.getToken();
+
         var _salt = this.generateSalt(20);
         var hashedPass = Crypto.SHA256(_salt + password).toString();
-        var _id = this.getId()
+        // var _id = this.getId()
 
 
 
 
         var requestData = {
-            userEmail: this.getEmail(),
-            userId: _id,
+            userEmail: email,
+            userId: id,
             newHashedPass: hashedPass,
             newSalt: _salt,
             token: token
@@ -229,7 +229,7 @@ class User {
             token: this.getToken()
         }
 
-         var  resp = 600;
+        var resp = 600;
         var userData = {}
 
 
@@ -335,7 +335,7 @@ class User {
 
 
 
-
+        // C_Config.showAlert("Sucessfully logout")
         Cookies.remove("cId");
         Cookies.remove("cM");
         Cookies.remove("sin");
@@ -346,9 +346,11 @@ class User {
         Cookies.remove("cLsi");
         Cookies.remove("type");
         C_Config.showAlert("Sucessfully logout")
-        setTimeout(() => {
-            window.location.replace("/");
-        }, 2000)
+
+        // window.location.replace("/")
+        // setTimeout(() => {
+        //     window.location.replace("/");
+        // }, 2000)
         // window.location.replace("/");
     }
 
@@ -450,10 +452,10 @@ class User {
     // ===============  get specific user  ===============================================================================================================
     // ======================================================== ================================================================================================================
 
-    async getSpecificUser() {
+    async getSpecificUser(email, token) {
         var requestData = {
-            uEmail: this.getEmail(),
-            token: this.getToken()
+            uEmail: email,
+            token: token
         }
         var resp = 500;
         var userData = {};
@@ -495,13 +497,13 @@ class User {
     // ===============  change user name      ===============================================================================================================
     // ======================================================== ================================================================================================================
 
-    async changeUsernameFunction(fname, lname) {
+    async changeUsernameFunction(fname, lname, email, token) {
 
         var requestData = {
             fname: fname,
             lname: lname,
-            uEmail: this.getEmail(),
-            token: this.getToken()
+            uEmail: email,
+            token: token
         }
 
         var resp = 500;
