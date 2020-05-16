@@ -8,6 +8,7 @@ import UpdateProducts from '../views/admin/admin.update.products'
 // import UserManagment from '../views/admin/admin.users'
 import StockManager from "../views/admin/stockmanager/stockmanager";
 import ManagersOffers from "../views/admin/stockmanager/managers.offers"
+import allOrders from "../views/orders/allOrders"
 
 let managerRoutes = [
     {
@@ -40,6 +41,12 @@ let managerRoutes = [
         component: ManagersOffers,
         exact: true,
     },
+    {
+        path: "/manager/orders",
+        name: "manager_orders",
+        component: allOrders,
+        exact: true,
+    }
 
 ];
 
