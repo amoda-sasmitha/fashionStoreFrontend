@@ -223,10 +223,10 @@ class User {
     // ======================================================== ================================================================================================================
 
 
-    async getUserLastLoginDetails() {
+    async getUserLastLoginDetails(email, token) {
         var requestData = {
-            uEmail: this.getEmail(),
-            token: this.getToken()
+            uEmail: email,
+            token: token
         }
 
         var resp = 600;
@@ -411,10 +411,11 @@ class User {
     // ======================================================= ================================================================================================================
     // ===============   Upload profile picture  ===============================================================================================================
     // ======================================================== ================================================================================================================
-    async uploadProfilePic(file) {
+    async uploadProfilePic(file, id, email , token) {
         var requestData = new FormData();
-        requestData.set("uId", this.getId())
-        requestData.set("uEmail", this.getEmail())
+        requestData.set("uId", id)
+        requestData.set("uEmail", email)
+        requestData.set("token", token)
         requestData.append("photos", file)
 
         var resp = 500;

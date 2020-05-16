@@ -1,4 +1,4 @@
-      /*  eslint-disable */
+/*  eslint-disable */
 
 import React, { Component } from 'react';
 import { Modal } from 'react-bootstrap';
@@ -52,6 +52,7 @@ class Userinfo extends Component {
       showProfilepicModal: false,
       finalProflilePic: null,
       files: null,
+      loading:true,
 
 
 
@@ -64,8 +65,8 @@ class Userinfo extends Component {
       picsrc: '',
       createdAt: '',
 
-      latlgonDate:'',
-      browser : '',
+      latlgonDate: '',
+      browser: '',
     };
 
 
@@ -75,33 +76,33 @@ class Userinfo extends Component {
   // =============== Functions        Start   =============== 
   // ======================================================== 
 
+  // async UNSAFE_componentWillMount() {
+  //   await this.getUserDetails();
+  //   await this.getLastLoginDetails();
+  // }
 
-  async UNSAFE_componentWillMount() {
+  async componentDidMount(){
     await this.getUserDetails();
-    await this. getLastLoginDetails();
+   await  this.getLastLoginDetails();
+    await this.setState({
+      loading:false 
+    })
   }
-
-  async getLastLoginDetails(){
-
-
-    var status = await  C_User.getUserLastLoginDetails()
+  async getLastLoginDetails() {
+    var status = await C_User.getUserLastLoginDetails(this.props.auth.user.email, this.props.auth.user.token)
     console.log(status);
-
-   await    this.setState({
-    latlgonDate : status. lastlogin,
-    browser : status.browser
-      })
-    
+    await this.setState({
+      latlgonDate: status.lastlogin,
+      browser: status.browser
+    })
   }
 
   // get user detaisl
   async getUserDetails() {
     const user = this.props.auth.user;
-    var status = await C_User.getSpecificUser(user.email, user.token );
-
+    var status = await C_User.getSpecificUser(user.email, user.token);
     switch (status.res) {
       case 200:
-
         await this.setState({
           fname: status.data.fname,
           lname: status.data.lname,
@@ -111,22 +112,13 @@ class Userinfo extends Component {
           beforLname: status.data.lname,
           beforFname: status.data.fname
         })
-
-        // await console.log(this.state.fname);
-        // await console.log(this.state.lname);
-        // await console.log(this.state.email);
-        // await console.log(this.state.picsrc);
-        // await console.log(this.state.createdAt);
-
-
         break;
-
       case 401:
         C_Config.showAlert("No user found in this email", "Warning");
         break;
-        case 409:
-          window.location.replace("/signin");
-         break;
+      case 409:
+        window.location.replace("/signin");
+        break;
       default:
         C_Config.showAlert("Somthing went wrong, Try again");
         break;
@@ -140,19 +132,13 @@ class Userinfo extends Component {
       showDeleteModal: true
     })
   }
-
-
-
-
   // passowrd reset
   changeEmail() {
     this.setState({
       showEmailModal: true
     })
   }
-
   // ----------------edit fname and lname ----------------- 
-
   // fname
   onChangeFname(e) {
     this.setState({
@@ -168,7 +154,6 @@ class Userinfo extends Component {
       editUserName: true,
     })
   }
-
   // cancle edit
 
   cancelUserName() {
@@ -178,36 +163,28 @@ class Userinfo extends Component {
       editUserName: false,
     })
   }
-
   // saveuser name
   async saveUserName() {
-    // console.log("New user name");
-    // console.log(this.state.fname);
-    // console.log(this.state.lname);
-
     var fname = this.state.fname
     var lname = this.state.lname
-
-
     if (this.state.fname === null || this.state.fname == undefined || this.state.fname === '' || this.state.lname === null || this.state.lname == undefined || this.state.lname === '') {
-
       C_Config.showAlert("Please fill user name", "Warning");
-
     } else {
       const user = this.props.auth.user;
-      var status = await C_User.changeUsernameFunction(fname, lname , user.email , user.token );
-
+      var status = await C_User.changeUsernameFunction(fname, lname, user.email, user.token);
       switch (status) {
         case 200:
           C_Config.showAlert("Successfully change", "Done");
           await this.getUserDetails()
+         await    this.setState({
+            editUserName: false,
+          })
           break;
-
         case 401:
           C_Config.showAlert("No user found in this email", "Warning");
           break;
         case 409:
-           window.location.replace("/signin");
+          window.location.replace("/signin");
           break;
 
         default:
@@ -215,12 +192,7 @@ class Userinfo extends Component {
           break;
       }
     }
-
-
-
   }
-
-
   // ---------------- password  ----------------- 
   // passowrd reset cancle
   cancelPassword() {
@@ -232,25 +204,19 @@ class Userinfo extends Component {
 
     })
   }
-
   // passowrd 
-
   onChangePassword(e) {
     this.setState({
       uNewPass: e.target.value
     })
   }
   // passowrd confirm
-
   onChangeConPass(e) {
     this.setState({
       uConNewsPass: e.target.value
     }, () => this.checkPasswordMatch())
   }
-
   // check password matchs
-
-
   checkPasswordMatch() {
     if (this.state.uNewPass != this.state.uConNewsPass) {
       this.setState({
@@ -266,9 +232,7 @@ class Userinfo extends Component {
   }
   async savePassword() {
     if (this.state.uNewPass === null || this.state.uNewPass == undefined || this.state.uNewPass === '') {
-
       C_Config.showAlert("Please fill password", "Warning");
-
     } else {
       const user = this.props.auth.user;
       var reset = await C_User.resetPassoword(this.state.uNewPass, user.email, user.token, user.id)
@@ -280,15 +244,12 @@ class Userinfo extends Component {
             editPassword: false,
             uNewPass: '',
             uConNewsPass: '',
-
-
           })
           await this.getUserDetails()
           break;
-
-          case 409:
-            window.location.replace("/signin");
-           break;
+        case 409:
+          window.location.replace("/signin");
+          break;
         case 401:
           C_Config.showAlert("No user found in this email", "Warning");
           break;
@@ -298,55 +259,29 @@ class Userinfo extends Component {
           break;
       }
     }
-
-
-
-
   }
 
   // =============== Profile Picture ===============
-
   showProfilePicModal() {
     this.setState({ showProfilepicModal: true });
   }
-
-  // handleImage(fileItem) {
-  //   // console.log(fileItem);
-  //   this.setState({
-  //     finalProflilePic: fileItem,
-  //   });
-  //   console.log(this.state.finalProflilePic);
-  // }
-
   handleInit() {
     console.log('FilePond instance has initialised', this.pond);
   }
 
   async handleProfilePic(e) {
-
     e.preventDefault()
-    // await console.log(this.state.files);
-
-
     if (this.state.files != null || this.state.files != undefined) {
-
-      // await console.log(this.state.files[0]);
-
-      var status = await C_User.uploadProfilePic(this.state.files[0]);
-      // console.log(status);
-
+      var status = await C_User.uploadProfilePic(this.state.files[0], this.props.auth.user.id, this.props.auth.user.email, this.props.auth.token);
       switch (status) {
         case 200:
           await this.setState({ showProfilepicModal: false });
-
           C_Config.showAlert("Profile Picture updated successfully", "Done");
           await this.getUserDetails()
           return 0;
-
         case 401:
           C_Config.showAlert("No user found in this email", "Warning");
           break;
-
         default:
           C_Config.showAlert("Somthing went wrong, Try again");
           break;
@@ -355,9 +290,6 @@ class Userinfo extends Component {
       C_Config.showAlert("Please select profile picture", "Warning");
 
     }
-
-
-
   }
 
   // ======================================================== 
@@ -366,7 +298,7 @@ class Userinfo extends Component {
   render() {
     return (
       <div className="ISS_acc_page">
-        {/* <Loader show={this.state.loading} /> */}
+         {this.state.loading ? <Loading /> : null}
         {/*========================================================*/}
         {/*=============== Profile Picture And name ===============*/}
         {/*========================================================*/}
@@ -384,7 +316,7 @@ class Userinfo extends Component {
           {/* details */}
           <div className="userInfo">
             <h1>
-              {this.state.beforFname} &nbsp;  {this.state.beforLname}
+              {this.state.beforFname}&nbsp;{this.state.beforLname}
             </h1>
             <h2>Sri Lanka</h2>
           </div>
@@ -500,9 +432,9 @@ class Userinfo extends Component {
         <div className="IS_UI_section">
           <h1>Last Login </h1>
           <p>
-              {/* {this.state.lastlogin}  &nbsp;  •  &nbsp; 22 h : 55 m •  &nbsp; Chrome Web browser */}
-              {this.state.latlgonDate}  &nbsp;  •    &nbsp; {this.state.browser}
-              </p>
+            {/* {this.state.lastlogin}  &nbsp;  •  &nbsp; 22 h : 55 m •  &nbsp; Chrome Web browser */}
+            {this.state.latlgonDate}  &nbsp;  •    &nbsp; {this.state.browser}
+          </p>
 
           {/* <div className="IS_UI_sessionContainer">{SessionList}</div> */}
         </div>
@@ -613,7 +545,7 @@ class Userinfo extends Component {
 }
 
 const mapStateToProps = state => ({
-  auth : state.auth || {} ,
+  auth: state.auth || {},
 });
 
 
