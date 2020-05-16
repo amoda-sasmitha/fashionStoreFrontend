@@ -15,6 +15,8 @@ import { faTrash, faPenAlt, faEye, faEnvelope } from '@fortawesome/free-solid-sv
 import U_User from '../../controllers/User'
 import Uniqid from 'uniqid'
 import A_Admin from '../../controllers/Admin'
+import { connect } from 'react-redux';
+
 class AdminManagers extends Component {
 
     constructor(props) {
@@ -38,7 +40,7 @@ class AdminManagers extends Component {
 
     getAllManagers = () => {
         return new Promise((resolve, reject) => {
-            return A_Admin.getAllAdmins()
+            return A_Admin.getAllAdmins(this.props.auth.user.token, this.props.auth.user.type)
                 .then(result => {
 
                     resolve({ code: 200, data: result.data })
@@ -74,11 +76,8 @@ class AdminManagers extends Component {
     }
     // checksignIn
     async getSignInStatus() {
-        var status = await U_User.checkSignedIn()
-        console.log(status);
-
-        if (status == false) {
-            await window.location.replace("/admin");
+        if (this.props.auth.isAuthenticated == false) {
+            this.props.history.push("/admin")
         }
     }
 
@@ -100,7 +99,7 @@ class AdminManagers extends Component {
     onAddUser = async (e) => {
         e.preventDefault()
         var password = Uniqid('Fashi')
-        var addUserState = await A_Admin.addManager(this.state.fname, this.state.lname, this.state.email, password)
+        var addUserState = await A_Admin.addManager(this.state.fname, this.state.lname, this.state.email, password, this.props.auth.user.token, this.props.auth.user.type, this.props.auth.user.id )
         switch (addUserState) {
             // success
             case 200:
@@ -245,5 +244,9 @@ class AdminManagers extends Component {
     }
 }
 // dsdsdsd
+const mapStateToProps = state => ({
+    auth : state.auth || {} ,
+  });
+  
 
-export default AdminManagers;
+export default connect(mapStateToProps)(AdminManagers);

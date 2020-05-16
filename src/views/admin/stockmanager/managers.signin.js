@@ -1,10 +1,18 @@
-      /*  eslint-disable */
+/*  eslint-disable */
 
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import A_Admin from '../../../controllers/Admin'
 import M_Manager from '../../../controllers/Manager'
 import C_Config from '../../../controllers/Config'
+
+
+
+
+import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux'
+import { getCart } from '../../../actions/cartActions'
+import { setCurrentUser } from '../../../actions/authActions'
 
 class Adminlogin extends Component {
     constructor() {
@@ -16,7 +24,7 @@ class Adminlogin extends Component {
             uPass: '',
             isChecked: false,
             error: '',
-            browserUser : ''
+            browserUser: ''
 
         };
 
@@ -69,7 +77,7 @@ class Adminlogin extends Component {
             var keepMesignedIn = this.state.isChecked;
 
 
-            await  this.checkUserBrowser()
+            await this.checkUserBrowser()
             var userBrowser = this.state.browserUser
 
 
@@ -119,21 +127,33 @@ class Adminlogin extends Component {
             await console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
             await console.log("User Details");
             await console.log(curretUser);
-            A_Admin.setCookies(
-                curretUser.token,
-                curretUser.fname,
-                curretUser.lname,
-                curretUser.email,
-                curretUser.createdat,
-                curretUser.createdat,
-                curretUser.id,
-                keepMesignedIn,
-                curretUser.type
-            )
-            console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
-            console.log(keepMesignedIn);
-            await window.location.replace("/manager/stock");
+
+
+            this.props.setCurrentUser(curretUser);
+            this.props.getCart(curretUser.id)
+                .then(result => {
+                    this.props.history.push("/manager/stock");
+
+                })
+                .catch(error => console.log(error))
+
         }
+
+        // A_Admin.setCookies(
+        //     curretUser.token,
+        //     curretUser.fname,
+        //     curretUser.lname,
+        //     curretUser.email,
+        //     curretUser.createdat,
+        //     curretUser.createdat,
+        //     curretUser.id,
+        //     keepMesignedIn,
+        //     curretUser.type
+        // )
+        // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++");
+        // console.log(keepMesignedIn);
+        // await window.location.replace("/manager/stock");
+
     }
 
 
@@ -174,19 +194,19 @@ class Adminlogin extends Component {
             chromeAgent = false;
 
         var loginBrowes = null;
-        if(safariAgent)
+        if (safariAgent)
             loginBrowes = "Safari"
-        if(chromeAgent)
+        if (chromeAgent)
             loginBrowes = "Chrome"
-        if(IExplorerAgent)
+        if (IExplorerAgent)
             loginBrowes = "IExplorer"
-        if(operaAgent)
+        if (operaAgent)
             loginBrowes = "Opera"
-        if(firefoxAgent)
+        if (firefoxAgent)
             loginBrowes = "Firefox"
 
         this.setState({
-            browserUser : loginBrowes
+            browserUser: loginBrowes
         })
     }
 
@@ -281,4 +301,4 @@ class Adminlogin extends Component {
 }
 
 
-export default Adminlogin;
+export default connect(null, { setCurrentUser, getCart })(withRouter(Adminlogin));

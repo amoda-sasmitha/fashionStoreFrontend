@@ -1,4 +1,4 @@
-      /*  eslint-disable */
+/*  eslint-disable */
 
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
@@ -19,7 +19,7 @@ class Adminlogin extends Component {
             uPass: '',
             isChecked: false,
             error: '',
-            browserUser : ''
+            browserUser: ''
 
         };
 
@@ -72,7 +72,7 @@ class Adminlogin extends Component {
             var keepMesignedIn = this.state.isChecked;
 
 
-            await  this.checkUserBrowser()
+            await this.checkUserBrowser()
             var userBrowser = this.state.browserUser
 
 
@@ -137,11 +137,11 @@ class Adminlogin extends Component {
             console.log(keepMesignedIn);
             this.props.setCurrentUser(curretUser);
             this.props.getCart(curretUser.id)
-                .then( result => {
+                .then(result => {
                     this.props.history.push("/admin/category");
 
                 })
-                .catch( error => console.log(error))
+                .catch(error => console.log(error))
 
         }
 
@@ -187,19 +187,19 @@ class Adminlogin extends Component {
             chromeAgent = false;
 
         var loginBrowes = null;
-        if(safariAgent)
+        if (safariAgent)
             loginBrowes = "Safari"
-        if(chromeAgent)
+        if (chromeAgent)
             loginBrowes = "Chrome"
-        if(IExplorerAgent)
+        if (IExplorerAgent)
             loginBrowes = "IExplorer"
-        if(operaAgent)
+        if (operaAgent)
             loginBrowes = "Opera"
-        if(firefoxAgent)
+        if (firefoxAgent)
             loginBrowes = "Firefox"
 
         this.setState({
-            browserUser : loginBrowes
+            browserUser: loginBrowes
         })
     }
 
@@ -293,4 +293,4 @@ class Adminlogin extends Component {
     }
 }
 
-export default connect(null, { setCurrentUser  , getCart})(withRouter(Adminlogin));
+export default connect(null, { setCurrentUser, getCart })(withRouter(Adminlogin));

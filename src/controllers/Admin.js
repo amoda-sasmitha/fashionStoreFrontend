@@ -20,14 +20,14 @@ class User {
             test: "/api/news/my",
             signin: "/admin//sign",
             getsalt: "/admin/g/salt",
-            addManager :"/manager/ad/s/m",
-            getAllManagers : "/admin/g/all/man",
-            getAllUsers : "/admin/g/all/users",
-            getAllUserBrowserDetial : "/admin/g/all/users/logins",
-            getAllUserTImeDetial : "/admin/g/all/users/time",
-            getUserStats : "/admin/g/user/stat",
-            getMonthBase : "/admin/g/user/months"
- 
+            addManager: "/manager/ad/s/m",
+            getAllManagers: "/admin/g/all/man",
+            getAllUsers: "/admin/g/all/users",
+            getAllUserBrowserDetial: "/admin/g/all/users/logins",
+            getAllUserTImeDetial: "/admin/g/all/users/time",
+            getUserStats: "/admin/g/user/stat",
+            getMonthBase: "/admin/g/user/months"
+
 
         };
     }
@@ -93,7 +93,7 @@ class User {
             uEmail: email,
             uPass: hashedPass,
             keepme: keepMesignedIn,
-            userBrowser : userBrowser
+            userBrowser: userBrowser
         };
         console.log("Sign inf dta");
         console.log(requestData);
@@ -135,7 +135,7 @@ class User {
     // ======================================================== ================================================================================================================
 
 
-    addManager = async (fname, lname, email, pw) => {
+    addManager = async (fname, lname, email, pw, token, type, id) => {
         var _salt = this.generateSalt(20);
         var hashedPass = Crypto.SHA256(_salt + pw).toString();
         var requestData = {
@@ -143,21 +143,21 @@ class User {
             lastname: lname,
             useremail: email,
             password: hashedPass,
-            salt:_salt,
-            adminId : this.getId(),
-            token : this.getToken(),
-            type : this.getType(),
-            DePas : pw
+            salt: _salt,
+            adminId: id,
+            token: token,
+            type: type,
+            DePas: pw
         }
         var resp = 600;
-       var  userData = {}
+        var userData = {}
         await Axios.post(
             `${Config.host}${Config.port}${this.api.addManager}`,
             requestData
         )
             .then(Response => {
                 console.log(Response);
-                
+
                 resp = Response.status;
                 userData = Response.data.userData
             })
@@ -179,7 +179,7 @@ class User {
 
         return resp;
 
-        
+
     }
 
 
@@ -189,111 +189,111 @@ class User {
     // ======================================================== ================================================================================================================
 
 
-    getAllAdmins = () =>{
-        
+    getAllAdmins = (token, type) => {
+
         var requestData = {
-            token : this.getToken(),
-            type : this.getType()
+            token: token,
+            type: type
         }
-        return new Promise( (resolve,reject) => {
-            return Axios.post(`${Config.host}${Config.port}${this.api.getAllManagers}` , requestData)
-                .then( result => {
-                        resolve({code : 200 , data : result.data })
+        return new Promise((resolve, reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getAllManagers}`, requestData)
+                .then(result => {
+                    resolve({ code: 200, data: result.data })
                 })
-                .catch( err => {
-                    reject({ code : 0 , error : err})
+                .catch(err => {
+                    reject({ code: 0, error: err })
                 })
         })
     }
 
-    getAllUsersAdmin = () =>{
-        
+    getAllUsersAdmin = (token, type) => {
+
         var requestData = {
-            token : this.getToken(),
-            type : this.getType()
+            token: token,
+            type: type
         }
-        return new Promise( (resolve,reject) => {
-            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUsers}` , requestData)
-                .then( result => {
-                        resolve({code : 200 , data : result.data })
+        return new Promise((resolve, reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUsers}`, requestData)
+                .then(result => {
+                    resolve({ code: 200, data: result.data })
                 })
-                .catch( err => {
-                    reject({ code : 0 , error : err})
-                })
-        })
-    }
-
-
-
-
-
-
-    getUsersBrowsers = () =>{
-        
-        var requestData = {
-            token : this.getToken(),
-            type : this.getType()
-        }
-        return new Promise( (resolve,reject) => {
-            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUserBrowserDetial}` , requestData)
-                .then( result => {
-                        resolve({code : 200 , data : result.data })
-                })
-                .catch( err => {
-                    reject({ code : 0 , error : err})
+                .catch(err => {
+                    reject({ code: 0, error: err })
                 })
         })
     }
 
 
-    getUserLastLogin = () =>{
-        
+
+
+
+
+    getUsersBrowsers = (token, type) => {
+
         var requestData = {
-            token : this.getToken(),
-            type : this.getType()
+            token: token,
+            type: type
         }
-        return new Promise( (resolve,reject) => {
-            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUserTImeDetial}` , requestData)
-                .then( result => {
-                        resolve({code : 200 , data : result.data })
+        return new Promise((resolve, reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUserBrowserDetial}`, requestData)
+                .then(result => {
+                    resolve({ code: 200, data: result.data })
                 })
-                .catch( err => {
-                    reject({ code : 0 , error : err})
+                .catch(err => {
+                    reject({ code: 0, error: err })
                 })
         })
     }
 
 
-    getUserStats = () =>{
-        
+    getUserLastLogin = (token, type) => {
+
         var requestData = {
-            token : this.getToken(),
-            type : this.getType()
+            token: token,
+            type: type
         }
-        return new Promise( (resolve,reject) => {
-            return Axios.post(`${Config.host}${Config.port}${this.api.getUserStats}` , requestData)
-                .then( result => {
-                        resolve({code : 200 , data : result.data })
+        return new Promise((resolve, reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUserTImeDetial}`, requestData)
+                .then(result => {
+                    resolve({ code: 200, data: result.data })
                 })
-                .catch( err => {
-                    reject({ code : 0 , error : err})
+                .catch(err => {
+                    reject({ code: 0, error: err })
                 })
         })
     }
 
-    getUsageOfMonthBased = () => {
+
+    getUserStats = (token, type) => {
 
         var requestData = {
-            token : this.getToken(),
-            type : this.getType()
+            token: token,
+            type: type
         }
-        return new Promise( (resolve,reject) => {
-            return Axios.post(`${Config.host}${Config.port}${this.api.getMonthBase}` , requestData)
-                .then( result => {
-                        resolve({code : 200 , data : result.data })
+        return new Promise((resolve, reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getUserStats}`, requestData)
+                .then(result => {
+                    resolve({ code: 200, data: result.data })
                 })
-                .catch( err => {
-                    reject({ code : 0 , error : err})
+                .catch(err => {
+                    reject({ code: 0, error: err })
+                })
+        })
+    }
+
+    getUsageOfMonthBased = (token, type) => {
+
+        var requestData = {
+            token: token,
+            type: type
+        }
+        return new Promise((resolve, reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.getMonthBase}`, requestData)
+                .then(result => {
+                    resolve({ code: 200, data: result.data })
+                })
+                .catch(err => {
+                    reject({ code: 0, error: err })
                 })
         })
     }
