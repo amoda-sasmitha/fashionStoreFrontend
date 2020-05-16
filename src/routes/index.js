@@ -27,6 +27,7 @@ import TOS from '../views/Staticspages/tos'
 import PP from '../views/Staticspages/pp'
 
 
+import ResetPassword from '../views/forgotpw/forgotpw'
 
 
 
@@ -89,6 +90,12 @@ let indexRoutes = [
     path: "/pp",
     name: "PP",
     component: PP,
+    exact: true,
+  },
+  {
+    path: "/resetpw",
+    name: "ResetPW",
+    component: ResetPassword,
     exact: true,
   },
   {
