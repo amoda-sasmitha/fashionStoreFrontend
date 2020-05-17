@@ -1,4 +1,4 @@
-      /*  eslint-disable */
+/*  eslint-disable */
 
 import React, { Component } from 'react';
 // import loading 
@@ -20,7 +20,7 @@ import './signin.css'
 import { setCurrentUser } from '../../actions/authActions'
 import { getCart } from '../../actions/cartActions'
 import { connect } from 'react-redux'
-import {isMobile, isMobileOnly, isTablet, isSmartTV, isWinPhone, isIOS, isAndroid, isBrowser} from 'react-device-detect';
+import { isMobile, isMobileOnly, isTablet, isSmartTV, isWinPhone, isIOS, isAndroid, isBrowser } from 'react-device-detect';
 
 class SignIn extends Component {
     constructor() {
@@ -33,9 +33,9 @@ class SignIn extends Component {
             uSavePass: false,
             loading: false,
             isChecked: false,
-            browserUser : '',
-            deviceUser : '',
-            userMobile : ''
+            browserUser: '',
+            deviceUser: '',
+            userMobile: ''
 
 
         };
@@ -54,25 +54,25 @@ class SignIn extends Component {
     checkDevice = () => {
         if (isMobileOnly) {
             this.setState({
-            deviceUser  : "Mobile"
+                deviceUser: "Mobile"
             })
             // return true
         }
         if (isTablet) {
             this.setState({
-            deviceUser  : "Tablet"
+                deviceUser: "Tablet"
             })
             // return true
         }
-        if (isSmartTV	) {
+        if (isSmartTV) {
             this.setState({
-            deviceUser  : "Smart TV"
+                deviceUser: "Smart TV"
             })
             // return true
         }
-        if (isBrowser	) {
+        if (isBrowser) {
             this.setState({
-            deviceUser  : "Computer"
+                deviceUser: "Computer"
             })
             // return true
         }
@@ -80,31 +80,31 @@ class SignIn extends Component {
     checkuserMobile = () => {
         if (isWinPhone) {
             this.setState({
-                userMobile  : "Windows"
+                userMobile: "Windows"
             })
             // return true
         }
         if (isIOS) {
             this.setState({
-                userMobile  : "IOS"
+                userMobile: "IOS"
             })
             // return true
         }
-        if (isAndroid	) {
+        if (isAndroid) {
             this.setState({
-                userMobile  : "Android"
+                userMobile: "Android"
             })
             // return true
         }
     }
 
-    async componentWillMount(){
-      await  this.checkDevice()
-      await  this.checkuserMobile ()
+    async componentWillMount() {
+        await this.checkDevice()
+        await this.checkuserMobile()
 
-     await   console.log(this.state.deviceUser);
-     await   console.log(this.state.userMobile);
-        
+        await console.log(this.state.deviceUser);
+        await console.log(this.state.userMobile);
+
     }
 
     // -----------------form filling functions ----------------- 
@@ -136,11 +136,6 @@ class SignIn extends Component {
 
     }
     // save  password  end ||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||||
-
-
-
-
-
 
 
 
@@ -183,19 +178,19 @@ class SignIn extends Component {
             chromeAgent = false;
 
         var loginBrowes = null;
-        if(safariAgent)
+        if (safariAgent)
             loginBrowes = "Safari"
-        if(chromeAgent)
+        if (chromeAgent)
             loginBrowes = "Chrome"
-        if(IExplorerAgent)
+        if (IExplorerAgent)
             loginBrowes = "IExplorer"
-        if(operaAgent)
+        if (operaAgent)
             loginBrowes = "Opera"
-        if(firefoxAgent)
+        if (firefoxAgent)
             loginBrowes = "Firefox"
 
         this.setState({
-            browserUser : loginBrowes
+            browserUser: loginBrowes
         })
     }
 
@@ -213,12 +208,12 @@ class SignIn extends Component {
 
     async  onLogin(e) {
         e.preventDefault()
-        await  this.checkUserBrowser()
+        await this.checkUserBrowser()
         var uEmail = this.state.uEmail;
         var uPass = this.state.uPass;
         var keepMesignedIn = this.state.isChecked;
         var userBrowser = this.state.browserUser
-    
+
 
         if (uEmail != null && uPass != null) {
             await this.setState({ loading: true })
@@ -271,11 +266,11 @@ class SignIn extends Component {
                     // )
                     this.props.setCurrentUser(curretUser);
                     this.props.getCart(curretUser.id)
-                        .then( result => {
+                        .then(result => {
                             this.props.history.goBack();
                             this.setState({ loading: false })
                         })
-                        .catch( error => console.log(error))
+                        .catch(error => console.log(error))
                     break;
             }
 
@@ -382,5 +377,5 @@ class SignIn extends Component {
 }
 
 
-export default connect(null, { setCurrentUser  , getCart})(withRouter(SignIn));
+export default connect(null, { setCurrentUser, getCart })(withRouter(SignIn));
 
