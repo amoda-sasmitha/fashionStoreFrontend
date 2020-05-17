@@ -136,10 +136,6 @@ class User {
 
     }
 
-
-
-
-
     getAllOffersDetails(){
         return new Promise( (resolve,reject) => {
             return Axios.get(`${Config.host}${Config.port}${this.api.getAllOffers}` )
@@ -156,6 +152,19 @@ class User {
         })
     }
 
+    deleteOfferWithProducts = (id , product_list ) => {
+    return new Promise( (resolve,reject) => {
+        return Axios.delete(`${Config.host}${Config.port}/offer/delete/${id}` ,{
+           data : { product_list : product_list }
+        })
+            .then( result => {
+                    resolve({code : 200 , message : result.data.message })
+            })
+            .catch( err => {
+                reject({ code : 0 , error : err})
+            })
+    })
+}
 
 
 

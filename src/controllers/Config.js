@@ -45,16 +45,43 @@ class Config {
       });
     }
 
-    calcualte_total = cart => {
+  calcualte_total = cart => {
       let sum = cart.reduce( ( acc , current ) => {
           let total = parseFloat(current.product.price) * parseFloat(current.quantity)
-          if(current.product.discount){
+          if(current.product.discount && current.product.discount > 0 && current.product.discount < 100 ){
             let discount =  parseFloat(current.product.discount);
             total = total - ( total * discount / 100 )
         }
           return acc + total
       } , 0)
       return (Math.round(sum * 100) / 100).toFixed(2);
+  }
+
+  calculate_full_total = cart => {
+      let sum = cart.reduce( ( acc , current ) => {
+          let total = parseFloat(current.product.price) * parseFloat(current.quantity)
+          return acc + total
+      } , 0)
+      return (Math.round(sum * 100) / 100).toFixed(2);
+  }
+
+  calcualte_discount = cart => {
+      let sum = cart.reduce( ( acc , current ) => {
+          let total = 0;
+          if(current.product.discount && current.product.discount > 0 && current.product.discount < 100 ){
+            total = parseFloat(current.product.price) * parseFloat(current.quantity)
+            let discount =  parseFloat(current.product.discount);
+            total = total * discount / 100
+          }
+          return acc + total
+      } , 0)
+      
+      return (Math.round(sum * 100) / 100).toFixed(2);
+  }
+
+  setDiscountedPrice = (price , discount) =>{
+    let value =  parseFloat(price) - ( parseFloat(price) * parseFloat(discount) / 100)
+    return (Math.round(value * 100) / 100).toFixed(2);
   }
 
     setDeleteConfirmAlert(title , msg , confirm , cancel ){

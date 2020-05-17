@@ -17,6 +17,22 @@ export const getAllProducts = () => {
     })
 }
 
+export const getAllProductsSimple = () => {
+    return new Promise( (resolve,reject) => {
+        return axios.get(`${Config.host}${Config.port}/product/getall/simple`)
+            .then( result => {
+               if(result.data.code == 200){
+                    resolve(result.data.data)
+               }else{
+                resolve([])
+               }
+            })
+            .catch( err => {
+                reject(err)
+            })
+    })
+}
+
 export const getAllProductByCategory = cateogry_name => {
     return new Promise( (resolve,reject) => {
         return axios.get(`${Config.host}${Config.port}/product/get/${cateogry_name}`)

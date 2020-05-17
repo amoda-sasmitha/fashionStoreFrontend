@@ -143,7 +143,8 @@ class Cart extends Component {
                         <div className="col-lg-4 offset-lg-4">
                             <div className="proceed-checkout">
                                 <ul>
-                                    <li className="subtotal">Discount <span>LKR 0.00</span></li>
+                                    <li className="subtotal">Sub-Total <span>LKR {Config.calculate_full_total(cart)}</span></li>
+                                    <li className="subtotal">Discount <span>LKR {Config.calcualte_discount(cart)}</span></li>
                                     <li className="subtotal"><b>Total</b> <span>
                                         LKR {Config.calcualte_total(cart)}</span></li>
                                 </ul>
@@ -167,9 +168,9 @@ class Cart extends Component {
                 <td>
                     <img src={Config.setImage(product.images[0])} height={60} className="mr-2 my-2"/>
                 </td>
-                <td>
-                    <h5 className="form-label-table my-2">{product.name} - <span className="text-muted">
-                        {product.category_name}</span></h5>
+                <td><Link to={`/product/${product._id}`}>
+                    <h5 className="form-label-table my-2 click">{product.name} - <span className="text-muted">
+                        {product.category_name}</span></h5></Link>
                     <span className="mr-2 border border-muted px-2 text-muted">
                         Size {item.selected_size}
                     </span>
@@ -179,7 +180,10 @@ class Cart extends Component {
 
                 </td>
                 <td>
-                    <h5 className="form-label-table my-2">LKR {product.price}</h5>
+                    <h5 className="form-label-table my-2">LKR {product.price}
+                    { product.discount && product.discount > 0 && product.discount < 100 && 
+                    <span className="text-muted small"><br/>{product.discount}% Discount</span>}
+                    </h5>
                 </td>
                 <td>
                     <h5 className="form-label-table  my-2">
