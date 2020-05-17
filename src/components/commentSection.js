@@ -1,87 +1,80 @@
-import React from "react";
-import StarRatings from "./react-star-ratings";
+import React, { Component } from "react";
+import Config from "../controllers/Config";
+import { withRouter } from "react-router-dom";
+import { connect } from "react-redux";
+import { insertComment } from "../controllers/Comments";
+import { getProductById } from "../controllers/Products";
+import StarRatingComponent from "../../node_modules/react-star-rating-component";
 class CommentSection extends React.Component {
-  changeRating(newRating, name) {
-    this.setState({
-      rating: newRating,
-    });
+  constructor(props) {
+    super(props);
+    this.state = {
+      name: " ",
+      email: " ",
+      ratings: " ",
+    };
   }
+  onStarClick(nextValue, prevValue, name) {
+    this.setState({ ratings: nextValue });
+  }
+  handleChange = (e) => {
+    this.setState({
+      [e.target.name]: e.target.value,
+    });
+  };
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    const form = {
+      name: this.state.name,
+      email: this.state.email,
+      ratings: this.state.ratings,
+      Date: new Date().toLocaleString(),
+      ProductId: getProductById,
+    };
+    {
+      /* -----------you would send data to API to get results, I used database for ease, this also clears the form on submit----------------*/
+    }
+    console.log(form);
+    this.setState({
+      name: "",
+      email: "",
+      ratings: "",
+    });
+  };
+
   render() {
     return (
-      <section className="product-shop spad">
-        <div className="container">
-          <div className="row">
-            <div className="col-md-6">
-              <form
-                className=" py-2  px-3"
-                method="POST"
-                //onSubmit={(e) => this.onFormSubmit(e)}
-              >
-                <div className="row">
-                  <div className="col-md-12">
-                    <h6 className="form-label py-2">Username </h6>
-                    <input
-                      type="text"
-                      name="addressLine1"
-                      //value={addressLine1}
-                      //onChange={(e) => this.formValueChange(e)}
-                      placeholder="Address Line one"
-                      className="form-control"
-                    />
-                    {/* {errors.addressLine1 && errors.addressLine1.length > 0 && ( */}
-                    <h4 className="small text-danger mt-2 font-weight-bold mb-0">
-                      {/* {errors.addressLine1} */}
-                    </h4>
-                    {/* )} */}
-                  </div>
-
-                  <div className="col-md-12">
-                    <StarRatings
-                      //rating={this.state.rating}
-                      starRatedColor="blue"
-                      //changeRating={this.changeRating}
-                      //numberOfStars={6}
-                      name="rating"
-                    />
-                  </div>
-
-                  <div className="col-md-12">
-                    <br></br>
-                    <h6 className="form-label py-2">Comment </h6>
-                    <input
-                      type="textarea"
-                      name="addressLine2"
-                      //value={addressLine2}
-                      //onChange={(e) => this.formValueChange(e)}
-                      placeholder="Address Line two"
-                      className="form-control"
-                    />
-                    {/* {errors.addressLine2 && errors.addressLine2.length > 0 && ( */}
-                    <h4 className="small text-danger mt-2 font-weight-bold mb-0">
-                      {/* {errors.addressLine2} */}
-                    </h4>
-                    {/* )} */}
-                  </div>
-
-                  <div className="col-md-12 mt-2">
-                    <div className="d-flex">
-                      <button
-                        className="px-4 btn btn-dark  btn-sm bold-normal"
-                        type="submit"
-                      >
-                        Post Comment
-                      </button>
-                    </div>
-                  </div>
-                </div>
-              </form>
-            </div>
-            <div className="col-md-4">
-              <h6 className="form-label py-2">Order Details</h6>
-            </div>
-          </div>
-        </div>
-      </section>
+      <div>
+        <form>
+          <label>
+            Name:
+            <input
+              name="name"
+              value={this.state.name}
+              onChange={(e) => this.handleChange(e)}
+            />
+          </label>
+          <label>
+            Email:
+            <input
+              name="email"
+              value={this.state.email}
+              onChange={(e) => this.handleChange(e)}
+            />
+          </label>
+          <label>
+            <StarRatingComponent
+              name="ratings"
+              starCount={5}
+              value={this.state.ratings}
+              onStarClick={this.onStarClick.bind(this)}
+              onChange={(e) => this.handleChange(e)}
+            />
+          </label>
+          <button onClick={(e) => this.onSubmit(e)}>Send</button>
+        </form>
+      </div>
     );
   }
 }
