@@ -17,23 +17,11 @@ class CommentSection extends React.Component {
                 padding: "20px",
               }}
             >
-              <form
-                className=" py-2  px-3"
+              <htmlForm
+                className="py-2  px-3"
                 method="POST"
-                onSubmit={(e) => this.onFormSubmit(e)}
+                onSubmit={(e) => this.onhtmlFormSubmit(e)}
               >
-                <div className="row">
-                  <div className="col-md-6">
-                    <h6 className="form-label py-2">Order Amount</h6>
-                    <input
-                      type="text"
-                      name="amount"
-                      placeholder="Amount"
-                      className="form-control"
-                      readOnly
-                    />
-                  </div>
-                </div>
                 <h6 className="htmlForm-label py-2">Full Name</h6>
                 <input
                   type="text"
@@ -86,7 +74,7 @@ class CommentSection extends React.Component {
                     Post Comment
                   </button>
                 </div>
-              </form>
+              </htmlForm>
             </div>
           </div>
           <div className="col-6">
