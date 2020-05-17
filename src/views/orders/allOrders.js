@@ -35,6 +35,13 @@ class allOrders  extends Component {
         })
    }
 
+   getStyle = (item) => {
+        console.log("Get Style: ", item.deleteRequest);   
+        return {
+            backgroundColor: item.deleteRequest ? '#ffa1a1' : '#f4f4f4',
+        }
+    }   
+
    render(){
     const { orders} = this.state;
     return(
@@ -84,7 +91,7 @@ class allOrders  extends Component {
 
     renderOrdersTable = item => {
         return(
-            <tr key={item._id}>
+            <tr key={item._id} style={this.getStyle(item)}>
                 <td><b>{ moment(new Date(item.date)).format('DD , MMM YYYY') }</b></td>
                 <td>
                     <h6 className="form-label">LKR {item.amount}</h6>
@@ -92,14 +99,19 @@ class allOrders  extends Component {
                 <td>{item.userId }</td>
                 <td>{item.deliveryAddress }</td>
                 <td>
-                    <button className="btn btn-dark btn-sm px-2 mr-2">
-                         More Details
+                    <button className="btn btn-dark btn-sm px-2 mr-2" onClick={() => this.onClickView(item)}>
+                            More Details
                     </button>
                 </td>
             </tr>
         );
     }
 
+    onClickView = item => {
+        this.props.history.push(`/manager/orders/getOrder/${item._id}`)
+    }
 }
 
-export default allOrders;
+
+
+export default withRouter(allOrders);
