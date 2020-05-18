@@ -9,11 +9,43 @@ class CommentSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      name: " ",
-      email: " ",
-      ratings: " ",
+      username: "",
+      comment: "",
+      ratings: "",
+      userId: "5eaee2f5c8aa252450f5e8c4",
+      produtid: "2020",
     };
   }
+
+  onSubmit = (e) => {
+    e.preventDefault();
+    // const form = {
+    //   userId: this.state.userId,
+    //   username: this.state.username,
+    //   produtid: this.state.produtid,
+    //   comment: this.state.comment,
+    //   ratings: this.state.ratings,
+    //   Date: new Date().toLocaleString(),
+    // };
+
+    // console.log(form);
+
+    insertComment({
+      userId: this.state.userId,
+      username: this.state.username,
+      produtid: this.state.produtid,
+      comment: this.state.comment,
+      rating: this.state.ratings,
+    })
+      .then((result) => {
+        Config.setToast("Comment Added successfully");
+      })
+      .catch((err) => {
+        console.log(err);
+        Config.setErrorToast("Something went wrong!");
+      });
+  };
+
   onStarClick(nextValue, prevValue, name) {
     this.setState({ ratings: nextValue });
   }
@@ -22,44 +54,23 @@ class CommentSection extends React.Component {
       [e.target.name]: e.target.value,
     });
   };
-
-  onSubmit = (e) => {
-    e.preventDefault();
-    const form = {
-      name: this.state.name,
-      email: this.state.email,
-      ratings: this.state.ratings,
-      Date: new Date().toLocaleString(),
-      ProductId: getProductById,
-    };
-    {
-      /* -----------you would send data to API to get results, I used database for ease, this also clears the form on submit----------------*/
-    }
-    console.log(form);
-    this.setState({
-      name: "",
-      email: "",
-      ratings: "",
-    });
-  };
-
   render() {
     return (
       <div>
-        <form>
+        <form method="POST" onSubmit={(e) => this.onSubmit(e)}>
           <label>
             Name:
             <input
-              name="name"
-              value={this.state.name}
+              name="username"
+              value={this.state.username}
               onChange={(e) => this.handleChange(e)}
             />
           </label>
           <label>
             Email:
             <input
-              name="email"
-              value={this.state.email}
+              name="comment"
+              value={this.state.comment}
               onChange={(e) => this.handleChange(e)}
             />
           </label>
@@ -72,7 +83,8 @@ class CommentSection extends React.Component {
               onChange={(e) => this.handleChange(e)}
             />
           </label>
-          <button onClick={(e) => this.onSubmit(e)}>Send</button>
+          {/* <button onClick={(e) => this.onSubmit(e)}>Send</button> */}
+          <button type="submit">Submit</button>
         </form>
       </div>
     );

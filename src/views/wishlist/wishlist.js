@@ -1,9 +1,30 @@
-import React from "react";
+/*  eslint-disable */
+import React, { Component } from "react";
+import { Link, withRouter } from "react-router-dom";
+import { connect } from "react-redux";
 import MainNavbar from "../../components/MainNavbar";
 import Footer from "../../components/Footer";
 import Config from "../../controllers/Config";
-class Wishlist extends React.Component {
+import moment from "moment";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faTrash, faPlus, faMinus } from "@fortawesome/free-solid-svg-icons";
+import {
+  getCart,
+  updateCartItem,
+  deleteCartItem,
+  cleartCart,
+} from "../../actions/cartActions";
+
+class Cart extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      loading: true,
+    };
+  }
+
   render() {
+    const cart = this.props.cart.cart;
     return (
       <div className="wrapper">
         <MainNavbar></MainNavbar>
@@ -89,5 +110,94 @@ class Wishlist extends React.Component {
       </div>
     );
   }
+
+  renderProductTableItem = (item) => {
+    const product = item.product;
+    let total = parseFloat(product.price) * parseFloat(item.quantity);
+    return (
+      <tr key={product._id}>
+        <td>
+          <img
+            src={Config.setImage(product.images[0])}
+            height={60}
+            className="mr-2 my-2"
+          />
+        </td>
+        <td>
+          <h5 className="form-label-table my-2">
+            {product.name} -{" "}
+            <span className="text-muted">{product.category_name}</span>
+          </h5>
+          <span className="mr-2 border border-muted px-2 text-muted">
+            Size {item.selected_size}
+          </span>
+          {item.selected_color && (
+            <span className="mr-2 border border-muted px-2 text-muted">
+              {item.selected_color}
+            </span>
+          )}
+        </td>
+        <td>
+          <h5 className="form-label-table my-2">LKR {product.price}</h5>
+        </td>
+        <td>
+          <h5 className="form-label-table  my-2">
+            <span
+              onClick={() => this.changeQuantity(item, false)}
+              className="mx-2 border border-muted px-2 py-1 text-muted click"
+            >
+              <FontAwesomeIcon icon={faMinus} />
+            </span>
+            <span>{("0" + item.quantity).slice(-2)}</span>
+            <span
+              onClick={() => this.changeQuantity(item, true)}
+              className="mx-2 border border-muted px-2  py-1 text-muted click"
+            >
+              <FontAwesomeIcon icon={faPlus} />
+            </span>
+          </h5>
+        </td>
+        <td>
+          <h5 className="form-label-table  my-2">
+            LKR {(Math.round(total * 100) / 100).toFixed(2)}
+          </h5>
+        </td>
+        <td>
+          <button
+            className="btn btn-outline-secondary btn-sm px-2 mr-2  my-2"
+            onClick={() => this.onClickDelete(item)}
+          >
+            <FontAwesomeIcon icon={faTrash} />
+          </button>
+        </td>
+      </tr>
+    );
+  };
+
+  NoItemFound = () => (
+    <div className="card shadow-sm border mt-2 py-4">
+      <img
+        src="images/default/no_result.png"
+        className="rounded mx-auto d-block"
+        width={110}
+      />
+      <h5 className="mx-auto text-dark">
+        <b>Sorry</b> , You Cart is Empty !"
+      </h5>
+    </div>
+  );
 }
-export default Wishlist;
+
+const mapStateToProps = (state) => ({
+  cart: state.cart || {},
+  auth: state.auth || {},
+});
+
+const mapDispatchToProps = {
+  getCart,
+  updateCartItem,
+  deleteCartItem,
+  cleartCart,
+};
+
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Cart));
