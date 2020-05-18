@@ -15,7 +15,7 @@ constructor(props){
         loading : true,
         errors : {},
         amount : '',
-        username : 'Jayamadhu Thisun',
+        username : this.props.auth.user.fname + " " + this.props.auth.user.lname,
         addressLine1: '',
         addressLine2: '',
         province: '',
@@ -45,23 +45,26 @@ formValueChange = (e) => {
             selected_color : item.selected_color ? item.selected_color : ""
         }
     })
+
+    console.log("Product Array: ", filtered_products);
     
-    console.log(this.props.auth.user);
+    console.log("User Details: ", this.props.auth.user);
     
     if(this.validate()){
         insertOrder({
             amount : Config.calcualte_total(this.props.cart.cart),
-            userId : this.state.userId, 
+            userId : this.props.auth.user.id,
+            userName: this.state.username, 
             deliveryAddress : `${this.state.addressLine1}, ${this.state.addressLine2}, ${this.state.province}, ${this.state.postalCode}`,
             products: filtered_products,
         })
         .then( result => {
             this.clearAll();
-            Config.setToast(" Category Updated Successfully" );
+            Config.setToast(" Order Placed Successfully" );
         })
         .catch( err => {
             console.log(err);
-            Config.setErrorToast(" Somthing Went Wrong!");
+            Config.setErrorToast("Somthing Went Wrong!");
            
         })
     }
@@ -169,7 +172,8 @@ render(){
                     </form>                   
                     </div>                    
                     <div className="col-md-4" >
-                    <h6 className="form-label py-2">Order Details</h6>
+                        <h6 className="form-label py-2">Order Details</h6>
+                        {this.props.cart.cart.map( item => this.renderOrderDetails(item) )}
                     </div>                    
                 </div>
                 </div>
@@ -228,6 +232,21 @@ clearAll = () => {
         province: '',
         postalCode: '',     
     });
+}
+
+renderOrderDetails = (item) => {
+    console.log("Order item: ", item)
+    return (
+        <div className="card mb-3">
+                <div className="card-body">
+                    <h5 className="card-title">{item.product.name}</h5>
+                    <h6 className="card-subtitle mb-2 text-muted">Price: {item.product.price}</h6>
+                    <h6 className="card-subtitle mb-2 text-muted">Quantity: {item.quantity}</h6>
+                    <h6 className="card-subtitle mb-2 text-muted">Color: {item.selected_color}</h6>
+                    <h6 className="card-subtitle mb-2 text-muted">Size: {item.selected_size}</h6>
+                </div>
+            </div>
+    );
 }
 
 }

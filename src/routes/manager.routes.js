@@ -9,6 +9,7 @@ import UpdateProducts from '../views/admin/admin.update.products'
 import StockManager from "../views/admin/stockmanager/stockmanager";
 import ManagersOffers from "../views/admin/stockmanager/managers.offers"
 import allOrders from "../views/orders/allOrders"
+import moreDetails from "../views/orders/moreDetails"
 
 let managerRoutes = [
     {
@@ -46,8 +47,13 @@ let managerRoutes = [
         name: "manager_orders",
         component: allOrders,
         exact: true,
-    }
-
+    },
+    {
+        path: "/manager/orders/getOrder/:id",
+        name: "manager_orders_update",
+        component: moreDetails,
+        exact: true,
+    },
 ];
 
 export default managerRoutes;
