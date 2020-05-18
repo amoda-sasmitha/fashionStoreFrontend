@@ -1,8 +1,11 @@
 // import myaccount
+
 import MyAccount from "../views/myaccount/myaccount";
 import Cart from "../views/products/cart";
 import Order from "../views/orders/addOrder";
 import Wishlist from "../views/products/wishlist";
+
+import MyOrders from "../views/orders/myOrders";
 
 let loginUserRoutes = [
   // my account  route
@@ -28,6 +31,12 @@ let loginUserRoutes = [
     path: "/order",
     name: "Order",
     component: Order,
+    exact: true,
+  },
+  {
+    path: "/myOrders",
+    name: "My Orders",
+    component: MyOrders,
     exact: true,
   },
 ];
