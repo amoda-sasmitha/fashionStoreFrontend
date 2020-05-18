@@ -1,5 +1,4 @@
-      /*  eslint-disable */
-
+/*  eslint-disable */
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
 import AdminSidebar from '../../../components/AdminSidebar'
@@ -11,14 +10,11 @@ import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
 import Config from "../../../controllers/Config";
 import moment from 'moment'
 import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
-import { faEye, faCircle, faWindowClose , faPlus, faTrash, faBan,  faEnvelope } from '@fortawesome/free-solid-svg-icons'
-import CKEditor from '@ckeditor/ckeditor5-react';
-import ClassicEditor from '@ckeditor/ckeditor5-build-classic';
-import { getAllCategories } from '../../../controllers/Category'
+import { faEye,  faPlusSquare , faTrash} from '@fortawesome/free-solid-svg-icons'
 import Select from 'react-select';
 import makeAnimated from 'react-select/animated';
 import CreatableSelect from 'react-select/creatable';
-import { insertProduct} from '../../../controllers/Products'
+import { getAllProductsSimple} from '../../../controllers/Products'
 import M_Manager from '../../../controllers/Manager'
 import { Modal } from 'react-bootstrap';
 import image from '../../../asserts/Images/user.png'
@@ -34,7 +30,8 @@ class ManagersOffers extends Component {
             title : '',
             stitle : '',
             discount : '',
-            size : '',
+            size : '12',
+            simpleproducts : [],
             category : {},
             categories : [],
             products : [],
@@ -46,41 +43,46 @@ class ManagersOffers extends Component {
         }
     }
 
-    UNSAFE_componentDidMount(){
-
-    }
-
-    UNSAFE_componentWillMount(){
+    componentWillMount(){
+        this.loadProductSimple();
         this.getAllOffers()
-    }
-
-
-
-
-
-    async showOffer(i) {
-        var singleOffer = this.state.offers.filter(offer => offer._id == i);
-        await this.setState({
-            showUserModal: true,
-            viewOffer: singleOffer[0]
+   }
+  
+   loadProductSimple = () => {
+        getAllProductsSimple()
+        .then( result => {
+            this.setState({simpleproducts : result});
         })
-        console.log(this.state.viewOffer);
-        console.log(this.state.viewOffer.product_list[0].value);
+        .catch ( err => {
+            console.log(err);
+        })
+  }
 
+    showOffer(i) {
+        let offer = this.state.offers.filter(offer => offer._id == i)[0];
+        offer.product_list = offer.product_list.map( item => {
+            return this.state.simpleproducts.find( x => x._id == item);
+        })
+        this.setState({
+            showUserModal: true,
+            viewOffer: offer
+        })
     }
-
-
-
-
 
     onFormSubmit = (e) => {
         e.preventDefault();
-
-
         if(this.validate()){
-            M_Manager.addOffers(this.state.title, this.state.stitle,this.state.discount, this.state.size, this.state.products, this.state.files).then( result => {
+            M_Manager.addOffers(
+                this.state.title, 
+                this.state.stitle,
+                this.state.discount, 
+                this.state.size,
+                this.state.products.map(item => item.value),
+                this.state.files)
+            .then( result => {
                 this.clearAll();
                 Config.setToast(" Offer Added Successfully" );
+                this.getAllOffers()
             })
             .catch( err => {
                 console.log(err);
@@ -99,32 +101,34 @@ class ManagersOffers extends Component {
         this.setState({products : newValue });
     };
 
+    formatProducts = () => {
+       return this.state.simpleproducts.map(item => {
+            return{
+                value : item._id,
+                label: <div>{ item.images.length > 0 && 
+                    <img src={Config.setImage(item.images[0])} height="40px" width="40px" 
+                    className="mr-2"/>}
+                    {item.name}</div>
+            }})
+    }
 
     getAllOffers(){
-     M_Manager.getAllOffersDetails().then( result => {
-            
+     M_Manager.getAllOffersDetails()
+        .then( result => { 
             console.log(result.data);
-
             this.setState({
                 offers : result.data
             })
-
         })
         .catch( err => {
             console.log(err);
-            Config.setErrorToast(" Somthing Went Wrong!");
-           
+            Config.setErrorToast(" Somthing Went Wrong!"); 
         })
-
-
-        
-        
     }
 
     render(){
-
-        const { title ,stitle , discount , size , errors, products, offers, viewOffer } = this.state;
-
+        const { title ,stitle , discount , size , errors, 
+            products, simpleproducts , offers, viewOffer } = this.state;
         return(
             <div className="bg-light wd-wrapper">
                 <AdminSidebar active={"offers"}/>
@@ -139,7 +143,7 @@ class ManagersOffers extends Component {
                                 </h5>
                             </div>
                             <div className="col-12">
-                                <div className="card border-0 shadow-sm rounded mt-3 bg-white pb-3 mb-5">
+                                <div className="card border-0 shadow-sm rounded mt-3 bg-white pb-3 mb-3">
                                     <form className="py-2  px-3" method="POST" onSubmit={(e) => this.onFormSubmit(e)}>
                                         <div className="row">
 
@@ -197,22 +201,22 @@ class ManagersOffers extends Component {
 
 
                                             {/*---------Product sizes--------------  */}
-                                            <div className="col-md-6 mt-2">
+                                            <div className="col-md-12 mt-2">
                                                 <h6 className="form-label py-2">Products</h6>
-                                                <Select
+                                                { simpleproducts.length > 0 && <Select
                                                     closeMenuOnSelect={false}
                                                     components={animatedComponents}
                                                     isMulti
                                                     defaultValue={this.state.products}
                                                     onChange={this.handleChangeSizes}
                                                     placeholder="Select Products"
-                                                    options={Sizes}
-                                                />
+                                                    options={this.formatProducts()}
+                                                />}
                                                 { errors.sizes && errors.sizes.length > 0 &&
                                                 <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.sizes}</h4>}
                                             </div>
                                             {/* Images------------------------------------ */}
-                                            <div className="col-md-12 mt-3">
+                                            <div className="col-md-12 mt-2">
                                                 <h6 className="form-label py-2">Add Banner</h6>
                                                 <FilePond
                                                     ref={ref => (this.pond = ref)}
@@ -231,7 +235,7 @@ class ManagersOffers extends Component {
                                             <div className="col-md-12 mt-2">
                                                 <div className="d-flex">
                                                     <button className="px-4 btn btn-dark  btn-sm bold-normal" type="submit">
-                                                        <FontAwesomeIcon  icon={faPlus} /> Add Offer</button>
+                                                        <FontAwesomeIcon  icon={faPlusSquare} /> Add Offer</button>
                                                 </div>
                                             </div>
                                         </div>
@@ -240,8 +244,8 @@ class ManagersOffers extends Component {
                             </div>
                             {/* -----------------------------view offers------------------------------ */}
                             <div className="col-12">
-                                <div className="card border-0 shadow-sm rounded mt-3 bg-white pb-2">
-                                    <h5 className="text-dark bold-normal py-2 bg-white px-2">
+                                <div className="card border-0 shadow-sm rounded bg-white pb-2">
+                                    <h5 className="text-dark bold-normal pb-2 pt-3 bg-white px-2">
                                         All Offers
                                     </h5>
                                     <div className="table-responsive px-2">
@@ -272,64 +276,37 @@ class ManagersOffers extends Component {
                     centered
                     onHide={() => this.setState({ showUserModal: false })}
                 >
-                    <Modal.Header closeButton>
-                        <Modal.Title>View Offer</Modal.Title>
+                    <Modal.Header className="my-0 px-2 py-1" closeButton>
                     </Modal.Header>
                     <Modal.Body>
                         <div className="row">
+                            { viewOffer && viewOffer.banner_image && 
+                            <div className="col-md-5">
+                                <img src={Config.setImage(viewOffer.banner_image)} className="rounded" />
+                            </div>       
+                            }       
+                            <div className="col-md-7">
+                            <h6 className="form-label pb-1">Title & subtitle</h6>
+                            <h6 className="form-label text-muted">{viewOffer.title}</h6>
+                            <h6 className="form-label text-muted">( {viewOffer.subtitle} )</h6>
+                            
+                            <h6 className="form-label pt-3 pb-1">Discount Rate</h6>
+                            <h6 className="form-label text-muted">{viewOffer.discount}%</h6>
+
+                            <h6 className="form-label pt-3 pb-1">Created Date</h6>
+                            <h6 className="form-label text-muted">{moment(new Date(viewOffer.created_at)).format('YYYY MMM DD')}</h6>
+                            </div>              
+                        </div>
+                        <div className="row">
                             <div className="col-md-12">
-
-                                <div className="IS_UI_profilePic" >
-                                        <center>
-                                    <div className="img-fluid" style={{width:'50%'}}>
-                                        <img src={viewOffer.banner_image == undefined || viewOffer.banner_image == null ? image : `${Config.host}${Config.port}/${viewOffer.banner_image}`} alt="lucidex user" />
-                                    </div>
-                                        </center>
-                                </div>
-
-                            </div>
-                            <div className="col-md-12">
-                                <div className="row">
-                                    <div className="col-md-12"><h5 className="card-title"> < b>Details </b></h5></div>
-                                    <div className="col-md-6">
-                                        <p><b>Title : </b> {viewOffer.title} </p>
-                                    </div>
-
-                                    <div className="col-md-6"> <p><b>Subtitle : </b>   {viewOffer.subtitle}</p></div>
-                                    <div className="col-md-12"> <p><b>Product List : </b>   </p></div>
-
-                                    {/* {viewOffer.product_list[0].label} */}
-
-                                    {/* {viewOffer.product_list.map((data, i) => { return (   <p  key={i}>{data.label} </p>)    })} */}
-
-
-
-
-                                    <div className="col-md-6"> <p><b>Discount  : </b>   {viewOffer.discount}</p></div>
-                                    <div className="col-md-6"> <p><b>Size  : </b>   {viewOffer.size}</p></div>
-
-                                    <div className="col-md-6">
-                                        <p><b>Created At  : </b>  {moment(new Date(viewOffer.created_at)).format('YYYY MMM DD')}</p>
-
-                                    </div>
-                                    <div className="col-md-6">
-                                        <p><b>Updated  At  : </b>  {moment(new Date(viewOffer.updated_at)).format('YYYY MMM DD')}</p>
-
-                                    </div>
-                                </div>
-                            </div>
-                            <div className="col-md-12">
-                                <center>
-                                    <button className="btn btn-danger btn-sm px-2 mr-2 mt-1">
-                                        <FontAwesomeIcon icon={faTrash} /> Remove
-                                      </button>
-                                    {/* <button className="btn btn-info btn-sm px-2 mr-2 mt-1">
-                                        <FontAwesomeIcon icon={faEnvelope} /> Email
-                               </button> */}
-                                </center>
+                            <h6 className="form-label pt-2 pb-1">List of Products</h6>
+                            {viewOffer.product_list && viewOffer.product_list.map( item => 
+                                <div className="bg-light my-2 p-1">{ item.images.length > 0 && 
+                                <img src={Config.setImage(item.images[0])} height="40px" width="40px" 
+                                className="mr-2"/>}
+                                {item.name}</div> )}
                             </div>
                         </div>
-
                     </Modal.Body>
                 </Modal>
                 </div>
@@ -339,28 +316,49 @@ class ManagersOffers extends Component {
 
 
     displayAllUsers = item => {
-
         return (
             <tr key={item._id}>
-    
-                <td><b>{item.title} </b></td>
-                <td>{item.discount}</td>
-                <td>{moment(new Date(item.created_at)).format('YYYY MMM DD')}</td>
+                <td><h6>{item.title}</h6></td>
+                <td><h6>{item.discount}%</h6></td>
+                <td><h6>{moment(new Date(item.created_at)).format('YYYY MMM DD')}</h6></td>
                 <td>
                     <button className="btn btn-success btn-sm px-2 mr-2 mt-1" onClick={() => this.showOffer(item._id)}>
-                        <FontAwesomeIcon icon={faEye}  /> View
-                    </button>
-                    {/* <button className="btn btn-danger btn-sm px-2 mr-2 mt-1">
-                                        <FontAwesomeIcon icon={faTrash} /> Remove
-                                      </button> */}
-    
-    
+                        <FontAwesomeIcon icon={faEye}  /> More Details
+                    </button>    
+                    <button className="btn btn-danger btn-sm px-2 mr-2 mt-1" onClick={() => this.deleteOffer(item._id)}>
+                        <FontAwesomeIcon icon={faTrash}  />
+                    </button>    
                 </td>
             </tr>
         );
     }
     
+    deleteOffer = item => {
+        Config.setDeleteConfirmAlert(
+            "", 
+            "This process can't be undone. Are you sure you want to delete this offer ? ",
+            () => this.clickDeleteOffer(item) ,
+            () => {}
+        )
+    }
 
+    clickDeleteOffer = id => {
+        let offer = this.state.offers.filter(offer => offer._id == id)[0];
+        let product_list = offer.product_list.map( item => {
+            let p =  this.state.simpleproducts.find( x => x._id == item);
+            return p._id
+        })
+
+        M_Manager.deleteOfferWithProducts(id , product_list )
+            .then( result => {
+                this.getAllOffers()
+                Config.setToast("Offer Deleted Successfully" );
+            })
+            .catch( err => {
+                console.log(err);
+                Config.setErrorToast(" Somthing Went Wrong!");
+            })
+    } 
 
     validate = () => {
         let { errors , title ,stitle , discount,
@@ -410,14 +408,12 @@ class ManagersOffers extends Component {
             stitle : '',
             size : '',
             discount : '',
+            products : [],
             sizes : [],
             files : [] ,
             errors : {} ,
         });
     }
 }
-const Sizes = [ { value: 'FA001', label: 'FA001' }, { value: 'FA002', label: 'FA002' },
-    { value: 'FA003', label: 'FA003' },{ value: 'FA004', label: 'FA004' },{ value: 'FA005', label: 'FA005' },
-]
 
 export default ManagersOffers;

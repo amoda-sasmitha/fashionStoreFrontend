@@ -28,10 +28,15 @@ class ProductItem extends React.Component {
                     <a href="#">
                      <h5>{item.name}</h5>
                     </a>
-                    <div className="product-price">
+                    { item.discount && item.discount > 0 && item.discount < 100 ? 
+                        <div className="product-price">
+                        {`LKR ${Config.setDiscountedPrice(item.price , item.discount )}`}
+                     { item.discount && <span>{item.price}</span> }
+                    </div> 
+                    :<div className="product-price">
                         {`LKR ${item.price}`}
-                     { item.discount && <span>{item.discount}</span> }
-                    </div>
+                    </div> 
+                    }
                 </div>
             </div>
         </div>

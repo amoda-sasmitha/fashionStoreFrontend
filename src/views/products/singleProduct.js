@@ -11,6 +11,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addtocart, updateCartItem } from "../../actions/cartActions";
 import CommentSection from "../../components/commentSection";
+import {Link} from 'react-router-dom'
 
 class SingleProduct extends Component {
   constructor(props) {
@@ -169,10 +170,13 @@ class SingleProduct extends Component {
                     </h4>
                   </div>
                   <div className="pd-desc mt-2">
-                    <h5>
-                      <b>LKR {product.price}</b>
-                      {product.discount && <span>{product.discount}</span>}
-                    </h5>
+                    { product.discount && product.discount > 0 && product.discount < 100 ?  
+                      <h5>
+                        <b>LKR {Config.setDiscountedPrice(product.price , product.discount )}</b>
+                        {<span>{product.price}</span>}
+                      </h5>
+                      :<h5><b>LKR {product.price}</b> </h5>
+                    }
                   </div>
                   {product.colors && product.colors.length > 0 && (
                     <div className="pd-color">
@@ -241,9 +245,9 @@ class SingleProduct extends Component {
                     </span>
                   </div>
                   <ul className="pd-tags">
-                    <li>
+                    <Link to={`/Categories/${product.category_name}`} className="click"><li>
                       <span>CATEGORIES</span>: {product.category_name}
-                    </li>
+                    </li></Link>
                     <li>
                       <span>TAGS</span>:{" "}
                       {product.tags &&
