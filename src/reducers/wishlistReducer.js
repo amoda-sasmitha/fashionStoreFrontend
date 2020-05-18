@@ -1,4 +1,4 @@
-import { GET_CART, GET_WISHLIST } from "../actions/types";
+import { GET_WISHLIST } from "../actions/types";
 
 const initialState = {
   wishlist: [],

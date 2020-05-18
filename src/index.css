@@ -57,4 +57,12 @@ code {
   color: #c59b08;
 }
 
+.heart {
+  color: "#E4002B";
+}
+
+.clicked {
+  color: "#E4002B";
+  background: "red";
+}
 /* ==================Rating CSS ends here - Osanda====================*/
