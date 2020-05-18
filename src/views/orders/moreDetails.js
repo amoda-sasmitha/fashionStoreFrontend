@@ -46,6 +46,7 @@ export class MoreDetails extends Component {
                 products: result.products,
                 deleteRequest: result.deleteRequest,
                 userId: result.userId,
+                userName: result.userName,
                 shipped: result.shipped,
             });
         })
@@ -95,7 +96,7 @@ export class MoreDetails extends Component {
     }
 
     render() {
-        const {amount, deliveryAddress, userId, date, products, deleteRequest, shipped} = this.state;
+        const {amount, deliveryAddress, userId, userName, date, products, deleteRequest, shipped} = this.state;
         
         return(
             <div className="bg-light wd-wrapper">
@@ -127,7 +128,7 @@ export class MoreDetails extends Component {
                                     <input 
                                         type="text" 
                                         name="username"
-                                        value={userId}
+                                        value={userName}
                                         onChange={ (e) => this.formValueChange(e)}
                                         placeholder="User Name"
                                         className="form-control" readOnly />

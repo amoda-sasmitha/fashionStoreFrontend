@@ -53,7 +53,8 @@ formValueChange = (e) => {
     if(this.validate()){
         insertOrder({
             amount : Config.calcualte_total(this.props.cart.cart),
-            userId : this.state.userId, 
+            userId : this.props.auth.user.id,
+            userName: this.state.username, 
             deliveryAddress : `${this.state.addressLine1}, ${this.state.addressLine2}, ${this.state.province}, ${this.state.postalCode}`,
             products: filtered_products,
         })

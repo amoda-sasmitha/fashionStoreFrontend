@@ -38,7 +38,7 @@ class allOrders  extends Component {
    getStyle = (item) => {
         console.log("Get Style: ", item.deleteRequest);   
         return {
-            backgroundColor: item.deleteRequest ? '#ffa1a1' : '#f4f4f4',
+            backgroundColor: item.deleteRequest ? '#ffa1a1' : '#FFFFFF',
         }
     }   
 
@@ -96,7 +96,7 @@ class allOrders  extends Component {
                 <td>
                     <h6 className="form-label">LKR {item.amount}</h6>
                 </td>
-                <td>{item.userId }</td>
+                <td>{item.userName}</td>
                 <td>{item.deliveryAddress }</td>
                 <td>
                     <button className="btn btn-dark btn-sm px-2 mr-2" onClick={() => this.onClickView(item)}>

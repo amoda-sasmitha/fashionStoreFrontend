@@ -77,3 +77,20 @@ export const deleteOrder = id => {
             })
     })
 }
+
+export const getOrdersByUserId = id => {
+    
+    return new Promise( (resolve,reject) => {
+        return axios.get(`${Config.host}${Config.port}/order/get/${id}`)
+            .then( result => {
+               if(result.data.code == 200){
+                    resolve(result.data.data)
+               }else{
+                resolve([])
+               }
+            })
+            .catch( err => {
+                reject(err)
+            })
+    })
+}
