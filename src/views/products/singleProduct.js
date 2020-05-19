@@ -11,7 +11,12 @@ import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addtocart, updateCartItem } from "../../actions/cartActions";
 import CommentSection from "../../components/commentSection";
+
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faHeart, faHeartBroken } from "@fortawesome/free-solid-svg-icons";
+
 import {Link} from 'react-router-dom'
+
 
 class SingleProduct extends Component {
   constructor(props) {
@@ -29,6 +34,7 @@ class SingleProduct extends Component {
 
   componentDidMount() {
     this.loadProducts();
+    console.log(this.props);
   }
 
   loadProducts = () => {
@@ -48,44 +54,50 @@ class SingleProduct extends Component {
   };
 
   addtoCart = () => {
-      const {product , selected_color , selected_size , quantity } = this.state;
-      const cart = this.props.cart.cart;
-       if ( this.props.auth.isAuthenticated ){
-        if(this.validate()){
-            let index = this.checkInCart();
-            if( index == -1 ){
-              //insert to redux store and database
-              this.props.addtocart({
-                  product_id : product._id ,
-                  quantity : quantity,
-                  selected_color : selected_color,
-                  selected_size : selected_size
-              }, this.props.auth.user.id)
-              .then( result => {
-                Config
-                .setToast(`${product.name} Added to Cart`)
-                this.props.history.push("/cart");
-              })
-              .catch( err => {
-                  console.log(err)
-              })
-            }else{
-              //update item in redux store and database
-              let item = cart[index];
-              this.props.updateCartItem({
-                id : item._id,
-                quantity : parseInt(quantity) + parseInt(item.quantity),
-              } , this.props.auth.user.id )
-              .then( result => {
-                Config
-                .setToast(`Update Quantity in ${product.name}`)
-                this.props.history.push("/cart");
-              })
-              .catch( err => {
-                  console.log(err)
-              })
-            }
+    const { product, selected_color, selected_size, quantity } = this.state;
+    const cart = this.props.cart.cart;
+    if (this.props.auth.isAuthenticated) {
+      if (this.validate()) {
+        let index = this.checkInCart();
+        if (index == -1) {
+          //insert to redux store and database
+          this.props
+            .addtocart(
+              {
+                product_id: product._id,
+                quantity: quantity,
+                selected_color: selected_color,
+                selected_size: selected_size,
+              },
+              this.props.auth.user.id
+            )
+            .then((result) => {
+              Config.setToast(`${product.name} Added to Cart`);
+              this.props.history.push("/cart");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
+        } else {
+          //update item in redux store and database
+          let item = cart[index];
+          this.props
+            .updateCartItem(
+              {
+                id: item._id,
+                quantity: parseInt(quantity) + parseInt(item.quantity),
+              },
+              this.props.auth.user.id
+            )
+            .then((result) => {
+              Config.setToast(`Update Quantity in ${product.name}`);
+              this.props.history.push("/cart");
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         }
+      }
     } else {
       this.props.history.push("/signin");
     }
@@ -167,6 +179,10 @@ class SingleProduct extends Component {
                       className="text-dark"
                     >
                       {product.name}
+                      <FontAwesomeIcon
+                        icon={faHeartBroken}
+                        className="mx-2 text-muted"
+                      />
                     </h4>
                   </div>
                   <div className="pd-desc mt-2">
@@ -371,15 +387,16 @@ class SingleProduct extends Component {
   };
 }
 
-const mapStateToProps = state => ({
-    cart : state.cart || {} ,
-    auth : state.auth || {} ,
-  });
-  
-  const mapDispatchToProps = {
-    addtocart,
-    updateCartItem
-  };
+const mapStateToProps = (state) => ({
+  cart: state.cart || {},
+  auth: state.auth || {},
+  wishlist: state.wishlist || {},
+});
+
+const mapDispatchToProps = {
+  addtocart,
+  updateCartItem,
+};
 
 export default connect(
   mapStateToProps,
