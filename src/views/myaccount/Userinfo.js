@@ -67,6 +67,7 @@ class Userinfo extends Component {
 
       latlgonDate: '',
       browser: '',
+      deletePassword:''
     };
 
 
@@ -80,6 +81,38 @@ class Userinfo extends Component {
   //   await this.getUserDetails();
   //   await this.getLastLoginDetails();
   // }
+onChangeDeletPassword(e){
+  this.setState({
+    deletePassword:e.target.value
+  })
+}
+  async deleteUser(event) {
+    const user = this.props.auth.user;
+    console.log(user);
+    
+    if(this.state.deletePassword != null || this.state.deletePassword != undefined) {
+      event.preventDefault()
+    var status = await C_User.deleteUserFunction(user.email, this.state.deletePassword ,user.token);
+    switch (status) {
+      case 200:
+         await C_Config.showAlert("Delete Success", "Done !");
+      
+         await  this.props.SignOut && this.props.SignOut();
+         await   C_User.signOut();
+           
+        await this.props.history.push('/')
+        break;
+      case 401:
+        C_Config.showAlert("No user found in this email", "Warning");
+        break;
+      case 409:
+        break;
+      default:
+        C_Config.showAlert("Somthing went wrong, Try again");
+        break;
+      }
+    }
+  }
 
   async componentDidMount(){
     await this.getUserDetails();
@@ -115,12 +148,16 @@ class Userinfo extends Component {
         break;
       case 401:
         C_Config.showAlert("No user found in this email", "Warning");
+        await this.props.history.push('/')
+
         break;
       case 409:
-        window.location.replace("/signin");
+        await this.props.history.push('/')
         break;
       default:
         C_Config.showAlert("Somthing went wrong, Try again");
+        await this.props.history.push('/')
+
         break;
     }
   }
@@ -296,6 +333,9 @@ class Userinfo extends Component {
   // =============== Functions        End   =============== 
   // ======================================================== 
   render() {
+    console.log(this.state.profilepic);
+    console.log(this.state.picsrc);
+    
     return (
       <div className="ISS_acc_page">
          {this.state.loading ? <Loading /> : null}
@@ -305,7 +345,12 @@ class Userinfo extends Component {
         <div className="IS_UI_profilePic">
           {/* profilePic */}
           <div className="profilePicture">
-            <img src={this.state.profilepic != undefined ? image : `${C_Config.host}${C_Config.port}/${this.state.picsrc}`} alt="lucidex user" />
+            {/* {
+              this.state.picsrc  == null  ? <img src={image}   alt="lucidex user" /> :  <img src={ `${C_Config.host}${C_Config.port}/${this.state.picsrc}`}  alt="lucidex user" />
+            } */}
+            <img src={this.state.picsrc == undefined ? image : `${C_Config.host}${C_Config.port}/${this.state.picsrc}`}  alt="lucidex user" />
+          
+            {/* <img src={this.state.profilepic == null ? image :`${C_Config.host}${C_Config.port}/${this.state.picsrc}`}   alt="lucidex user" /> */}
             <button
               onClick={() => this.showProfilePicModal()}
               className="changeButton"
@@ -523,7 +568,7 @@ class Userinfo extends Component {
             <Modal.Title>Delete Account</Modal.Title>
           </Modal.Header>
           <Modal.Body>
-            <form onSubmit={event => this.handleDelete(event)} noValidate>
+            <form onSubmit={event => this.deleteUser(event)} noValidate>
               <div className="IS_UI_DeleteModal">
                 <p>
                   Hey {this.state.fname} {this.state.lname} , <br />
@@ -532,9 +577,9 @@ class Userinfo extends Component {
                   account will be removed. Are you sure you want to do this?
                     </p>
                 <label>Password</label>
-                <input type="password" name="uPass" />
+                <input type="password" name="uPass"  value={this.state.deletePassword} onChange={(e) => this.onChangeDeletPassword(e)}/>
                 <br />
-                <button className="bnt_User_infor_delte">Delete Account</button>
+                <button type="submit" className="bnt_User_infor_delte" >Delete Account</button>
               </div>
             </form>
           </Modal.Body>

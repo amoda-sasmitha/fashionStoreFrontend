@@ -26,7 +26,8 @@ class User {
             profilepic: "/user/u/pp/up",
             getSpecificUser: "/user/u/my/user",
             chengeusername: "/user/u/my/uname",
-            getLstLOgindetails: "/user/get/l/login/user"
+            getLstLOgindetails: "/user/get/l/login/user",
+            deleteUser : "/user/d/r/ur"
 
         };
     }
@@ -532,6 +533,73 @@ class User {
 
         console.log(resp);
 
+
+        return resp;
+
+    }
+    // ======================================================= ================================================================================================================
+    // ===============  delete user     ===============================================================================================================
+    // ======================================================== ================================================================================================================
+
+    async deleteUserFunction(email, passowrd, token) {
+        var requestData_salt = {
+            uEmail: email
+        };
+        var resp = 600;
+        var userSalt = "";
+        await Axios.post(
+            `${Config.host}${Config.port}${this.api.getsalt}`,
+            requestData_salt
+        )
+            .then(Response => {
+                resp = Response.status;
+                userSalt = Response.data._user_salt;
+            })
+            .catch(err => {
+                console.error(err);
+                try {
+                    resp = err.response.status;
+                } catch (error) {
+                    resp = 600;
+                }
+            });
+
+        if (resp !== 200) {
+            return resp;
+        }
+        //=============================== first get slat for specific user end    ===================================== 
+        //=============================== hashed user passowrd          start     =====================================
+        var hashedPass = Crypto.SHA256(userSalt + passowrd).toString();
+
+
+        var requestData2 = {
+            uEmail: email,
+            uPass: hashedPass,
+            token: token
+        }
+
+        var resp = 500;
+
+
+
+        await Axios.post(
+            `${Config.host}${Config.port}${this.api.deleteUser}`,
+            requestData2,
+
+        )
+            .then((Response) => {
+                resp = Response.status;
+
+            })
+            .catch((err) => {
+                console.error(err);
+
+                try {
+                    resp = err.response.status;
+                } catch (error) {
+                    resp = 600;
+                }
+            });
 
         return resp;
 
