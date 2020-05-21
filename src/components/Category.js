@@ -30,7 +30,8 @@ class Category extends Component {
             <div className="row">
               <div className="col-lg-3 col-12 order-2 order-lg-1 produts-sidebar-filter">
                 <div className="row d-none d-lg-block">
-                  <this.FilterItems />
+                  <h3>This is Filter</h3>
+                  {/* <this.FilterItems /> */}
                 </div>
               </div>
               <div className="col-lg-9 col-md-12 order-1 order-lg-2">
