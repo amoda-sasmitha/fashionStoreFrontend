@@ -120,8 +120,9 @@ class Category extends Component {
   // );
 
   FilterItems = () => (
-    <>
-      <div className="filter-widget filter-widget-border col-lg-12  col-sm-12 ">
+    <div>
+      {/* <div className="filter-widget filter-widget-border col-lg-12  col-sm-12 "> */}
+      <div className="col-lg-12  col-sm-12 ">
         <this.renderBrand />
       </div>
       <div className="filter-widget filter-widget-border  col-lg-12  col-sm-12">
@@ -130,19 +131,27 @@ class Category extends Component {
       <div className="filter-widget filter-widget-border  col-lg-12  col-sm-12">
         {/* <this.renderTags /> */}
       </div>
-    </>
+    </div>
   );
 
   renderBrand = () => {
+  console.log("Brands");
+  console.log(this.props.brands);
+  console.log("Selected _brand");
+  
+      
     const { selected_brands } = this.state;
+    console.log(selected_brands);
     return (
       <div>
-        <h4 className="fw-title">Brand</h4>
-        <div className="fw-brand-check">
+        {/* <h4 className="fw-title">Brand</h4>
+        <div className="fw-brand-check"> */}
+        <h4 className="">Brand</h4>
+        <div className="">
           {this.props.brands.map((item, i) => (
             <div
               key={i}
-              className="bc-item"
+              // className="bc-item"
               onClick={() => this.clickBrand(item)}
             >
               <label >
