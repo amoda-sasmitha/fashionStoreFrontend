@@ -61,6 +61,8 @@ export class MoreDetails extends Component {
 
     onFormSubmit = (e) => {
         e.preventDefault();
+
+        //this.props.history.push("/manager/orders");
         
         console.log("Order ID: ", this.state.id);
         if(this.validate()){
