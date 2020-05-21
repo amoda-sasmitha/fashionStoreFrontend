@@ -19,6 +19,19 @@ class Category extends Component {
     };
   }
 
+
+
+
+  async componentWillMount(){
+      await this.renderBrand()
+     await  this.FilterItems()
+  }
+
+
+
+
+
+
   toggleFilterMenu = () =>
     this.setState({ filter_menu_expand: !this.state.filter_menu_expand });
 
@@ -31,7 +44,7 @@ class Category extends Component {
               <div className="col-lg-3 col-12 order-2 order-lg-1 produts-sidebar-filter">
                 <div className="row d-none d-lg-block">
                   {/* <h3>This is Filter</h3> */}
-                  <this.FilterItems />
+                  {this.FilterItems() }
                 </div>
               </div>
               <div className="col-lg-9 col-md-12 order-1 order-lg-2">
@@ -124,7 +137,7 @@ class Category extends Component {
     <div>
       <div className="filter-widget filter-widget-border col-lg-12  col-sm-12 ">
       {/* <div className="col-lg-12  col-sm-12 "> */}
-        <this.renderBrand />
+        {this.renderBrand() }
       </div>
       <div className="filter-widget filter-widget-border  col-lg-12  col-sm-12">
         {/* <this.renderSizes /> */}
@@ -136,11 +149,11 @@ class Category extends Component {
   );
 
   renderBrand = () => {
-    console.log(this.props);
+  //   console.log(this.props);
     
-  console.log("Brands");
-  console.log(this.props.brands);
-  console.log("Selected _brand");
+  // console.log("Brands");
+  // console.log(this.props.brands);
+  // console.log("Selected _brand");
   
       
     const { selected_brands } = this.state;
