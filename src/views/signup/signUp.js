@@ -141,7 +141,8 @@ componentWillMount(){
                 case 201:
                     await C_Config.showAlert("Please check your email", "Done!");
                   
-                    this.props.history.push('/signin')
+                    this.props.history.push('/')
+                    // this.props.history.push('/signin')
 
                     await this.setState({ loading: false })
                     // reset form

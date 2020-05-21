@@ -26,7 +26,8 @@ class User {
             getAllUserBrowserDetial: "/admin/g/all/users/logins",
             getAllUserTImeDetial: "/admin/g/all/users/time",
             getUserStats: "/admin/g/user/stat",
-            getMonthBase: "/admin/g/user/months"
+            getMonthBase: "/admin/g/user/months",
+            deleteManager:"/admin/del/man",
 
 
         };
@@ -297,7 +298,24 @@ class User {
                 })
         })
     }
+    deleteManager = (email, token) => {
 
+        var requestData = {
+            managerEmail: email,
+            token: token
+        }
+        return new Promise((resolve, reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.deleteManager}`, requestData)
+                .then(result => {
+                    resolve({ code: 200, data: result.data })
+                })
+                .catch(err => {
+                    reject({ code: 0, error: err })
+                })
+        })
+    }
+
+    
 
 
 

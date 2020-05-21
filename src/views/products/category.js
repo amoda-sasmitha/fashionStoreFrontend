@@ -1,3 +1,4 @@
+/*  eslint-disable */
 import React, { Component } from "react";
 import MainNavbar from "../../components/MainNavbar";
 import CategorySection from "../../components/Category";

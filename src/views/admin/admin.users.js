@@ -60,10 +60,10 @@ class AdminManagers extends Component {
         var monthandusers = this.state.monthBaseUsers;
         var months = [];
         var user = [];
-        var year = monthandusers[0].year
+         var year = monthandusers[0].year
         console.log(monthandusers)
-        for (var i = 0; i < monthandusers.length; i++) {
-            months[i ] = monthandusers[i].month;
+         for (var i = 0; i < monthandusers.length; i++) {
+             months[i ] = monthandusers[i].month;
             user[i ] = monthandusers[i].usersCount;
         }
 
@@ -73,8 +73,8 @@ class AdminManagers extends Component {
             MonthBasedYear: year
         })
 
-        console.log(this.state.monthBaseMonths)
-        console.log(this.state.userUsage)
+        // console.log(this.state.monthBaseMonths)
+        // console.log(this.state.userUsage)
     }
 
 
@@ -258,7 +258,7 @@ class AdminManagers extends Component {
                             <div className="col-12" style={{ display: this.state.addManagerState == true ? 'block' : 'none' }}>
                                 <div className="card border-0 shadow-sm rounded mt-3 bg-white pb-2">
                                     <div className="row m-1 p-1">
-                                        <div className="col-md-4 mt-2 ">
+                                        <div className="col-md-6 mt-2 ">
                                             <div className="card" >
                                                 <div className="card-body">
                                                     {users.length < 10 ? <h5 className="card-title">0{users.length}</h5> : <h5 className="card-title">{users.length}</h5>}
@@ -267,22 +267,22 @@ class AdminManagers extends Component {
                                                 </div>
                                             </div>
                                         </div>
-                                        <div className="col-md-4  mt-2">
+                                        <div className="col-md-6  mt-2">
                                             <div className="card" >
                                                 <div className="card-body">
-                                                    <h5 className="card-title">10</h5>
+                                                    <h5 className="card-title">05</h5>
                                                     <h6 className="card-subtitle mb-2 text-muted">New Users</h6>
 
                                                 </div>
                                             </div> </div>
-                                        <div className="col-md-4  mt-2">
+                                        {/* <div className="col-md-4  mt-2">
                                             <div className="card" >
                                                 <div className="card-body">
                                                     <h5 className="card-title">02</h5>
                                                     <h6 className="card-subtitle mb-2 text-muted">Ban Users</h6>
 
                                                 </div>
-                                            </div></div>
+                                            </div></div> */}
                                     </div>
                                 </div>
                                 {/* charts --------------- */}
@@ -435,12 +435,12 @@ class AdminManagers extends Component {
                             </div>
                             <div className="col-md-12">
                                 <center>
-                                    <button className="btn btn-danger btn-sm px-2 mr-2 mt-1">
+                                    {/* <button className="btn btn-danger btn-sm px-2 mr-2 mt-1">
                                         <FontAwesomeIcon icon={faBan} /> Block
-                                      </button>
-                                    <button className="btn btn-info btn-sm px-2 mr-2 mt-1">
-                                        <FontAwesomeIcon icon={faEnvelope} /> Email
-                               </button>
+                                      </button> */}
+                                    <a className="btn btn-info btn-sm px-2 mr-2 mt-1" href={`mailto:${viewUser.email}`} >
+                                        <FontAwesomeIcon icon={faEnvelope} /> Send Email
+                               </a>
                                 </center>
                             </div>
                         </div>
