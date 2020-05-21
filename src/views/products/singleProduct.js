@@ -10,13 +10,12 @@ import User from "../../controllers/User";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
 import { addtocart, updateCartItem } from "../../actions/cartActions";
+import { addtoWishlist } from "../../actions/wishlistAction";
 import CommentSection from "../../components/commentSection";
 
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faHeart, faHeartBroken } from "@fortawesome/free-solid-svg-icons";
-
-import {Link} from 'react-router-dom'
-
+import { faHeart } from "@fortawesome/free-solid-svg-icons";
+import { Link } from "react-router-dom";
 
 class SingleProduct extends Component {
   constructor(props) {
@@ -103,6 +102,34 @@ class SingleProduct extends Component {
     }
   };
 
+  addtoWishlist = () => {
+    const { product } = this.state;
+    const wishlist = this.props.wishlist.wishlist;
+
+    if (this.props.auth.isAuthenticated) {
+      let index = this.checkInWishlist();
+      if (index == -1) {
+        //insert to redux store and database
+        this.props
+          .addtoWishlist(product._id, this.props.auth.user.id)
+          .then((result) => {
+            Config.setToast(`${product.name} Added to wishlist`);
+            this.props.history.push("/wishlist");
+          })
+          .catch((err) => {
+            console.log(err);
+            console.log("methanata pss wenne. error rka : " + err);
+          });
+      } else {
+        //alert("already in");
+        //this.props.deleteitem;
+        //config toast => item remove
+      }
+    } else {
+      this.props.history.push("/signin");
+    }
+  };
+
   checkInCart = () => {
     const { product, selected_color, selected_size, quantity } = this.state;
     const cart = this.props.cart.cart;
@@ -121,6 +148,17 @@ class SingleProduct extends Component {
         }
       }
       return false;
+    });
+  };
+  checkInWishlist = () => {
+    const { product } = this.state;
+    const wishlist = this.props.wishlist.wishlist;
+    return wishlist.findIndex((item) => {
+      if (item.product._id == product._id) {
+        return true;
+      } else {
+        return false;
+      }
     });
   };
 
@@ -180,19 +218,35 @@ class SingleProduct extends Component {
                     >
                       {product.name}
                       <FontAwesomeIcon
-                        icon={faHeartBroken}
-                        className="mx-2 text-muted"
+                        icon={faHeart}
+                        onClick={this.addtoWishlist}
+                        className={`mx-2  ${
+                          this.checkInWishlist() == -1
+                            ? "text-muted"
+                            : "text-danger"
+                        } click`}
                       />
                     </h4>
                   </div>
                   <div className="pd-desc mt-2">
-                    { product.discount && product.discount > 0 && product.discount < 100 ?  
+                    {product.discount &&
+                    product.discount > 0 &&
+                    product.discount < 100 ? (
                       <h5>
-                        <b>LKR {Config.setDiscountedPrice(product.price , product.discount )}</b>
+                        <b>
+                          LKR{" "}
+                          {Config.setDiscountedPrice(
+                            product.price,
+                            product.discount
+                          )}
+                        </b>
                         {<span>{product.price}</span>}
                       </h5>
-                      :<h5><b>LKR {product.price}</b> </h5>
-                    }
+                    ) : (
+                      <h5>
+                        <b>LKR {product.price}</b>{" "}
+                      </h5>
+                    )}
                   </div>
                   {product.colors && product.colors.length > 0 && (
                     <div className="pd-color">
@@ -261,9 +315,14 @@ class SingleProduct extends Component {
                     </span>
                   </div>
                   <ul className="pd-tags">
-                    <Link to={`/Categories/${product.category_name}`} className="click"><li>
-                      <span>CATEGORIES</span>: {product.category_name}
-                    </li></Link>
+                    <Link
+                      to={`/Categories/${product.category_name}`}
+                      className="click"
+                    >
+                      <li>
+                        <span>CATEGORIES</span>: {product.category_name}
+                      </li>
+                    </Link>
                     <li>
                       <span>TAGS</span>:{" "}
                       {product.tags &&
@@ -340,7 +399,7 @@ class SingleProduct extends Component {
                     </div>
                     {/* sss */}
                     <div className="tab-pane fade" id="tab-3" role="tabpanel">
-                      <CommentSection></CommentSection>
+                      <CommentSection key={product.id}></CommentSection>
                     </div>
                     {/* ssss */}
                   </div>
@@ -396,6 +455,7 @@ const mapStateToProps = (state) => ({
 const mapDispatchToProps = {
   addtocart,
   updateCartItem,
+  addtoWishlist,
 };
 
 export default connect(
