@@ -113,6 +113,18 @@ class AdminSidebar extends React.Component {
 
                         </li>
                         </Link>
+                        <Link to="/manager/newsletter">
+
+                        <li className="listitem" className={`listitem ${active == 'newsletters' && 'active_category'}`}>
+
+                                <h6 className={`categorylink px-2 ${active == 'newsletters' && 'active_category'}`} >
+                                    <FontAwesomeIcon icon={faGift} className="mx-3 sidebar-icon"></FontAwesomeIcon>Subscribers
+
+                                </h6>
+
+
+                        </li>
+                        </Link>
                         <li className="listitem">
                             <h6 className="categorylink px-2">
                                 <FontAwesomeIcon icon={faGift} className="mx-3 sidebar-icon"></FontAwesomeIcon>Comments

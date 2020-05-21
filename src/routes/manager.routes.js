@@ -11,6 +11,8 @@ import ManagersOffers from "../views/admin/stockmanager/managers.offers"
 import allOrders from "../views/orders/allOrders"
 import moreDetails from "../views/orders/moreDetails"
 
+
+import NewsLetter from '../views/admin/admin.newsletter'
 let managerRoutes = [
     {
         path: "/all",
@@ -40,6 +42,12 @@ let managerRoutes = [
         path: "/manager/offers",
         name: "manager_offers",
         component: ManagersOffers,
+        exact: true,
+    },
+    {
+        path: "/manager/newsletter",
+        name: "manager_newsetter",
+        component: NewsLetter,
         exact: true,
     },
     {
