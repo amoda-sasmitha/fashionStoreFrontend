@@ -6,7 +6,7 @@ import Config from "../../controllers/Config";
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 
-import { string } from 'prop-types';
+import { string, func } from 'prop-types';
 import AdminSidebar from '../../components/AdminSidebar'
 import moment from 'moment'
 import { getAllOrders } from '../../controllers/Order'
@@ -45,6 +45,21 @@ class allOrders  extends Component {
 
    render(){
     const { orders} = this.state;
+    let reversedOrders = orders.reverse();
+    
+    let ShippedOrders = reversedOrders.filter((ord) => {
+        return (
+            ord.shipped == true
+        );
+    });
+
+    let CurrentOrders = reversedOrders.filter((ord) => {
+        return(
+            ord.shipped == false
+        );
+    });
+
+    //console.log("Shipped Orders: ", ShippedOrders);
     return(
             <div className="bg-light wd-wrapper">
             <AdminSidebar active={"categories"}/>
@@ -74,16 +89,40 @@ class allOrders  extends Component {
                                     </tr>
                                 </thead>
                                 <tbody>
-                                  { orders.map( item => this.renderOrdersTable(item) )} 
-                                 
+                                  { CurrentOrders.map( item => this.renderOrdersTable(item) )}
                                 </tbody>
                                 </table>
                             </div>
                         </div>
                      </div>
+                    {/*Shipped orders end*/}
+                     <div className="col-12 px-0">
+                        <div className="card border-0 shadow-sm rounded mt-3 bg-white pb-2">
+                            <h5 className="text-dark bold-normal py-2 bg-white px-2">
+                                Shipped Orders 
+                            </h5>
+                            <div className="table-responsive px-2">
+                                <table className="table table-stripped">
+                                <thead>
+                                    <tr>
+                                    <th scope="col">Date</th>
+                                    <th scope="col">Amount</th>
+                                    <th scope="col">User Name</th>
+                                    <th scope="col">Address</th>
+                                    <th scope="col">Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                  { ShippedOrders.map( item => this.renderOrdersTable(item) )}
+                                </tbody>
+                                </table>
+                            </div>
+                        </div>
+                     </div>
+                     {/*Shipped orders end*/}
                  </div>
                 </div>
-           
+                
             </div>
             </div>
             </div>
