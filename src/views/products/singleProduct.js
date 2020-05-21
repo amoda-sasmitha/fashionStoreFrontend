@@ -12,6 +12,7 @@ import { connect } from "react-redux";
 import { addtocart, updateCartItem } from "../../actions/cartActions";
 import { addtoWishlist } from "../../actions/wishlistAction";
 import CommentSection from "../../components/commentSection";
+
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { faHeart } from "@fortawesome/free-solid-svg-icons";
 import { Link } from "react-router-dom";
