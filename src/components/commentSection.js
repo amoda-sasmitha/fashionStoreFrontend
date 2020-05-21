@@ -1,3 +1,4 @@
+/*  eslint-disable */
 import React, { Component } from "react";
 import Config from "../controllers/Config";
 import { withRouter } from "react-router-dom";

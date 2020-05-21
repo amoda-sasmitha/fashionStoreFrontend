@@ -1,4 +1,4 @@
-      /*  eslint-disable */
+/*  eslint-disable */
 
 import React, { Component } from 'react';
 import { Link } from "react-router-dom";
@@ -96,10 +96,24 @@ class AdminManagers extends Component {
         })
     }
 
+    onDeleteManager = (email) => {
+        return new Promise((resolve, reject) => {
+            return A_Admin.deleteManager(email, this.props.auth.user.token)
+                .then(result => {
+                    resolve({ code: 200, data: result.data })
+                    Config.showAlert("Delete Success", "Done!");
+                    this.getAllManagers()
+                })
+                .catch(err => {
+                    reject({ code: 0, error: err })
+                })
+        })
+    }
+
     onAddUser = async (e) => {
         e.preventDefault()
         var password = Uniqid('Fashi')
-        var addUserState = await A_Admin.addManager(this.state.fname, this.state.lname, this.state.email, password, this.props.auth.user.token, this.props.auth.user.type, this.props.auth.user.id )
+        var addUserState = await A_Admin.addManager(this.state.fname, this.state.lname, this.state.email, password, this.props.auth.user.token, this.props.auth.user.type, this.props.auth.user.id)
         switch (addUserState) {
             // success
             case 200:
@@ -233,11 +247,11 @@ class AdminManagers extends Component {
                 <td>{moment(new Date(item.created_at)).format('YYYY MMM DD')}</td>
                 <td>
                     <button className="btn btn-danger btn-sm px-2 mr-2">
-                        <FontAwesomeIcon icon={faTrash} />
+                        <FontAwesomeIcon icon={faTrash} onClick={(email) => this.onDeleteManager(item.email)} />
                     </button>
-                    <button className="btn btn-info btn-sm px-2 mr-2">
+                    <a className="btn btn-info btn-sm px-2 mr-2" href={`mailto:${item.email}`}  >
                         <FontAwesomeIcon icon={faEnvelope} />
-                    </button>
+                    </a>
                 </td>
             </tr>
         );
@@ -245,8 +259,8 @@ class AdminManagers extends Component {
 }
 // dsdsdsd
 const mapStateToProps = state => ({
-    auth : state.auth || {} ,
-  });
-  
+    auth: state.auth || {},
+});
+
 
 export default connect(mapStateToProps)(AdminManagers);

@@ -88,7 +88,8 @@ class Footer extends React.Component {
                         <div className="col-lg-3">
                             <div className="footer-left">
                                 <div className="footer-logo">
-                                    <a href=""><img src="img/footer-logo.png" alt="" /></a>
+                                   <img src="images/logo.png" alt="" />
+                          
                                 </div>
                                 <ul>
                                     <li>Address: No 306/3A, Malabe,  SL</li>
@@ -108,7 +109,7 @@ class Footer extends React.Component {
                                 <h5>Information</h5>
                                 <ul>
                                     <li><Link to="/aboutus" >About Us</Link></li>
-                                    <li><Link to="contactus">Contat Us</Link></li>
+                                    <li><Link to="/contactus">Contact Us</Link></li>
                                     <li><Link to="/pp">Privacy Policies</Link></li>
                                     <li><Link to="/tos">Terms and Conditions</Link></li>
                                 </ul>
@@ -116,12 +117,13 @@ class Footer extends React.Component {
                         </div>
                         <div className="col-lg-2">
                             <div className="footer-widget">
-                                <h5>My Account</h5>
+                                <h5></h5>
                                 <ul>
-                                    <li><a href="">My Account</a></li>
-                                    <li><a href="">Contact</a></li>
-                                    <li><a href="">Shopping Cart</a></li>
-                                    <li><a href="">Shop</a></li>
+                                    <br />
+                                    
+                                    <li><Link to="/" >Offers</Link></li>
+                                    <li><Link to="/">Categories</Link></li>
+                                    
                                 </ul>
                             </div>
                         </div>

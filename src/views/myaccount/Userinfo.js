@@ -20,6 +20,9 @@ import 'filepond/dist/filepond.min.css';
 import { connect } from 'react-redux';
 import FilePondPluginImagePreview from "filepond-plugin-image-preview";
 import "filepond-plugin-image-preview/dist/filepond-plugin-image-preview.css";
+import { SignOut } from "../../actions/authActions";
+import { withRouter } from "react-router-dom";
+
 
 
 // import img from '../../asserts/Images/user.png'
@@ -478,7 +481,7 @@ onChangeDeletPassword(e){
           <h1>Last Login </h1>
           <p>
             {/* {this.state.lastlogin}  &nbsp;  •  &nbsp; 22 h : 55 m •  &nbsp; Chrome Web browser */}
-            {this.state.latlgonDate}  &nbsp;  •    &nbsp; {this.state.browser}
+            • Date & Time : &nbsp;  {this.state.latlgonDate}  &nbsp; &nbsp;  •  Browser :  &nbsp; {this.state.browser}
           </p>
 
           {/* <div className="IS_UI_sessionContainer">{SessionList}</div> */}
@@ -592,7 +595,10 @@ onChangeDeletPassword(e){
 const mapStateToProps = state => ({
   auth: state.auth || {},
 });
+const mapDispatchToProps = {
+  SignOut,
+};
 
 
 
-export default connect(mapStateToProps)(Userinfo);
+export default connect(mapStateToProps, mapDispatchToProps)(withRouter(Userinfo));
