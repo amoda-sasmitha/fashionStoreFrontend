@@ -1,9 +1,11 @@
-
 // import myaccount
-import MyAccount from '../views/myaccount/myaccount'
-import Cart from '../views/products/cart'
-import Order from '../views/orders/addOrder'
-import MyOrders from '../views/orders/myOrders'
+
+import MyAccount from "../views/myaccount/myaccount";
+import Cart from "../views/products/cart";
+import Order from "../views/orders/addOrder";
+import Wishlist from "../views/products/wishlist";
+
+import MyOrders from "../views/orders/myOrders";
 
 let loginUserRoutes = [
   // my account  route
@@ -20,6 +22,12 @@ let loginUserRoutes = [
     exact: true,
   },
   {
+    path: "/wishlist",
+    name: "Wishlist",
+    component: Wishlist,
+    exact: true,
+  },
+  {
     path: "/order",
     name: "Order",
     component: Order,
@@ -30,7 +38,7 @@ let loginUserRoutes = [
     name: "My Orders",
     component: MyOrders,
     exact: true,
-  }
+  },
 ];
 
 export default loginUserRoutes;

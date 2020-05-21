@@ -21,3 +21,20 @@ export const insertComment = (data) => {
       });
   });
 };
+
+export const getAllComments = () => {
+  return new Promise((resolve, reject) => {
+    return axios
+      .get(`${Config.host}${Config.port}/comment/getall`)
+      .then((result) => {
+        if (result.data.code == 200) {
+          resolve(result.data.data);
+        } else {
+          resolve([]);
+        }
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
