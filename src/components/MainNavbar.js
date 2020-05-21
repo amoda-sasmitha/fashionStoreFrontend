@@ -124,7 +124,7 @@ class MainNavbar extends React.Component {
   render() {
     const cart = this.props.cart.cart;
     const length = cart.length;
-    const wishlist = 0;
+    const wishlist = this.props.wishlist.wishlist.length;
     return (
       <header className="header-section">
         <div className="header-top">
@@ -179,9 +179,7 @@ class MainNavbar extends React.Component {
                   <li className="heart-icon ">
                     <Link to="/wishlist">
                       <FontAwesomeIcon icon={faHeart} className="text-dark" />
-                      {wishlist != 0 && (
-                        <span>{("0" + wishlist).slice(-2)}</span>
-                      )}
+                      {wishlist != 0 && <span>{wishlist}</span>}
                     </Link>
                   </li>
                   <li className="cart-icon">
@@ -235,6 +233,7 @@ class MainNavbar extends React.Component {
 const mapStateToProps = (state) => ({
   cart: state.cart || {},
   auth: state.auth || {},
+  wishlist: state.wishlist || {},
 });
 
 const mapDispatchToProps = {
