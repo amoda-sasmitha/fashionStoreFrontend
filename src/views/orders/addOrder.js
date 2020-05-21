@@ -72,114 +72,146 @@ formValueChange = (e) => {
 
 render(){
     const { errors , amount, username, addressLine1, addressLine2, province, postalCode } = this.state;
-    return(
-        <div className="wrapper" >
+    return (
+      <div className="wrapper">
         <MainNavbar></MainNavbar>
         <section className="product-shop spad">
-            <div className="container">
-                <div className="row" >
-                    <div className="col-md-8" >
-                <form className=" py-2  px-3" method="POST" onSubmit={(e) => this.onFormSubmit(e)}>
-                    <div className="row">        
-                        <div className="col-md-6">
-                            <h6 className="form-label py-2">Order Amount</h6>
-                            <input 
-                                type="text" 
-                                name="amount"
-                                value={Config.calcualte_total(this.props.cart.cart) }
-                                onChange={ (e) => this.formValueChange(e)}
-                                placeholder="Amount" 
-                                className="form-control" readOnly />
-                         </div>
+          <div className="container">
+            <div className="row">
+              <div className="col-md-8">
+                <form
+                  className=" py-2  px-3"
+                  method="POST"
+                  onSubmit={(e) => this.onFormSubmit(e)}
+                >
+                  <div className="row">
+                    <div className="col-md-6">
+                      <h6 className="form-label py-2">Order Amount</h6>
+                      <input
+                        type="text"
+                        name="amount"
+                        value={Config.calcualte_total(this.props.cart.cart)}
+                        onChange={(e) => this.formValueChange(e)}
+                        placeholder="Amount"
+                        className="form-control"
+                        readOnly
+                      />
+                    </div>
 
-                        <div className="col-md-6">
-                            <h6 className="form-label py-2">User Name</h6>
-                            <input 
-                                type="text" 
-                                name="username"
-                                value={username}
-                                onChange={ (e) => this.formValueChange(e)}
-                                placeholder="User Name"
-                                className="form-control" readOnly />
-                         </div>
-                        
-                         <div className="col-md-12">
-                            <h6 className="form-label py-2">Delivery Address</h6>
-                            <input 
-                                type="text" 
-                                name="addressLine1"
-                                value={addressLine1}
-                                onChange={ (e) => this.formValueChange(e)}
-                                placeholder="Address Line one" 
-                                className="form-control" />
-                                { errors.addressLine1 && errors.addressLine1.length > 0 &&
-                                    <h4 className="small text-danger mt-2 font-weight-bold mb-0">
-                                        {errors.addressLine1}
-                                    </h4>}
-                         </div>
+                    <div className="col-md-6">
+                      <h6 className="form-label py-2">User Name</h6>
+                      <input
+                        type="text"
+                        name="username"
+                        value={username}
+                        onChange={(e) => this.formValueChange(e)}
+                        placeholder="User Name"
+                        className="form-control"
+                        readOnly
+                      />
+                    </div>
 
-                         <div className="col-md-12 mt-3">
-                            <input 
-                                type="text" 
-                                name="addressLine2"
-                                value={addressLine2}
-                                onChange={ (e) => this.formValueChange(e)}
-                                placeholder="Address Line two" 
-                                className="form-control" />
-                                { errors.addressLine2 && errors.addressLine2.length > 0 &&
-                                    <h4 className="small text-danger mt-2 font-weight-bold mb-0">
-                                        {errors.addressLine2}
-                                    </h4>}
-                         </div>
+                    <div className="col-md-12">
+                      <h6 className="form-label py-2">Delivery Address</h6>
+                      <input
+                        type="text"
+                        name="addressLine1"
+                        value={addressLine1}
+                        onChange={(e) => this.formValueChange(e)}
+                        placeholder="Address Line one"
+                        className="form-control"
+                      />
+                      {errors.addressLine1 &&
+                        errors.addressLine1.length > 0 && (
+                          <h4 className="small text-danger mt-2 font-weight-bold mb-0">
+                            {errors.addressLine1}
+                          </h4>
+                        )}
+                    </div>
 
-                         <div className="col-md-8">
-                         <h6 className="form-label py-2">Province</h6>
-                            <input 
-                                type="text" 
-                                name="province"
-                                value={province}
-                                onChange={ (e) => this.formValueChange(e)}
-                                placeholder="Province" 
-                                className="form-control" />
-                                { errors.province && errors.province.length > 0 &&
-                                    <h4 className="small text-danger mt-2 font-weight-bold mb-0">
-                                        {errors.province}
-                                    </h4>}
-                         </div>
+                    <div className="col-md-12 mt-3">
+                      <input
+                        type="text"
+                        name="addressLine2"
+                        value={addressLine2}
+                        onChange={(e) => this.formValueChange(e)}
+                        placeholder="Address Line two"
+                        className="form-control"
+                      />
+                      {errors.addressLine2 &&
+                        errors.addressLine2.length > 0 && (
+                          <h4 className="small text-danger mt-2 font-weight-bold mb-0">
+                            {errors.addressLine2}
+                          </h4>
+                        )}
+                    </div>
 
-                         <div className="col-md-4">
-                         <h6 className="form-label py-2">Postal Code</h6>
-                            <input 
-                                type="text" 
-                                name="postalCode"
-                                value={postalCode}
-                                onChange={ (e) => this.formValueChange(e)}
-                                placeholder="Postal Code" 
-                                className="form-control" />
-                                { errors.postalCode && errors.postalCode.length > 0 &&
-                                    <h4 className="small text-danger mt-2 font-weight-bold mb-0">
-                                        {errors.postalCode}
-                                    </h4>}
-                         </div>
+                    <div className="col-md-8">
+                      <h6 className="form-label py-2">Province</h6>
+                      <input
+                        type="text"
+                        name="province"
+                        value={province}
+                        onChange={(e) => this.formValueChange(e)}
+                        placeholder="Province"
+                        className="form-control"
+                      />
+                      {errors.province && errors.province.length > 0 && (
+                        <h4 className="small text-danger mt-2 font-weight-bold mb-0">
+                          {errors.province}
+                        </h4>
+                      )}
+                    </div>
 
-                         <div className="col-md-12 mt-2">
-                                        <div className="d-flex">
-                                                <button className="px-4 btn btn-dark  btn-sm bold-normal" type="submit">
-                                                Add Product</button>
-                                         </div>                                                      
-                                        </div>               
-                        </div> 
-                    </form>                   
-                    </div>                    
-                    <div className="col-md-4" >
-                        <h6 className="form-label py-2">Order Details</h6>
-                        {this.props.cart.cart.map( item => this.renderOrderDetails(item) )}
-                    </div>                    
+                    <div className="col-md-4">
+                      <h6 className="form-label py-2">Postal Code</h6>
+                      <input
+                        type="text"
+                        name="postalCode"
+                        value={postalCode}
+                        onChange={(e) => this.formValueChange(e)}
+                        placeholder="Postal Code"
+                        className="form-control"
+                      />
+                      {errors.postalCode && errors.postalCode.length > 0 && (
+                        <h4 className="small text-danger mt-2 font-weight-bold mb-0">
+                          {errors.postalCode}
+                        </h4>
+                      )}
+                    </div>
+
+                    <div className="col-md-12 mt-2">
+                      <div className="d-flex">
+                        <button
+                          className="px-4 btn btn-dark  btn-sm bold-normal"
+                          type="submit"
+                        >
+                          Add Product
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </form>
+              </div>
+              <div className="col-md-4">
+                <h6 className="form-label py-2">Order Details</h6>
+                <div style={{overflow: "scroll", height: "400px"}}>
+                    {this.props.cart.cart.map( item => this.renderOrderDetails(item) )}
                 </div>
+                <div className="proceed-checkout mt-3">
+                    <ul>
+                        <li className="subtotal">Sub-Total <span>LKR {Config.calculate_full_total(this.props.cart.cart)}</span></li>
+                        <li className="subtotal">Discount <span>LKR {Config.calcualte_discount(this.props.cart.cart)}</span></li>
+                        <li className="subtotal"><b>Total</b> <span>
+                            LKR {Config.calcualte_total(this.props.cart.cart)}</span></li>
+                    </ul>
                 </div>
+              </div>
+            </div>
+          </div>
         </section>
         <Footer></Footer>
-        </div>
+      </div>
     );
 }
 
