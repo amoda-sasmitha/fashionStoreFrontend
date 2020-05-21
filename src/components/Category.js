@@ -30,8 +30,8 @@ class Category extends Component {
             <div className="row">
               <div className="col-lg-3 col-12 order-2 order-lg-1 produts-sidebar-filter">
                 <div className="row d-none d-lg-block">
-                  <h3>This is Filter</h3>
-                  {/* <this.FilterItems /> */}
+                  {/* <h3>This is Filter</h3> */}
+                  <this.FilterItems />
                 </div>
               </div>
               <div className="col-lg-9 col-md-12 order-1 order-lg-2">
@@ -122,8 +122,8 @@ class Category extends Component {
 
   FilterItems = () => (
     <div>
-      {/* <div className="filter-widget filter-widget-border col-lg-12  col-sm-12 "> */}
-      <div className="col-lg-12  col-sm-12 ">
+      <div className="filter-widget filter-widget-border col-lg-12  col-sm-12 ">
+      {/* <div className="col-lg-12  col-sm-12 "> */}
         <this.renderBrand />
       </div>
       <div className="filter-widget filter-widget-border  col-lg-12  col-sm-12">
@@ -136,6 +136,8 @@ class Category extends Component {
   );
 
   renderBrand = () => {
+    console.log(this.props);
+    
   console.log("Brands");
   console.log(this.props.brands);
   console.log("Selected _brand");
@@ -145,19 +147,18 @@ class Category extends Component {
     console.log(selected_brands);
     return (
       <div>
-        {/* <h4 className="fw-title">Brand</h4>
-        <div className="fw-brand-check"> */}
-        <h4 className="">Brand</h4>
-        <div className="">
-          {this.props.brands.map((item, i) => (
+        <h4 className="fw-title">Brand</h4>
+        <div className="fw-brand-check">
+        
+          {/* {this.props.brands.map((item, i) => (
             <div
               key={i}
-              // className="bc-item"
+              className="bc-item"
               onClick={() => this.clickBrand(item)}
             >
-              <label >
+              <label > */}
               {/* <label htmlFor="bc-calvin-2"> */}
-                <FontAwesomeIcon
+                {/* <FontAwesomeIcon
                   icon={
                     selected_brands.includes(item) ? faCheckSquare : faSquare
                   }
@@ -166,16 +167,16 @@ class Category extends Component {
                       ? " mx-2"
                       : " border mx-2"
                   }
-                  // className={
-                  //   selected_brands.includes(item)
-                  //     ? "text-success mx-2"
-                  //     : "text-white border mx-2"
-                  // }
-                />
-                {item.toUpperCase()}
+                  className={
+                    selected_brands.includes(item)
+                      ? "text-success mx-2"
+                      : "text-white border mx-2"
+                  }
+                /> */}
+                {/* {item.toUpperCase()}
               </label>
             </div>
-          ))}
+          ))} */}
         </div>
       </div>
     );
