@@ -2,38 +2,41 @@ import React, { Component } from "react";
 import MainNavbar from "../../components/MainNavbar";
 import CategorySection from "../../components/Category";
 import Footer from "../../components/Footer";
-import { getAllProductByCategory } from "../../controllers/Products";
+import { getProductByOffer } from "../../controllers/Products";
 
-class Category extends Component {
+class OffersDetails extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: props.match.params.id,
+      id: props.match.params.id,
       products: [],
       brands: [],
       tags: [],
       loading: true,
+      name : "",
       
     };
   }
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    this.loadProducts();
+    this.loadProducts(this.props.match.params.id);
   }
 
-  loadProducts = () => {
+
+  loadProducts = (id) => {
     this.setState({ loading: true });
-    getAllProductByCategory(this.state.category)
+    getProductByOffer(id)
       .then((result) => {
-        console.log(result);
+
         this.setState({
           loading: false,
-          products: result,
-          brands: [...new Set(result.map((item) => item.brand))],
+          name : result.title,
+          products: result.products ,
+          brands: [...new Set(result.products.map((item) => item.brand))],
           tags: [
             ...new Set(
-              result.reduce(
+                result.products.reduce(
                 (acc, current) => [
                   ...acc,
                   ...current.tags.map((item) => item.label),
@@ -57,7 +60,8 @@ class Category extends Component {
       products,
       brands,
       tags,
-      category,
+      id,
+      name,
       loading,
     } = this.state;
     return (
@@ -67,7 +71,7 @@ class Category extends Component {
           products={products}
           brands={brands}
           tags={tags}
-          type={category}
+          type={name}
           loading={loading}
         />
         <Footer></Footer>
@@ -75,4 +79,4 @@ class Category extends Component {
     );
   }
 }
-export default Category;
+export default OffersDetails;

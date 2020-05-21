@@ -20,7 +20,6 @@ class App extends React.Component {
  
 
   render(){
-    console.log(this.props.user)
     return(
       <Provider store={store}>
         <PersistGate persistor={persistor} >

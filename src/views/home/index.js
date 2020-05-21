@@ -8,18 +8,21 @@ import { getAllCategories , insertCategory , updateCategory , deleteCategory } f
 import Config from "../../controllers/Config";
 import moment from 'moment'
 import {Link} from "react-router-dom";
+import M_Manager from '../../controllers/Manager'
 
 class Home extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
       categories : [],
+      offers : [],
     }
 }
 
  componentWillMount(){
   console.log(this.props.isAuthed);
   this.loadCategories();
+  this.getAllOffers()
 
  }
 
@@ -33,55 +36,58 @@ class Home extends React.Component {
           console.log(err);
       })
 }
+
+getAllOffers(){
+  M_Manager.getAllOffersDetails()
+     .then( result => { 
+         console.log(result.data);
+         this.setState({
+             offers : result.data.splice(-3)
+         })
+     })
+     .catch( err => {
+         console.log(err);
+         Config.setErrorToast(" Somthing Went Wrong!"); 
+     })
+ }
   
 
   render(){
-    const {categories} = this.state;
+    const {categories , offers} = this.state;
     window.scrollTo(0, 0)
     return(
     <div className="wrapper" >
         <MainNavbar isAuthed = {this.props.isAuthed}    ></MainNavbar>
         <MainSlider></MainSlider>
-        <h4 className="pt-3 pb-1 px-lg-5 px-2 text-dark  font-weight-bold">Limited Offers</h4>
+        { offers.length > 0 && 
+        <>
+        <h4 className="pt-3 pb-1 px-lg-5 px-2 text-dark  font-weight-bold">Latest Offers</h4>
         <section className=" pb-3">
           <div className="container-fluid px-lg-5" >
             <div className="row justify-content-center" >
-              <div className="col-md-4 col-sm-6 col-12 p-2 parent" >
-                <div className="card  rounded-custom shadow bg-light py-5 border-0 child"
-                   style={{ backgroundImage : `url('images/offers/offer02.png')` ,  backgroundSize : 'cover' }} >
-                  <div className="py-4 px-4">
-                    <h5 >Up to 65%</h5>
-                    <h4 className="font-weight-bold pb-2">Sunglasses</h4>
-                    <h5>Don't late,get Now!</h5>
-                    <a href="#" className="primary-btn mt-2">Shop Now</a>
-                  </div>
+          
+              { offers.map( offer => (
+              <div className={`col-md-4 col-12 p-2  my-2`} >
+              <div className="card  rounded-custom shadow bg-light py-5 border-0 child"
+                  style={{ backgroundImage : `url('${Config.setImage(offer.banner_image)}')` ,  backgroundSize : 'cover' }} >
+                
+                 <div className={`py-4 px-4`}
+                  style={{backgroundColor : offer.size == 12 ? 'rgba(255,255,255,0.4)' : 'unset'}}
+                 >
+                  <h5 >Up to {offer.discount}%</h5>
+                  <h4 className="font-weight-bold pb-2">{offer.title}</h4>
+                  <h5>{offer.subtitle}</h5>
+                  <Link to={`/offers/details/${offer._id}`}>
+                          <label className="primary-btn  mt-2 click">Shop Now</label>
+                  </Link>
                 </div>
               </div>
-              <div className="col-md-4 col-sm-6 col-12 p-2 parent" >
-                <div className="card rounded-custom  shadow bg-light py-5 border-0 child" 
-                style={{ backgroundImage : `url('images/offers/offer03.png')` ,  backgroundSize : 'cover' }} >
-                <div className="py-4 px-4">
-                    <h5 >Up to 35%</h5>
-                    <h4 className="font-weight-bold pb-2">Hand Bags</h4>
-                    <h5>Mega Sale!</h5>
-                    <a href="#" className="primary-btn mt-2">Shop Now</a>
-                  </div>
-                </div>
-              </div>
-              <div className="col-md-4 col-sm-12 col-12  p-2 parent" >
-                <div className="card  rounded-custom shadow bg-light py-5 border-0 child"
-                style={{ backgroundImage : `url('images/offers/offer01.png')` ,  backgroundSize : 'cover' }} >
-                <div className="py-4 px-4">
-                    <h5 >Up to 65%</h5>
-                    <h4 className="font-weight-bold pb-2">Trendy Dresses</h4>
-                    <h5>Don't late,get Now!</h5>
-                    <a href="#" className="primary-btn mt-2">Shop Now</a>
-                  </div>
-                </div>
-              </div>
+            </div>) )}
+             
             </div>
           </div>
-        </section>
+          </section></> }
+          { categories.length > 0 &&
          <section className=" pb-3">
          <h4 className="pt-3 pb-1 px-lg-5 px-2 text-dark  font-weight-bold">Shop in Categories</h4>
          <div className="container-fluid px-lg-5" >
@@ -106,7 +112,7 @@ class Home extends React.Component {
               }
             </div>
           </div>   
-         </section>
+         </section>}
         <Footer></Footer>
     </div>
     );

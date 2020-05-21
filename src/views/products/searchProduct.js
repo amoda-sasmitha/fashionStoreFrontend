@@ -2,13 +2,13 @@ import React, { Component } from "react";
 import MainNavbar from "../../components/MainNavbar";
 import CategorySection from "../../components/Category";
 import Footer from "../../components/Footer";
-import { getAllProductByCategory } from "../../controllers/Products";
+import { getProductBySearch } from "../../controllers/Products";
 
-class Category extends Component {
+class SearchProduct extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      category: props.match.params.id,
+      search: props.match.params.search,
       products: [],
       brands: [],
       tags: [],
@@ -19,12 +19,22 @@ class Category extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    this.loadProducts();
+    this.loadProducts(this.props.match.params.search);
   }
 
-  loadProducts = () => {
+  componentWillReceiveProps(nextProps){
+    if (nextProps.match.params.search) {
+      if(nextProps.match.params.search !== this.state.search){
+          this.setState({search : nextProps.match.params.search});
+          this.loadProducts(nextProps.match.params.search);
+          console.log(nextProps.match.params.search);
+      }
+    }
+  }
+
+  loadProducts = (search) => {
     this.setState({ loading: true });
-    getAllProductByCategory(this.state.category)
+    getProductBySearch(search)
       .then((result) => {
         console.log(result);
         this.setState({
@@ -57,7 +67,7 @@ class Category extends Component {
       products,
       brands,
       tags,
-      category,
+      search,
       loading,
     } = this.state;
     return (
@@ -67,7 +77,7 @@ class Category extends Component {
           products={products}
           brands={brands}
           tags={tags}
-          type={category}
+          type={search}
           loading={loading}
         />
         <Footer></Footer>
@@ -75,4 +85,4 @@ class Category extends Component {
     );
   }
 }
-export default Category;
+export default SearchProduct;

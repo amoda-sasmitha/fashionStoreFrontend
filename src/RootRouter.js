@@ -36,7 +36,6 @@ class App extends React.Component {
   } 
 
     render(){
-      console.log(this.props.auth.user)
         return(
             <Router >
             <Switch>
