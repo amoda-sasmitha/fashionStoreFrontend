@@ -22,7 +22,50 @@ export const addtoWishlist = (product_id, user_id) => {
         .catch((error) => {
           console.log(error);
           reject({ type: "failed", message: "failed" });
-          console.log("menna meke thamai failed kiyala enne");
+        });
+    }).catch((err) => {
+      throw err;
+    });
+};
+
+export const deleteWishlistItem = (id, userid) => {
+  return (dispatch) =>
+    new Promise((resolve, reject) => {
+      axios
+        .delete(`${Config.host}${Config.port}/wishlist/delete/${id}`)
+        .then((result) => {
+          console.log("API", result.data);
+          dispatch(getWishlist(userid));
+          return resolve({
+            type: "success",
+            message: "Item Delete Successfully",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          reject({ type: "failed", message: "failed" });
+        });
+    }).catch((err) => {
+      throw err;
+    });
+};
+
+export const clearWishlist = (userid) => {
+  return (dispatch) =>
+    new Promise((resolve, reject) => {
+      axios
+        .delete(`${Config.host}${Config.port}/wishlist/clear/${userid}`)
+        .then((result) => {
+          console.log("API", result.data);
+          dispatch(getWishlist(userid));
+          return resolve({
+            type: "success",
+            message: "wishlist Clear Successfully",
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          reject({ type: "failed", message: "failed" });
         });
     }).catch((err) => {
       throw err;

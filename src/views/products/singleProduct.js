@@ -120,8 +120,8 @@ class SingleProduct extends Component {
             console.log("methanata pss wenne. error rka : " + err);
           });
       } else {
-        alert("already in");
-        //this.props.deleteitem
+        //alert("already in");
+        //this.props.deleteitem;
         //config toast => item remove
       }
     } else {
