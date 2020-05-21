@@ -19,18 +19,12 @@ class Category extends Component {
     };
   }
 
-
-
-
-  async componentWillMount(){
-      await this.renderBrand()
-     await  this.FilterItems()
+  async componentWillMount() {
+   await this.FilterItems()
+   await this.renderBrand()
+   await this.renderTags()
+    await this.renderSizes()
   }
-
-
-
-
-
 
   toggleFilterMenu = () =>
     this.setState({ filter_menu_expand: !this.state.filter_menu_expand });
@@ -43,7 +37,6 @@ class Category extends Component {
             <div className="row">
               <div className="col-lg-3 col-12 order-2 order-lg-1 produts-sidebar-filter">
                 <div className="row d-none d-lg-block">
-                  {/* <h3>This is Filter</h3> */}
                   {this.FilterItems() }
                 </div>
               </div>
@@ -73,7 +66,7 @@ class Category extends Component {
                             >
                               Filter
                             </span>
-                            {/* <this.FilterModel /> */}
+                            {this.FilterModel() }
                           </li>
                         </ul>
                       </nav>
@@ -111,161 +104,145 @@ class Category extends Component {
     </div>
   );
 
-  // FilterModel = () => (
-  //   <div
-  //     className={`dropdown-menu border-0 p-0 mt-2 shadow-sm  ${
-  //       this.state.filter_menu_expand && "show"
-  //     }`}
-  //   >
-  //     <div className="container px-0 filter-widget-border">
-  //       <div className="row bg-white rounded-0 m-0 w-100 p-2 ">
-  //         <div className="filter-widget  col-md-4 col-sm-6 col-12">
-  //           <this.renderBrand />
-  //         </div>
-  //         <div className="filter-widget col-md-4 col-sm-6 col-12">
-  //           <this.renderTags />
-  //         </div>
-  //         <div className="filter-widget col-md-4 col-sm-6 col-12">
-  //           <this.renderSizes />
-  //         </div>
-  //       </div>
-  //     </div>
-  //   </div>
-  // );
-
-  FilterItems = () => (
-    <div>
-      <div className="filter-widget filter-widget-border col-lg-12  col-sm-12 ">
-      {/* <div className="col-lg-12  col-sm-12 "> */}
-        {this.renderBrand() }
-      </div>
-      <div className="filter-widget filter-widget-border  col-lg-12  col-sm-12">
-        {/* <this.renderSizes /> */}
-      </div>
-      <div className="filter-widget filter-widget-border  col-lg-12  col-sm-12">
-        {/* <this.renderTags /> */}
+  FilterModel = () => (
+    <div
+      className={`dropdown-menu border-0 p-0 mt-2 shadow-sm  ${
+        this.state.filter_menu_expand && "show"
+      }`}
+    >
+      <div className="container px-0 filter-widget-border">
+        <div className="row bg-white rounded-0 m-0 w-100 p-2 ">
+          <div className="filter-widget  col-md-4 col-sm-6 col-12">
+            {this.renderBrand() }
+          </div>
+          <div className="filter-widget col-md-4 col-sm-6 col-12">
+            {this.renderTags() }
+          </div>
+          <div className="filter-widget col-md-4 col-sm-6 col-12">
+            {this.renderSizes()}
+          </div>
+        </div>
       </div>
     </div>
   );
 
+  FilterItems = () => (
+    <>
+      <div className="filter-widget filter-widget-border col-lg-12  col-sm-12 ">
+        {this.renderBrand()}
+      </div>
+      <div className="filter-widget filter-widget-border  col-lg-12  col-sm-12">
+        {this.renderSizes()}
+      </div>
+      <div className="filter-widget filter-widget-border  col-lg-12  col-sm-12">
+        {this.renderTags()}
+      </div>
+    </>
+  );
+
   renderBrand = () => {
-  //   console.log(this.props);
-    
-  // console.log("Brands");
-  // console.log(this.props.brands);
-  // console.log("Selected _brand");
-  
-      
     const { selected_brands } = this.state;
-    console.log(selected_brands);
     return (
-      <div>
+      <>
         <h4 className="fw-title">Brand</h4>
         <div className="fw-brand-check">
-        
-          {/* {this.props.brands.map((item, i) => (
+          {this.props.brands.map((item, i) => (
             <div
               key={i}
               className="bc-item"
               onClick={() => this.clickBrand(item)}
             >
-              <label > */}
-              {/* <label htmlFor="bc-calvin-2"> */}
-                {/* <FontAwesomeIcon
+              <label htmlFor="bc-calvin-2">
+                <FontAwesomeIcon
                   icon={
                     selected_brands.includes(item) ? faCheckSquare : faSquare
-                  }
-                  className={
-                    selected_brands.includes(item)
-                      ? " mx-2"
-                      : " border mx-2"
                   }
                   className={
                     selected_brands.includes(item)
                       ? "text-success mx-2"
                       : "text-white border mx-2"
                   }
-                /> */}
-                {/* {item.toUpperCase()}
+                />
+                {item.toUpperCase()}
               </label>
             </div>
-          ))} */}
+          ))}
         </div>
-      </div>
+      </>
     );
   };
 
-  // renderTags = () => (
-  //   <>
-  //     <h4 className="fw-title">Tags</h4>
-  //     <div className="fw-tags">
-  //       {this.props.tags.map((item, i) => (
-  //         <label
-  //           key={i}
-  //           onClick={() => this.clickTag(item)}
-  //           className={
-  //             this.state.selected_tags.includes(item)
-  //               ? "bg-secondary text-white click"
-  //               : "click"
-  //           }
-  //         >
-  //           {item}
-  //         </label>
-  //       ))}
-  //     </div>
-  //   </>
-  // );
+  renderTags = () => (
+    <>
+      <h4 className="fw-title">Tags</h4>
+      <div className="fw-tags">
+        {this.props.tags.map((item, i) => (
+          <label
+            key={i}
+            onClick={() => this.clickTag(item)}
+            className={
+              this.state.selected_tags.includes(item)
+                ? "bg-secondary text-white click"
+                : "click"
+            }
+          >
+            {item}
+          </label>
+        ))}
+      </div>
+    </>
+  );
 
-  // renderSizes = () => (
-  //   <>
-  //     <h4 className="fw-title">Size</h4>
-  //     <div className="fw-tags">
-  //       <div className="fw-size-choose">
-  //         {["XS", "S", "M", "L", "XL"].map((item, i) => (
-  //           <div
-  //             key={i}
-  //             onClick={() =>
-  //               this.setState({
-  //                 selected_size: this.state.selected_size == item ? "" : item,
-  //               })
-  //             }
-  //             className="sc-item"
-  //           >
-  //             <label
-  //               className={
-  //                 this.state.selected_size === item
-  //                   ? "bg-secondary text-white pt-0"
-  //                   : "pt-0"
-  //               }
-  //             >
-  //               {item}
-  //             </label>
-  //           </div>
-  //         ))}
-  //       </div>
-  //     </div>
-  //   </>
-  // );
+  renderSizes = () => (
+    <>
+      <h4 className="fw-title">Size</h4>
+      <div className="fw-tags">
+        <div className="fw-size-choose">
+          {["XS", "S", "M", "L", "XL"].map((item, i) => (
+            <div
+              key={i}
+              onClick={() =>
+                this.setState({
+                  selected_size: this.state.selected_size == item ? "" : item,
+                })
+              }
+              className="sc-item"
+            >
+              <label
+                className={
+                  this.state.selected_size === item
+                    ? "bg-secondary text-white pt-0"
+                    : "pt-0"
+                }
+              >
+                {item}
+              </label>
+            </div>
+          ))}
+        </div>
+      </div>
+    </>
+  );
 
-  // clickBrand = (brand) => {
-  //   let { selected_brands } = this.state;
-  //   if (selected_brands.includes(brand)) {
-  //     this.setState({
-  //       selected_brands: selected_brands.filter((i) => i != brand),
-  //     });
-  //   } else {
-  //     this.setState({ selected_brands: [...selected_brands, brand] });
-  //   }
-  // };
+  clickBrand = (brand) => {
+    let { selected_brands } = this.state;
+    if (selected_brands.includes(brand)) {
+      this.setState({
+        selected_brands: selected_brands.filter((i) => i != brand),
+      });
+    } else {
+      this.setState({ selected_brands: [...selected_brands, brand] });
+    }
+  };
 
-  // clickTag = (tag) => {
-  //   let { selected_tags } = this.state;
-  //   if (selected_tags.includes(tag)) {
-  //     this.setState({ selected_tags: selected_tags.filter((i) => i != tag) });
-  //   } else {
-  //     this.setState({ selected_tags: [...selected_tags, tag] });
-  //   }
-  // };
+  clickTag = (tag) => {
+    let { selected_tags } = this.state;
+    if (selected_tags.includes(tag)) {
+      this.setState({ selected_tags: selected_tags.filter((i) => i != tag) });
+    } else {
+      this.setState({ selected_tags: [...selected_tags, tag] });
+    }
+  };
 
   filter = (products) => {
     const { selected_brands, selected_size, selected_tags } = this.state;
