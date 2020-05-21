@@ -125,10 +125,10 @@ class Category extends Component {
         <this.renderBrand />
       </div>
       <div className="filter-widget filter-widget-border  col-lg-12  col-sm-12">
-        <this.renderSizes />
+        {/* <this.renderSizes /> */}
       </div>
       <div className="filter-widget filter-widget-border  col-lg-12  col-sm-12">
-        <this.renderTags />
+        {/* <this.renderTags /> */}
       </div>
     </>
   );
@@ -165,57 +165,57 @@ class Category extends Component {
     );
   };
 
-  renderTags = () => (
-    <>
-      <h4 className="fw-title">Tags</h4>
-      <div className="fw-tags">
-        {this.props.tags.map((item, i) => (
-          <label
-            key={i}
-            onClick={() => this.clickTag(item)}
-            className={
-              this.state.selected_tags.includes(item)
-                ? "bg-secondary text-white click"
-                : "click"
-            }
-          >
-            {item}
-          </label>
-        ))}
-      </div>
-    </>
-  );
+  // renderTags = () => (
+  //   <>
+  //     <h4 className="fw-title">Tags</h4>
+  //     <div className="fw-tags">
+  //       {this.props.tags.map((item, i) => (
+  //         <label
+  //           key={i}
+  //           onClick={() => this.clickTag(item)}
+  //           className={
+  //             this.state.selected_tags.includes(item)
+  //               ? "bg-secondary text-white click"
+  //               : "click"
+  //           }
+  //         >
+  //           {item}
+  //         </label>
+  //       ))}
+  //     </div>
+  //   </>
+  // );
 
-  renderSizes = () => (
-    <>
-      <h4 className="fw-title">Size</h4>
-      <div className="fw-tags">
-        <div className="fw-size-choose">
-          {["XS", "S", "M", "L", "XL"].map((item, i) => (
-            <div
-              key={i}
-              onClick={() =>
-                this.setState({
-                  selected_size: this.state.selected_size == item ? "" : item,
-                })
-              }
-              className="sc-item"
-            >
-              <label
-                className={
-                  this.state.selected_size === item
-                    ? "bg-secondary text-white pt-0"
-                    : "pt-0"
-                }
-              >
-                {item}
-              </label>
-            </div>
-          ))}
-        </div>
-      </div>
-    </>
-  );
+  // renderSizes = () => (
+  //   <>
+  //     <h4 className="fw-title">Size</h4>
+  //     <div className="fw-tags">
+  //       <div className="fw-size-choose">
+  //         {["XS", "S", "M", "L", "XL"].map((item, i) => (
+  //           <div
+  //             key={i}
+  //             onClick={() =>
+  //               this.setState({
+  //                 selected_size: this.state.selected_size == item ? "" : item,
+  //               })
+  //             }
+  //             className="sc-item"
+  //           >
+  //             <label
+  //               className={
+  //                 this.state.selected_size === item
+  //                   ? "bg-secondary text-white pt-0"
+  //                   : "pt-0"
+  //               }
+  //             >
+  //               {item}
+  //             </label>
+  //           </div>
+  //         ))}
+  //       </div>
+  //     </div>
+  //   </>
+  // );
 
   // clickBrand = (brand) => {
   //   let { selected_brands } = this.state;
