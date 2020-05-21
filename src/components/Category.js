@@ -136,7 +136,7 @@ class Category extends Component {
   renderBrand = () => {
     const { selected_brands } = this.state;
     return (
-      <>
+      <div>
         <h4 className="fw-title">Brand</h4>
         <div className="fw-brand-check">
           {this.props.brands.map((item, i) => (
@@ -145,23 +145,29 @@ class Category extends Component {
               className="bc-item"
               onClick={() => this.clickBrand(item)}
             >
-              <label htmlFor="bc-calvin-2">
+              <label >
+              {/* <label htmlFor="bc-calvin-2"> */}
                 <FontAwesomeIcon
                   icon={
                     selected_brands.includes(item) ? faCheckSquare : faSquare
                   }
                   className={
                     selected_brands.includes(item)
-                      ? "text-success mx-2"
-                      : "text-white border mx-2"
+                      ? " mx-2"
+                      : " border mx-2"
                   }
+                  // className={
+                  //   selected_brands.includes(item)
+                  //     ? "text-success mx-2"
+                  //     : "text-white border mx-2"
+                  // }
                 />
                 {item.toUpperCase()}
               </label>
             </div>
           ))}
         </div>
-      </>
+      </div>
     );
   };
 
