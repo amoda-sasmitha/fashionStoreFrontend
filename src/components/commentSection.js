@@ -6,12 +6,17 @@ import { connect } from "react-redux";
 import User from "../controllers/User";
 import {
   insertComment,
-  getAllComments,
+  getCommentByUserId,
+  calculateAverageRating,
   getCommentByProductId,
 } from "../controllers/Comments";
 import moment from "moment";
 import { getProductById } from "../controllers/Products";
 import StarRatingComponent from "../../node_modules/react-star-rating-component";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faPenAlt } from "@fortawesome/free-solid-svg-icons";
+import commentEditBox from "./commentEditBox";
+import { components } from "react-select";
 class CommentSection extends React.Component {
   constructor(props) {
     super(props);
@@ -19,12 +24,15 @@ class CommentSection extends React.Component {
       comment: "",
       ratings: "",
       filterComments: [],
-      overallRating: "",
-      averageRate: "",
+      show: true,
+      commentToEdit: "",
+      ratingToEdit: "",
     };
+    this.toggleEditComment = this.toggleEditComment.bind(this);
   }
   componentDidMount() {
     this.loadCommentByProductId();
+    //this.loadCommentToEdit();
   }
 
   loadCommentByProductId = () => {
@@ -38,12 +46,35 @@ class CommentSection extends React.Component {
       });
   };
 
+  //========This function is for edit user's comment. but only it will display when the user login==========
+  // loadCommentToEdit = () => {
+  //   console.log("ID : ", this.props.uid);
+  //   getCommentByUserId(this.props.uid)
+  //     .then((result) => {
+  //       this.setState({
+  //         commentToEdit: result.comment,
+  //         ratingToEdit: result.rating,
+
+  //         loading: false,
+  //       });
+  //     })
+  //     .catch((err) => {
+  //       console.log(err);
+  //       this.setState({ loading: false });
+  //     });
+  // };
+  //=========================function ends================================
+
+  toggleEditComment = () => {
+    const { show } = this.state;
+    this.setState({ show: !show });
+  };
+
   onSubmit = (e) => {
     e.preventDefault();
 
     insertComment({
       userid: this.props.uid,
-      //username: this.props.auth.user.username,
       produtid: this.props.proid,
       produt_name: this.props.proName,
       comment: this.state.comment,
@@ -69,9 +100,50 @@ class CommentSection extends React.Component {
   };
 
   render() {
-    const { filterComments, averageRate } = this.state;
+    const { filterComments } = this.state;
     const number = filterComments.length;
-    const rate = this.state.ratings;
+
+    let rating_count = [0, 0, 0, 0, 0];
+
+    filterComments.forEach((item) => {
+      rating_count[item.rating - 1] = rating_count[item.rating - 1] + 1;
+    });
+    // console.log("five ", rating_count);
+
+    let total_count = rating_count.reduce(
+      (acc, current, index) => acc + current * (index + 1),
+      0
+    );
+
+    let cal = total_count / filterComments.length;
+    let five = 0;
+    let four = 0,
+      three = 0,
+      two = 0,
+      one = 0;
+    filterComments.find((item) => {
+      if (item.rating == 5) {
+        five = rating_count[item.rating - 1];
+      } else if (item.rating == 4) {
+        four = rating_count[7 - item.rating];
+      } else if (item.rating == 3) {
+        three = rating_count[5 - item.rating];
+      } else if (item.rating == 2) {
+        two = rating_count[3 - item.rating];
+      } else if (item.rating == 1) {
+        one = rating_count[1 - item.rating];
+      }
+      // rating_count[item.rating - 1] = rating_count[item.rating - 1] + 1;
+    });
+    let fiveBar = (five / number) * 100;
+
+    let fourBar = (four / number) * 100;
+    let threeBar = (three / number) * 100;
+    let twoBar = (two / number) * 100;
+    let oneBar = (one / number) * 100;
+    console.log("number", number);
+    console.log("five", five);
+    console.log("fivebar", fiveBar);
 
     return (
       <div class="container">
@@ -114,68 +186,143 @@ class CommentSection extends React.Component {
           </div>
           <div className="col-6">
             <br></br>
-            <h6 className="text-secondary pt-1">
-              Comments and Ratings ( {number} Total )
-            </h6>
-
+            <h6 className="text-secondary pt-1">Comments and Ratings</h6>
+            <br></br>
             <div class="row">
-              {filterComments.map((item) => this.CalculateAverage(item))}
+              <div class="col-4">
+                <center>
+                  <h1>{cal.toFixed(1)}</h1>
+                  <StarRatingComponent
+                    name="ratings"
+                    starCount={5}
+                    value={cal}
+                  />
+                  <br></br>
+                  <h6
+                    style={{
+                      marginTop: "-10px",
+                    }}
+                  >
+                    {number} Total
+                  </h6>
+                </center>
+              </div>
+              <div
+                class="col-8"
+                style={{
+                  marginTop: "15px",
+                }}
+              >
+                {/* progress bar for rating 5 */}
+
+                <div
+                  class="progress"
+                  style={{
+                    height: "8px",
+                    marginTop: "5px",
+                  }}
+                >
+                  <div
+                    class="progress-bar"
+                    style={{
+                      width: fiveBar + "%",
+                      backgroundColor: "#1abc9c",
+                    }}
+                  ></div>
+                </div>
+                {/* progress bar for rating 4*/}
+                <div
+                  class="progress"
+                  style={{
+                    height: "8px",
+                    marginTop: "5px",
+                  }}
+                >
+                  <div
+                    class="progress-bar"
+                    style={{
+                      width: fourBar + "%",
+                      backgroundColor: "#1abc9c",
+                    }}
+                  ></div>
+                </div>
+                {/* progress bar for rating 3 */}
+                <div
+                  class="progress"
+                  style={{
+                    height: "8px",
+                    marginTop: "5px",
+                  }}
+                >
+                  <div
+                    class="progress-bar"
+                    style={{
+                      width: threeBar + "%",
+                      backgroundColor: "#1abc9c",
+                    }}
+                  ></div>
+                </div>
+                {/* progress bar for rating 2 */}
+                <div
+                  class="progress"
+                  style={{
+                    height: "8px",
+                    marginTop: "5px",
+                  }}
+                >
+                  <div
+                    class="progress-bar"
+                    style={{
+                      width: twoBar + "%",
+                      backgroundColor: "#1abc9c",
+                    }}
+                  ></div>
+                </div>
+                {/* progress bar for rating 1 */}
+                <div
+                  class="progress"
+                  style={{
+                    height: "8px",
+                    marginTop: "5px",
+                  }}
+                >
+                  <div
+                    class="progress-bar"
+                    style={{
+                      width: oneBar + "%",
+                      backgroundColor: "#1abc9c",
+                    }}
+                  ></div>
+                </div>
+              </div>
               <br></br>
             </div>
+            <hr></hr>
+
             {filterComments.map((item) => this.renderAllComments(item))}
-            {/* {this.loadCommentByProductId().map((item) =>
-              this.renderAllComments(item)
-            )} */}
           </div>
         </div>
       </div>
     );
   }
 
-  CalculateAverage = (item) => {
-    const { overallRating, filterComments } = this.state;
-    const number = filterComments.length;
-    // let ave = (overallRating * number + item.rating) / (number + 1);
-    let five = 0,
-      four = 0,
-      three = 0,
-      two = 0,
-      one = 0;
-    // console.log("rating : " + number);
-    if (this.props.proid == item.produtid) {
-      for (var i = 1; i < filterComments.length; i++) {
-        if (item.rating == 5) {
-          five = five + 1;
-          console.log("five" + item.rating);
-        }
-        // else if (item.rating == 4) {
-        //   four = four + 1;
-        //   console.log("four" + four);
-        // } else if (item.rating == 3) {
-        //   three = three + 1;
-        //   console.log("three" + three);
-        // } else if (item.rating == 2) {
-        //   two = two + 1;
-        //   console.log("three" + two);
-        // } else if (item.rating == 1) {
-        //   one = one + 1;
-        //   console.log("three" + one);
-        // }
-      }
-    }
-    return (
-      <div>
-        <li>{five}</li>
-        <br></br>
-        {/* {four} */}
-      </div>
-    );
-    // if (active_category == "All") {
-    //   return products;
-    // } else {
-    //   return products.filter((p) => p.category_name == active_category);
-    // }
-  };
+  // CalculateAverage = (item) => {
+  //   const { filterComments } = this.state;
+  //   let rating_count = [0, 0, 0, 0, 0];
+
+  //   filterComments.forEach((item) => {
+  //     rating_count[item.rating - 1] = rating_count[item.rating - 1] + 1;
+  //   });
+  //   console.log("five ", rating_count);
+
+  //   let total_count = rating_count.reduce(
+  //     (acc, current, index) => acc + current * (index + 1),
+  //     0
+  //   );
+
+  //   let cal = total_count / filterComments.length;
+  //   console.log("tttt ", cal);
+  // };
 
   renderAllComments = (item) => {
     return (
