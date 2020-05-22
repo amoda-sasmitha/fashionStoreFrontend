@@ -8,6 +8,7 @@ import { getAllCategories , insertCategory , updateCategory , deleteCategory } f
 import Config from "../../controllers/Config";
 import moment from 'moment'
 import {Link} from "react-router-dom";
+import {getCategories} from '../../actions/cartActions'
 import M_Manager from '../../controllers/Manager'
 
 class Home extends React.Component {
@@ -19,10 +20,11 @@ class Home extends React.Component {
     }
 }
 
- componentWillMount(){
+ componentDidMount(){
   console.log(this.props.isAuthed);
   this.loadCategories();
   this.getAllOffers()
+  this.props.getCategories && this.props.getCategories();
 
  }
 
@@ -123,6 +125,8 @@ const mapStateToProps = state => ({
   cart : state.cart || {} ,
 });
 
-const mapDispatchToProps = {};
+const mapDispatchToProps = {
+  getCategories
+};
 
-export default connect(mapStateToProps)(Home);
+export default connect(mapStateToProps , mapDispatchToProps)(Home);

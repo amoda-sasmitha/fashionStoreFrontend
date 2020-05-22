@@ -1,13 +1,22 @@
       /*  eslint-disable */
 
 import React from 'react';
+import { Carousel } from "react-responsive-carousel";
 
 class MainSlider extends React.Component {
   render(){
     return(
         <section className="hero-section">
-            <div className="hero-items owl-carousel">
-                <div className="item hero-slidshow_item shadow"  style={{ backgroundImage : `url('images/covers/cover1.png')` ,  backgroundSize : 'cover' }}>
+            <div>
+            <Carousel swipeable={true} 
+                showIndicators={true}
+                autoPlay={true}
+                infiniteLoop={true}
+                interval={3000}
+                stopOnHover={false}
+                transitionTime={1000}
+                showArrows={false} >
+                <div className="hero-slidshow_item shadow"  style={{ backgroundImage : `url('images/covers/cover1.png')` ,  backgroundSize : 'cover' }}>
                     <div className="container hero-padding">
                         <div className="row ">
                             <div className="col-sm-6 col-12 ">
@@ -19,7 +28,7 @@ class MainSlider extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="item hero-slidshow_item"  style={{ backgroundImage : `url('images/covers/cover5.png')` ,  backgroundSize : 'cover' }}>
+                <div className="hero-slidshow_item"  style={{ backgroundImage : `url('images/covers/cover5.png')` ,  backgroundSize : 'cover' }}>
                     <div className="container hero-padding">
                         <div className="row ">
                             <div className="col-sm-6 col-12">
@@ -31,7 +40,7 @@ class MainSlider extends React.Component {
                         </div>
                     </div>
                 </div>
-                <div className="item hero-slidshow_item"  style={{ backgroundImage : `url('images/covers/cover4.png')` ,  backgroundSize : 'cover' }}>
+                <div className="hero-slidshow_item"  style={{ backgroundImage : `url('images/covers/cover4.png')` ,  backgroundSize : 'cover' }}>
                     <div className="container hero-padding">
                         <div className="row ">
                             <div className="col-sm-6 col-12">
@@ -43,6 +52,7 @@ class MainSlider extends React.Component {
                         </div>
                     </div>
                 </div> 
+                </Carousel>
             </div>
         </section> 
     );

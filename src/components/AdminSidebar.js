@@ -13,7 +13,8 @@ import {
     faBarcode,
     faClipboardCheck,
     faGift,
-    faPlusSquare
+    faPlusSquare,
+    faTachometerAlt
 } from '@fortawesome/free-solid-svg-icons'
 
 class AdminSidebar extends React.Component {
@@ -51,6 +52,12 @@ class AdminSidebar extends React.Component {
                         </div>
                     </div>
                     <ul className="sidebar">
+                        <li className="listitem" className={`listitem ${active == 'dashboard' && 'active_category'}`}>
+                            <Link to="/admin/dashboard">
+                                <h6 className={`categorylink px-2 ${active == 'dashboard' && 'active_category'}`}>
+                                    <FontAwesomeIcon icon={faTachometerAlt} className="mx-3 sidebar-icon"></FontAwesomeIcon>Dashboard
+                                </h6></Link>
+                        </li>
                         <li className="listitem" className={`listitem ${active == 'users' && 'active_category'}`}>
                             <Link to="/admin/user/managment">
                                 <h6 className="categorylink px-2">

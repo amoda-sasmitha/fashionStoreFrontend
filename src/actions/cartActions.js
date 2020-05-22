@@ -1,4 +1,4 @@
-import { GET, GET_CART } from "./types";
+import { GET, GET_CART  , GET_CATEGORIES} from "./types";
 import axios from "axios";
 import Config from "../controllers/Config";
 import User from "../controllers/User";
@@ -116,4 +116,17 @@ export const getCart = (userid) => {
     }).catch((err) => {
       throw err;
     });
+};
+
+export const getCategories = (userid) => {
+  return (dispatch) =>
+      axios
+        .get(`${Config.host}${Config.port}/category/getall`)
+        .then((result) => {
+          // console.log( "API" , result.data);
+          dispatch({ type: GET_CATEGORIES, payload: result.data.data });
+        })
+        .catch((error) => {
+          console.log(error);
+        });
 };

@@ -120,7 +120,7 @@ class MainNavbar extends React.Component {
       );
     } else {
       return (
-        <Link to="/signin" className="login-panel">
+        <Link to="/signin" className="login-panel font-weight-bold text-dark">
           <i className="fa fa-user"></i>Sign In
         </Link>
       );
@@ -128,6 +128,7 @@ class MainNavbar extends React.Component {
   };
 
   render() {
+    const cateogories = this.props.cart.categories;
     const cart = this.props.cart.cart;
     const length = cart.length;
     const wishlist = this.props.wishlist.wishlist.length;
@@ -194,11 +195,11 @@ class MainNavbar extends React.Component {
                       {wishlist != 0 && <span>{wishlist}</span>}
                     </Link>
                   </li>
-                  <li className="cart-icon">
+                  <li className="cart-icon mr-3">
                     <Link to="/cart">
                       <FontAwesomeIcon
                         icon={faShoppingCart}
-                        className="text-dark"
+                        className="text-dark "
                       />
                       {length != 0 && <span>{length}</span>}
                     </Link>
@@ -221,16 +222,19 @@ class MainNavbar extends React.Component {
                   <Link to="/">Home</Link>
                 </li>
                 <li>
-                  <Link to="/">Categories</Link>
+                  <Link >Categories</Link>
+                  <ul class="dropdown">
+                    { cateogories.map( (item,i) => <li key={i}><Link to={`/categories/${item.name.trim()}`}>{item.name}</Link></li> )}
+                  </ul>
                 </li>
                 <li>
-                  <Link to="/">Offers</Link>
+                  <Link to="/offers">Offers</Link>
                 </li>
                 <li>
-                  <Link to="/">About Us</Link>
+                  <Link to="/aboutus">About Us</Link>
                 </li>
                 <li>
-                  <Link to="/">Contact Us</Link>
+                  <Link to="/contactus">Contact Us</Link>
                 </li>
               </ul>
             </nav>

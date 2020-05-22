@@ -245,7 +245,8 @@ class Adminlogin extends Component {
                         <div className="row">
                             <div className="col-lg-6 offset-lg-3">
                                 <div className="login-form">
-                                    <h2>Sign In</h2>
+                                    <h4 className="font-weigh-bold mt-3 mb-4 text-dark">
+                                        <b>Admin Portal</b></h4>
                                     <form onSubmit={(e) => { this.onLogin(e) }}>
                                         <div className="group-input">
                                             <label >Email *</label>

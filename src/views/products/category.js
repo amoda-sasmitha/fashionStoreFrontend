@@ -19,12 +19,23 @@ class Category extends Component {
 
   componentDidMount() {
     window.scrollTo(0, 0);
-    this.loadProducts();
+    this.loadProducts(this.props.match.params.id);
   }
 
-  loadProducts = () => {
+  
+  componentWillReceiveProps(nextProps){
+    if (nextProps.match.params.id) {
+      if(nextProps.match.params.id !== this.state.id){
+          this.setState({search : nextProps.match.params.id});
+          this.loadProducts(nextProps.match.params.id);
+          console.log(nextProps.match.params.id);
+      }
+    }
+  }
+
+  loadProducts = category => {
     this.setState({ loading: true });
-    getAllProductByCategory(this.state.category)
+    getAllProductByCategory(category)
       .then((result) => {
         console.log(result);
         this.setState({
@@ -67,7 +78,7 @@ class Category extends Component {
           products={products}
           brands={brands}
           tags={tags}
-          type={category}
+          type={this.props.match.params.id}
           loading={loading}
         />
         <Footer></Footer>

@@ -1,6 +1,7 @@
 export const GET_USERS = "GET_USERS";
 export const SET_CURRENT_USER = "SET_CURRENT_USER";
 export const GET_CART = "GET_CART";
+export const GET_CATEGORIES = "GET_CATEGORIES";
 export const GET_WISHLIST = "GET_WISHLIST";
 export const ADD_CART = "ADD_CART";
 export const UPDATE_CART = "UPDATE_CART";

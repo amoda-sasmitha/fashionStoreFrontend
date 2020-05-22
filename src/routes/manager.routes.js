@@ -3,6 +3,7 @@ import AllUsers from '../views/allusers/allusers'
 
 
 import AddProducts from '../views/admin/admin.add.products'
+import Dashboard from '../views/admin/admin.dashboard'
 import UpdateProducts from '../views/admin/admin.update.products'
 
 // import UserManagment from '../views/admin/admin.users'
@@ -22,6 +23,12 @@ let managerRoutes = [
         path: "/admin/products/add",
         name: "admin_product_add",
         component: AddProducts,
+        exact: true,
+    },
+    {
+        path: "/admin/dashboard",
+        name: "dashboard",
+        component: Dashboard,
         exact: true,
     },
     {
