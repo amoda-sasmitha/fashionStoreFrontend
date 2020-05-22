@@ -3,30 +3,35 @@ import React, { Component } from "react";
 import Config from "../controllers/Config";
 import { withRouter } from "react-router-dom";
 import { connect } from "react-redux";
-import { insertComment, getAllComments } from "../controllers/Comments";
+import User from "../controllers/User";
+import {
+  insertComment,
+  getAllComments,
+  getCommentByProductId,
+} from "../controllers/Comments";
+import moment from "moment";
 import { getProductById } from "../controllers/Products";
 import StarRatingComponent from "../../node_modules/react-star-rating-component";
 class CommentSection extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
-      // username: "",
       comment: "",
       ratings: "",
-      userId: "5eaee2f5c8aa252450f5e8c4",
-      produtid: "",
-      AllComments: [],
+      filterComments: [],
+      overallRating: "",
+      averageRate: "",
     };
   }
   componentDidMount() {
-    this.loadComments();
+    this.loadCommentByProductId();
   }
 
-  loadComments = () => {
-    getAllComments(this.state.produtid)
+  loadCommentByProductId = () => {
+    console.log("ID : ", this.props.proid);
+    getCommentByProductId(this.props.proid)
       .then((result) => {
-        console.log(result);
-        this.setState({ AllComments: result });
+        this.setState({ filterComments: result });
       })
       .catch((err) => {
         console.log(err);
@@ -35,21 +40,12 @@ class CommentSection extends React.Component {
 
   onSubmit = (e) => {
     e.preventDefault();
-    // const form = {
-    //   userId: this.state.userId,
-    //   username: this.state.username,
-    //   produtid: this.state.produtid,
-    //   comment: this.state.comment,
-    //   ratings: this.state.ratings,
-    //   Date: new Date().toLocaleString(),
-    // };
-
-    // console.log(form);
 
     insertComment({
-      userId: this.state.userId,
-      //username: this.state.username,
-      produtid: this.state.produtid,
+      userid: this.props.uid,
+      //username: this.props.auth.user.username,
+      produtid: this.props.proid,
+      produt_name: this.props.proName,
       comment: this.state.comment,
       rating: this.state.ratings,
     })
@@ -65,13 +61,18 @@ class CommentSection extends React.Component {
   onStarClick(nextValue, prevValue, name) {
     this.setState({ ratings: nextValue });
   }
+
   handleChange = (e) => {
     this.setState({
       [e.target.name]: e.target.value,
     });
   };
+
   render() {
-    const { AllComments } = this.state;
+    const { filterComments, averageRate } = this.state;
+    const number = filterComments.length;
+    const rate = this.state.ratings;
+
     return (
       <div class="container">
         <div class="row">
@@ -84,14 +85,6 @@ class CommentSection extends React.Component {
               }}
             >
               <form method="POST" onSubmit={(e) => this.onSubmit(e)}>
-                {/* <label>
-            Name:
-            <input
-              name="username"
-              value={this.state.username}
-              onChange={(e) => this.handleChange(e)}
-            />
-          </label> */}
                 <div>
                   <h6>Describe your experience:</h6>
                   <input
@@ -105,37 +98,112 @@ class CommentSection extends React.Component {
                 <div>
                   <StarRatingComponent
                     name="ratings"
-                    style={{
-                      width: "100%",
-                    }}
                     starCount={5}
                     value={this.state.ratings}
                     onStarClick={this.onStarClick.bind(this)}
                     onChange={(e) => this.handleChange(e)}
                   />
                 </div>
-                {/* <button onClick={(e) => this.onSubmit(e)}>Send</button> */}
+
                 <button type="submit" class="btn btn-dark">
                   Submit
                 </button>
+                {/* <p>{this.props.uid}</p> */}
               </form>
             </div>
           </div>
           <div className="col-6">
             <br></br>
-            <h6>Comments and Ratings</h6>
-            {AllComments.map((item) => this.renderAllComments(item))}
+            <h6 className="text-secondary pt-1">
+              Comments and Ratings ( {number} Total )
+            </h6>
+
+            <div class="row">
+              {filterComments.map((item) => this.CalculateAverage(item))}
+              <br></br>
+            </div>
+            {filterComments.map((item) => this.renderAllComments(item))}
+            {/* {this.loadCommentByProductId().map((item) =>
+              this.renderAllComments(item)
+            )} */}
           </div>
         </div>
       </div>
     );
   }
+
+  CalculateAverage = (item) => {
+    const { overallRating, filterComments } = this.state;
+    const number = filterComments.length;
+    // let ave = (overallRating * number + item.rating) / (number + 1);
+    let five = 0,
+      four = 0,
+      three = 0,
+      two = 0,
+      one = 0;
+    // console.log("rating : " + number);
+    if (this.props.proid == item.produtid) {
+      for (var i = 1; i < filterComments.length; i++) {
+        if (item.rating == 5) {
+          five = five + 1;
+          console.log("five" + item.rating);
+        }
+        // else if (item.rating == 4) {
+        //   four = four + 1;
+        //   console.log("four" + four);
+        // } else if (item.rating == 3) {
+        //   three = three + 1;
+        //   console.log("three" + three);
+        // } else if (item.rating == 2) {
+        //   two = two + 1;
+        //   console.log("three" + two);
+        // } else if (item.rating == 1) {
+        //   one = one + 1;
+        //   console.log("three" + one);
+        // }
+      }
+    }
+    return (
+      <div>
+        <li>{five}</li>
+        <br></br>
+        {/* {four} */}
+      </div>
+    );
+    // if (active_category == "All") {
+    //   return products;
+    // } else {
+    //   return products.filter((p) => p.category_name == active_category);
+    // }
+  };
+
   renderAllComments = (item) => {
     return (
-      <p>
-        {item.comment} {item.rating}
-      </p>
+      <div class="row">
+        <div class="col-4">
+          <center>
+            <StarRatingComponent
+              name="ratings"
+              starCount={5}
+              value={item.rating}
+            />
+          </center>
+        </div>
+        <div class="col-8">
+          <span className="text-danger small font-weight-bold">
+            {moment(new Date(item.created_at)).format("YYYY MMM DD")}
+          </span>
+          {item.username}
+          <br></br>
+          {item.comment}
+          <hr></hr>
+        </div>
+      </div>
     );
+  };
+
+  renderRating = (item) => {
+    return <p>{item.rating}</p>;
   };
 }
 
