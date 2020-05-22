@@ -1,10 +1,10 @@
-rm -r /var/www/FA/build
+rm -r /var/www/AF/build
 
 npm run build
 
-cp ./build/ /var/www/FA/build -r
+cp ./build/ /var/www/AF/build -r
 
-chmod -R 777 /var/www/FA/build
+chmod -R 777 /var/www/AF/build
 
 service nginx restart
 

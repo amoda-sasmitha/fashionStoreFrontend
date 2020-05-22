@@ -1,11 +1,12 @@
-      /*  eslint-disable */
+/*  eslint-disable */
 
-import React from 'react';
-import '../asserts/commoncss/sidebar.css'
-import {Link} from "react-router-dom";
-import { connect} from 'react-redux'
-import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
+import React from "react";
+import "../asserts/commoncss/sidebar.css";
+import { Link } from "react-router-dom";
+import { connect } from "react-redux";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {
+
     faUser,
     faEnvelopeSquare,
     faBars,
@@ -14,18 +15,18 @@ import {
     faClipboardCheck,
     faGift,
     faPlusSquare,
-    faTachometerAlt
-} from '@fortawesome/free-solid-svg-icons'
+    faTachometerAlt,
+  faComment,
+} from "@fortawesome/free-solid-svg-icons";
+
 
 class AdminSidebar extends React.Component {
-
-    constructor(props) {
-        super(props);
-        this.state = {
-            side_bar_toggle: false
-        };
-    }
-
+  constructor(props) {
+    super(props);
+    this.state = {
+      side_bar_toggle: false,
+    };
+  }
 
     render() {
         const {side_bar_toggle} = this.state;
@@ -91,49 +92,77 @@ class AdminSidebar extends React.Component {
                                 </h6>
                             </li>
                         </Link>
-                        {/* <li className="listitem" >
-                            </li>
-                        </Link>
-                        {/* <li className="listitem" >
-                                <span className="categorylink px-4">
-                                <FontAwesomeIcon icon={faEnvelopeSquare} className="mx-3 sidebar-icon"></FontAwesomeIcon>Add Products
-                                </span>
-                            </li>   */}
-            
-                            <Link to="/manager/orders">
-                            <li className="listitem">
-                            <h6 className="categorylink px-2">
-                                <FontAwesomeIcon icon={faClipboardCheck}
-                                                 className="mx-3 sidebar-icon"></FontAwesomeIcon>Orders
-                            </h6>
-                            </li>
-                            </Link>
-                        <Link to="/manager/offers">
 
-                        <li className="listitem" className={`listitem ${active == 'offers' && 'active_category'}`}>
-
-                                <h6 className={`categorylink px-2 ${active == 'offers' && 'active_category'}`} >
-                                    <FontAwesomeIcon icon={faGift} className="mx-3 sidebar-icon"></FontAwesomeIcon>Offers
-
-                                </h6>
-
-
-                        </li>
-                        </Link>
-                        <li className="listitem">
-                            <h6 className="categorylink px-2">
-                                <FontAwesomeIcon icon={faGift} className="mx-3 sidebar-icon"></FontAwesomeIcon>Comments
-                            </h6>
-                        </li>
-                    </ul>
-                </div>
-            </>
-        );
-    }
+            <Link to="/manager/newsletter">
+              <li
+                className="listitem"
+                className={`listitem ${
+                  active == "newsletters" && "active_category"
+                }`}
+              >
+                <h6
+                  className={`categorylink px-2 ${
+                    active == "newsletters" && "active_category"
+                  }`}
+                >
+                  <FontAwesomeIcon
+                    icon={faGift}
+                    className="mx-3 sidebar-icon"
+                  ></FontAwesomeIcon>
+                  Subscribers
+                </h6>
+              </li>
+            </Link>
+            <Link to="/manager/orders">
+              <li className="listitem">
+                <h6 className="categorylink px-2">
+                  <FontAwesomeIcon
+                    icon={faClipboardCheck}
+                    className="mx-3 sidebar-icon"
+                  ></FontAwesomeIcon>
+                  Orders
+                </h6>
+              </li>
+            </Link>
+            <Link to="/manager/offers">
+              <li
+                className="listitem"
+                className={`listitem ${
+                  active == "offers" && "active_category"
+                }`}
+              >
+                <h6
+                  className={`categorylink px-2 ${
+                    active == "offers" && "active_category"
+                  }`}
+                >
+                  <FontAwesomeIcon
+                    icon={faGift}
+                    className="mx-3 sidebar-icon"
+                  ></FontAwesomeIcon>
+                  Offers
+                </h6>
+              </li>
+            </Link>
+            <Link to="/admin/comments">
+              <li className="listitem">
+                <h6 className="categorylink px-2">
+                  <FontAwesomeIcon
+                    icon={faGift}
+                    className="mx-3 sidebar-icon"
+                  ></FontAwesomeIcon>
+                  Comments
+                </h6>
+              </li>
+            </Link>
+          </ul>
+        </div>
+      </>
+    );
+  }
 }
-const mapStateToProps = state => ({
-    auth : state.auth || {} ,
-  });
-  
-  
+const mapStateToProps = (state) => ({
+  auth: state.auth || {},
+});
+
 export default connect(mapStateToProps)(AdminSidebar);

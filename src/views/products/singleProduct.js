@@ -1,3 +1,4 @@
+/*  eslint-disable */
 import React, { Component } from "react";
 import MainNavbar from "../../components/MainNavbar";
 import Footer from "../../components/Footer";
@@ -210,23 +211,39 @@ class SingleProduct extends Component {
               <div className="col-md-8">
                 <div className="product-details card  px-4 py-2">
                   <div className="pd-title">
-                    <span>{product.brand}</span>
-                    <h4
-                      className="mt-1"
-                      style={{ fontWeight: 500, fontSize: "1.35rem" }}
-                      className="text-dark"
-                    >
-                      {product.name}
-                      <FontAwesomeIcon
-                        icon={faHeart}
-                        onClick={this.addtoWishlist}
-                        className={`mx-2  ${
-                          this.checkInWishlist() == -1
-                            ? "text-muted"
-                            : "text-danger"
-                        } click`}
-                      />
-                    </h4>
+                    <div class="row">
+                      <div class="col">
+                        <span>{product.brand}</span>
+                        <h4
+                          className="mt-1"
+                          style={{ fontWeight: 500, fontSize: "1.35rem" }}
+                          className="text-dark"
+                        >
+                          {product.name}
+                        </h4>
+                      </div>
+                      <div class="col">
+                        <h4
+                          className="mt-1"
+                          style={{
+                            fontWeight: 500,
+                            paddingTop: "10px",
+                            fontSize: "1.35rem",
+                            float: "right",
+                          }}
+                        >
+                          <FontAwesomeIcon
+                            icon={faHeart}
+                            onClick={this.addtoWishlist}
+                            className={`mx-2  ${
+                              this.checkInWishlist() == -1
+                                ? "text-muted"
+                                : "text-danger"
+                            } click`}
+                          />
+                        </h4>
+                      </div>
+                    </div>
                   </div>
                   <div className="pd-desc mt-2">
                     {product.discount &&
@@ -399,7 +416,12 @@ class SingleProduct extends Component {
                     </div>
                     {/* sss */}
                     <div className="tab-pane fade" id="tab-3" role="tabpanel">
-                      <CommentSection key={product.id}></CommentSection>
+                      <CommentSection
+                        proid={this.props.match.params.id}
+                        proName={product.name}
+                        pcat={product.category_name}
+                        uid={this.props.auth.user.id}
+                      ></CommentSection>
                     </div>
                     {/* ssss */}
                   </div>

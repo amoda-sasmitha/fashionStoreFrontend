@@ -1,3 +1,4 @@
+/*  eslint-disable */
 import React, { Component } from 'react';
 
 import './common.css'
@@ -6,7 +7,6 @@ import MainNavbar from '../../components/MainNavbar';
 // import footer
 import Footer from '../../components/Footer';
 import newimg from '../../asserts/Images/newnew.png'
-
 class ContactUS extends Component {
     constructor() {
         super();
@@ -67,7 +67,8 @@ class ContactUS extends Component {
                        
                         <div className="row ml-1 mb-4 pb-2" >
                         <div className="col-md-9 mt-2 ">
-                                <img src={newimg} className="img-fluid" />
+                                {/* <img src={newimg} className="img-fluid" /> */}
+                                <img src="images/logo.png" className="img-fluid mt-4 mb-4" />
                             </div>
                             <div className="col-md-12" >
                             <h5>Social Networks</h5>
@@ -95,7 +96,7 @@ class ContactUS extends Component {
                             </div>
                             <div className="col-md-6 mt-2 ">
                                 <a  className={""}  style={{color:'black'}} href="mailto:inhowrelax@gmail.com" >
-                                    <i className="fa fa-envelope mr-1 p-1" ></i><span>Email : inhowrelax@gmail.com</span>
+                                    <i className="fa fa-envelope mr-1 p-1" ></i><span>Email : info@fahi.com</span>
                                 </a>
                             </div>
                            

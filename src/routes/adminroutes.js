@@ -1,14 +1,12 @@
+import AllUsers from "../views/allusers/allusers";
 
-import AllUsers from '../views/allusers/allusers'
+import AdminCategory from "../views/admin/admin.category";
+import AdminManager from "../views/admin/admin.managers";
+import AddProducts from "../views/admin/admin.add.products";
+import AdminProducts from "../views/admin/admin.products";
 
-import AdminCategory from '../views/admin/admin.category'
-import AdminManager from '../views/admin/admin.managers'
-import AddProducts from '../views/admin/admin.add.products'
-import AdminProducts from '../views/admin/admin.products'
-
-import UserManagment from '../views/admin/admin.users'
-
-
+import UserManagment from "../views/admin/admin.users";
+import AdminCommets from "../views/admin/admin.comment";
 
 let adminRoutes = [
   {
@@ -32,7 +30,7 @@ let adminRoutes = [
   {
     path: "/admin/products",
     name: "admin_products",
-    component: AdminProducts ,
+    component: AdminProducts,
     exact: true,
   },
   {
@@ -46,7 +44,13 @@ let adminRoutes = [
     name: "admin_user_managment",
     component: UserManagment,
     exact: true,
-  }
+  },
+  {
+    path: "/admin/comments",
+    name: "admin_comments",
+    component: AdminCommets,
+    exact: true,
+  },
 ];
 
 export default adminRoutes;

@@ -139,11 +139,11 @@ class MainNavbar extends React.Component {
             <div className="ht-left">
               <div className="mail-service font-weight-bold text-dark">
                 <i className=" fa fa-envelope px-2" />
-                fashionstore@gmail.com
+                info@fashi.com
               </div>
               <div className="phone-service font-weight-bold text-dark">
                 <i className=" fa fa-phone"></i>
-                +94 91 222 77 81
+                (+94)71 123 4567
               </div>
             </div>
 
@@ -234,7 +234,7 @@ class MainNavbar extends React.Component {
                   <Link to="/aboutus">About Us</Link>
                 </li>
                 <li>
-                  <Link to="/contactus">Contact Us</Link>
+                  <Link  to="/contactus">Contact Us</Link>
                 </li>
               </ul>
             </nav>
