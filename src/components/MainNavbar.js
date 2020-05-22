@@ -21,12 +21,12 @@ class MainNavbar extends React.Component {
       Title: "Sign",
       adminState: false,
       mangerState: false,
+      search : "",
     };
   }
 
   componentWillMount() {
     if (this.props.auth.isAuthenticated) {
-      console.log("called s");
       this.setState({
         loginState: true,
         Title: "My Account",
@@ -73,6 +73,12 @@ class MainNavbar extends React.Component {
 
     this.props.history.push("/");
   };
+
+  searchProducts = () => {
+    if(this.state.search.length > 0 ){
+    this.props.history.push(`/search/${this.state.search}`);
+    }
+  }
 
   checkButton = () => {
     const { loginState, adminState, mangerState } = this.state;
@@ -132,11 +138,11 @@ class MainNavbar extends React.Component {
             <div className="ht-left">
               <div className="mail-service font-weight-bold text-dark">
                 <i className=" fa fa-envelope px-2" />
-                fashionstore@gmail.com
+                info@fashi.com
               </div>
               <div className="phone-service font-weight-bold text-dark">
                 <i className=" fa fa-phone"></i>
-                +94 91 222 77 81
+                (+94)71 123 4567
               </div>
             </div>
 
@@ -169,8 +175,14 @@ class MainNavbar extends React.Component {
               <div className="col-lg-7 col-md-7">
                 <div className="advanced-search">
                   <div className="input-group">
-                    <input type="text" placeholder="Search Anything .." />
-                    <button type="button">search</button>
+                    <input 
+                      style={{color : '#000000'}}
+                      type="text" 
+                      value={this.state.search}
+                      placeholder="Search Anything .."
+                      onChange={(e) => this.setState({search : e.target.value })} 
+                      />
+                    <button onClick={this.searchProducts}  type="button">search</button>
                   </div>
                 </div>
               </div>
@@ -215,10 +227,10 @@ class MainNavbar extends React.Component {
                   <Link to="/">Offers</Link>
                 </li>
                 <li>
-                  <Link to="/">About Us</Link>
+                  <Link to="/aboutus">About Us</Link>
                 </li>
                 <li>
-                  <Link to="/">Contact Us</Link>
+                  <Link  to="/contactus">Contact Us</Link>
                 </li>
               </ul>
             </nav>

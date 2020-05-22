@@ -1,7 +1,10 @@
 import Home from "../views/home";
 
 import Category from "../views/products/category";
+
+import searchProduct from "../views/products/searchProduct";
 import Offers from "../views/offers/offersMain";
+import OffersDetails from "../views/offers/offersDetails";
 
 // import SignUp
 import SignUp from '../views/signup/signUp'
@@ -75,6 +78,12 @@ let indexRoutes = [
     exact: true,
   },
   {
+    path: "/offers/details/:id",
+    name: "OffersDetails",
+    component: OffersDetails,
+    exact: true,
+  },
+  {
     path: "/contactus",
     name: "Contact_Us",
     component: ContactUs,
@@ -108,6 +117,12 @@ let indexRoutes = [
     path: "/categories/:id",
     name: "Category",
     component: Category,
+    exact: true,
+  },
+  {
+    path: "/search/:search",
+    name: "Search",
+    component: searchProduct,
     exact: true,
   },
   {

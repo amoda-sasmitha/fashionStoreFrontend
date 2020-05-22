@@ -1,3 +1,4 @@
+/*  eslint-disable */
 import React, { Component } from 'react';
 import MainNavbar from '../../components/MainNavbar';
 import Footer from '../../components/Footer';
@@ -43,8 +44,9 @@ class MyOrders extends Component {
         const { orders } = this.state;
         return (
           <div className="wrapper">
-            <MainNavbar></MainNavbar>
-            <section className="product-shop spad">
+            {/* <MainNavbar></MainNavbar> */}
+            {/* <section className="product-shop spad"> */}
+            <section className="product-shop spad pt-0 pb-0">
               <div className="container">
                 <div className="row">
                   <div className="col-12">
@@ -85,7 +87,7 @@ class MyOrders extends Component {
               </div>
             </section>
 
-            <Footer></Footer>
+            {/* <Footer></Footer> */}
           </div>
         );
     }

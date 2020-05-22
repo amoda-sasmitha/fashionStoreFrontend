@@ -1,3 +1,4 @@
+/*  eslint-disable */
 import React, {Component} from "react";
 import { getOrderById } from '../../controllers/Order'
 import { updateOrder } from '../../controllers/Order'
@@ -61,6 +62,8 @@ export class MoreDetails extends Component {
 
     onFormSubmit = (e) => {
         e.preventDefault();
+
+        //this.props.history.push("/manager/orders");
         
         console.log("Order ID: ", this.state.id);
         if(this.validate()){

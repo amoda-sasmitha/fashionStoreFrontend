@@ -164,6 +164,26 @@ class AdminSidebar extends React.Component {
                                 </span>
                             </li>   */}
 
+            <Link to="/manager/newsletter">
+              <li
+                className="listitem"
+                className={`listitem ${
+                  active == "newsletters" && "active_category"
+                }`}
+              >
+                <h6
+                  className={`categorylink px-2 ${
+                    active == "newsletters" && "active_category"
+                  }`}
+                >
+                  <FontAwesomeIcon
+                    icon={faGift}
+                    className="mx-3 sidebar-icon"
+                  ></FontAwesomeIcon>
+                  Subscribers
+                </h6>
+              </li>
+            </Link>
             <Link to="/manager/orders">
               <li className="listitem">
                 <h6 className="categorylink px-2">
@@ -196,19 +216,10 @@ class AdminSidebar extends React.Component {
               </li>
             </Link>
             <Link to="/admin/comments">
-              <li
-                className="listitem"
-                className={`listitem ${
-                  active == "comments" && "active_category"
-                }`}
-              >
-                <h6
-                  className={`categorylink px-2 ${
-                    active == "comments" && "active_category"
-                  }`}
-                >
+              <li className="listitem">
+                <h6 className="categorylink px-2">
                   <FontAwesomeIcon
-                    icon={faComment}
+                    icon={faGift}
                     className="mx-3 sidebar-icon"
                   ></FontAwesomeIcon>
                   Comments

@@ -71,6 +71,7 @@ class ManagersOffers extends Component {
 
     onFormSubmit = (e) => {
         e.preventDefault();
+        console.log(this.state.size)
         if(this.validate()){
             M_Manager.addOffers(
                 this.state.title, 
@@ -192,7 +193,7 @@ class ManagersOffers extends Component {
                                                 <select value={size} id="size" name="size" className="form-control" required onChange={ (e) => this.formValueChange(e) }>
                                                     <option value="12" name="size" defaultValue>Full</option>
                                                     <option value="6" name="size">Half</option>
-                                                    <option value="4" name="size">Quarter</option>
+                                                    {/* <option value="4" name="size">Quarter</option> */}
                                                 </select>
                                                 { errors.size && errors.size.length > 0 &&
                                                 <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.size}</h4>}

@@ -21,6 +21,8 @@ import UserInfo from './Userinfo'
 
 import BillingInformation from './billingInformation'
 
+import Myorders from '../orders/myOrders'
+
 class MyAccount extends Component {
     constructor(props) {
         super(props);
@@ -58,7 +60,7 @@ class MyAccount extends Component {
                 {/* // ======================================================== */}
                 {/* // =============== Breadcrumb Section Begin  =============== */}
                 {/* // ========================================================  */}
-                <div className="breacrumb-section">
+                {/* <div className="breacrumb-section">
                     <div className="container">
                         <div className="row">
                             <div className="col-lg-12">
@@ -69,7 +71,7 @@ class MyAccount extends Component {
                             </div>
                         </div>
                     </div>
-                </div>
+                </div> */}
                 {/* // ======================================================== */}
                 {/* // =============== Breadcrumb Form Section end  =============== */}
                 {/* // ========================================================  */}
@@ -83,19 +85,21 @@ class MyAccount extends Component {
 
                         {/* Sidebar */}
                         <div className="col-md-2 IS_acc_Sidebar">
-                            <h1 className="backBtn" onClick={() => this.props.history.goBack()}  >
-                                <i className="fas fa-angle-left"></i> Account Settings </h1>
+                            {/* <h1 className="backBtn" onClick={() => this.props.history.goBack()}  >
+                                <i className="fas fa-angle-left"></i> Account Settings </h1> */}
+                            <h1 className="backBtn"   >
+                                My Account  </h1>
                             {/* sidebar Links */}
                             <h1 onClick={() => this.setPage("userInfo")} className={this.state.page === "userInfo" ? "linkItem active" : "linkItem"} >
                                 <i className="fas fa-user"></i> User Info  </h1>
-                            <h1 onClick={() => this.setPage("BillingInformation")} className={this.state.page === "usage" ? "linkItem active" : "linkItem"}>
-                                <i className="fas fa-file-invoice"></i>Billing Information </h1>
-                            <h1 onClick={() => this.setPage("team")} className={this.state.page === "team" ? "linkItem active" : "linkItem"}>
-                                <i className="fas fa-users"></i> Coupons </h1>
-                            <h1 onClick={() => this.setPage("billing")} className={this.state.page === "billing" ? "linkItem active" : "linkItem"}>
+                            {/* <h1 onClick={() => this.setPage("BillingInformation")} className={this.state.page === "usage" ? "linkItem active" : "linkItem"}>
+                                <i className="fas fa-file-invoice"></i>Billing Information </h1> */}
+                            <h1 onClick={() => this.setPage("Myorders")} className={this.state.page === "Myorders" ? "linkItem active" : "linkItem"}>
+                                <i className="fas fa-receipt"></i> My Orders </h1>
+                            {/* <h1 onClick={() => this.setPage("billing")} className={this.state.page === "billing" ? "linkItem active" : "linkItem"}>
                                 <i className="fas fa-receipt"></i> Order Details </h1>
                             <h1 onClick={() => this.setPage("billing")} className={this.state.page === "billing" ? "linkItem active" : "linkItem"}>
-                                <i className="fas fa-receipt"></i>  Complains  </h1>
+                                <i className="fas fa-receipt"></i>  Complains  </h1> */}
                         </div>
 
                         <div className="col-md-10 IS_acc_container">
@@ -104,6 +108,9 @@ class MyAccount extends Component {
                             ) : null}
                             {this.state.page === "BillingInformation" ? (
                                 <BillingInformation {...this.props} />
+                            ) : null}
+                            {this.state.page === "Myorders" ? (
+                                <Myorders {...this.props} />
                             ) : null}
                         </div>
                     </div>

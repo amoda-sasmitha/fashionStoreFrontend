@@ -49,6 +49,40 @@ export const getAllProductByCategory = cateogry_name => {
     })
 }
 
+export const getProductBySearch = search => {
+    return new Promise( (resolve,reject) => {
+        return axios.get(`${Config.host}${Config.port}/product/search/${search}`)
+            .then( result => {
+               if(result.data.code == 200){
+                    resolve(result.data.data)
+               }else{
+                resolve([])
+               }
+            })
+            .catch( err => {
+                reject(err)
+            })
+    })
+}
+
+export const getProductByOffer = id => {
+    return new Promise( (resolve,reject) => {
+        return axios.get(`${Config.host}${Config.port}/offer/get/${id}`)
+            .then( result => {
+                
+               if(result.data.code == 200){
+                    resolve(result.data.data)
+               }else{
+                resolve([])
+               }
+            })
+            .catch( err => {
+                reject(err)
+            })
+    })
+}
+
+
 export const getProductById = id => {
     return new Promise( (resolve,reject) => {
         return axios.get(`${Config.host}${Config.port}/product/getsingle/${id}`)
