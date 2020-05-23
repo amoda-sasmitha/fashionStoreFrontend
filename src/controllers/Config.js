@@ -79,6 +79,10 @@ class Config {
       return (Math.round(sum * 100) / 100).toFixed(2);
   }
 
+  numberWithCommas = (x) =>  {
+    return x.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ",");
+}
+
   setDiscountedPrice = (price , discount) =>{
     let value =  parseFloat(price) - ( parseFloat(price) * parseFloat(discount) / 100)
     return (Math.round(value * 100) / 100).toFixed(2);

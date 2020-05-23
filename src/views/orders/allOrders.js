@@ -56,7 +56,7 @@ class allOrders extends Component {
     //console.log("Shipped Orders: ", ShippedOrders);
     return (
       <div className="bg-light wd-wrapper">
-        <AdminSidebar active={"categories"} />
+        <AdminSidebar active={"orders"} />
         <div className="wrapper-wx">
           <div className="container-fluid">
             <div className="row">

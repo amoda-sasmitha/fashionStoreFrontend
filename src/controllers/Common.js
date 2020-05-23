@@ -16,3 +16,34 @@ export const getCounts = search => {
             })
     })
 }
+
+export const getRevenue = search => {
+    return new Promise( (resolve,reject) => {
+        return axios.get(`${Config.host}${Config.port}/common/revenue`)
+            .then( result => {
+               if(result.data.code == 200){
+                    resolve(result.data.data)
+               }else{
+                resolve([])
+               }
+            })
+            .catch( err => {
+                reject(err)
+            })
+    })
+}
+export const getlatestComments  = count  => {
+    return new Promise( (resolve,reject) => {
+        return axios.get(`${Config.host}${Config.port}/common/latestcomments/${count}`)
+            .then( result => {
+               if(result.data.code == 200){
+                    resolve(result.data.data)
+               }else{
+                resolve([])
+               }
+            })
+            .catch( err => {
+                reject(err)
+            })
+    })
+}
