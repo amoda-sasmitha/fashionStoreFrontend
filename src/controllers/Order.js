@@ -94,3 +94,19 @@ export const getOrdersByUserId = id => {
             })
     })
 }
+
+export const getAllProducts = () => {
+    return new Promise( (resolve,reject) => {
+        return axios.get(`${Config.host}${Config.port}/product/getall`)
+            .then( result => {
+               if(result.data.code == 200){
+                    resolve(result.data.data)
+               }else{
+                resolve([])
+               }
+            })
+            .catch( err => {
+                reject(err)
+            })
+    })
+}

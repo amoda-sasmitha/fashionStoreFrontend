@@ -53,6 +53,7 @@ class allOrders extends Component {
       return ord.shipped == false;
     });
 
+    //location.reload();
     //console.log("Shipped Orders: ", ShippedOrders);
     return (
       <div className="bg-light wd-wrapper">

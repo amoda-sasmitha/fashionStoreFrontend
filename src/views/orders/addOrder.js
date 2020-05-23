@@ -37,9 +37,10 @@ formValueChange = (e) => {
  //on form submit
  onFormSubmit = (e) => {
     e.preventDefault();
+    console.log("Submited Products: ", this.props.cart.cart);
     const filtered_products = this.props.cart.cart.map( item => {
         return {
-            id : item._id,
+            id : item.product.name,
             quantity : item.quantity,
             price : item.product.price,
             selected_size : item.selected_size,
