@@ -108,18 +108,18 @@ class wishlist extends Component {
               </div>
             </div>
             <br></br>
-            <div class="row">
-              <div class="col"></div>
-              <div class="col-6">
+            <div className="row">
+              <div className="col"></div>
+              <div className="col-6">
                 <button
                   type="button"
                   onClick={this.clearWishlistNow}
-                  class="form-control"
+                  className="form-control"
                 >
                   Clear wishlist
                 </button>
               </div>
-              <div class="col"></div>
+              <div className="col"></div>
             </div>
           </div>
         </section>
@@ -140,9 +140,9 @@ class wishlist extends Component {
           }}
         >
           <p key={item._id}>
-            <div class="card-body">
-              <div class="row">
-                <div class="col">
+            <div className="card-body">
+              <div className="row">
+                <div className="col">
                   <img
                     src={Config.setImage(product.images[0])}
                     height={130}
@@ -156,7 +156,7 @@ class wishlist extends Component {
                   />1abc9c
                 )} */}
                 </div>
-                <div class="col">
+                <div className="col">
                   <button
                     style={{
                       float: "right",
@@ -174,7 +174,7 @@ class wishlist extends Component {
                   </h5>
                 </div>
               </div>
-              <p class="card-text">
+              <p className="card-text">
                 <Link to={`/product/${product._id}`}>
                   <h5
                     className="form-label-table my-2"

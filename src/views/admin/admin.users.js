@@ -44,7 +44,11 @@ class AdminManagers extends Component {
             monthBaseUsers: [],
             monthBaseMonths: [],
             userUsage: [],
-            MonthBasedYear: '',
+            MonthBasedYear: '2020',
+            data_labels: [],
+            data_value: [],
+            data_browsers: [],
+            data_brow_values: []
 
         }
 
@@ -55,29 +59,29 @@ class AdminManagers extends Component {
 
 
 
-    //sentMonth wise usge
-    sentMonthwiseusge = async () => {
-        console.log(this.state.monthBaseUsers);
-        
-        var monthandusers = this.state.monthBaseUsers;
-        var months = [];
-        var user = [];
-         var year = monthandusers[0].year
-        console.log(monthandusers)
-         for (var i = 0; i < monthandusers.length; i++) {
-             months[i ] = monthandusers[i].month;
-            user[i ] = monthandusers[i].usersCount;
-        }
+    // //sentMonth wise usge
+    // sentMonthwiseusge = async () => {
+    //     console.log(this.state.monthBaseUsers);
 
-        await this.setState({
-            monthBaseMonths: months,
-            userUsage: user,
-            MonthBasedYear: year
-        })
+    //     var monthandusers = this.state.monthBaseUsers;
+    //     var months = [];
+    //     var user = [];
+    //     //  var year = monthandusers[0].year
+    //     console.log(monthandusers)
+    //      for (var i = 0; i < monthandusers.length; i++) {
+    //          months[i ] = monthandusers[i].month;
+    //         user[i ] = monthandusers[i].usersCount;
+    //     }
 
-        // console.log(this.state.monthBaseMonths)
-        // console.log(this.state.userUsage)
-    }
+    //     await this.setState({
+    //         monthBaseMonths: months,
+    //         userUsage: user,
+    //         MonthBasedYear: '2020'
+    //     })
+
+    //     // console.log(this.state.monthBaseMonths)
+    //     // console.log(this.state.userUsage)
+    // }
 
 
 
@@ -86,20 +90,26 @@ class AdminManagers extends Component {
 
     //get users from monthbase use
 
-    setMonthBasedUsers = async () => {
-        
+    setMonthBasedUsers = () => {
+
         return new Promise((resolve, reject) => {
-            return A_Admin.getUsageOfMonthBased(this.props.auth.user.token, this.props.auth.user)
+            return A_Admin.getUsageOfMonthBasedNew(this.props.auth.user.token, this.props.auth.user)
                 .then(result => {
                     resolve({ code: 200, data: result.data })
                     // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
-                    // console.log(result.data);
+                    // console.log(result.data.data);
                     // console.log("++++++++++++++++++++++++++++++++++++++++++++++++++++++++")
 
                     //
                     this.setState({
-                        monthBaseUsers: result.data.monthBasedUser
+                        data_labels: result.data.data.data_labels,
+                        data_value: result.data.data.data_values
+                        // monthBaseUsers: result.data.monthBasedUser
                     })
+
+                    // console.log(this.state.data_labels);
+                    // console.log(this.state.data_value);
+
                 })
                 .catch(err => {
                     reject({ code: 0, error: err })
@@ -111,12 +121,12 @@ class AdminManagers extends Component {
     // set users from year
 
     setUsersfromyear = async () => {
-        var ss = this.state.statYears;
+        var ss = await this.state.statYears;
         var years = [];
         var user = [];
         for (var i = 0; i < ss.length; i++) {
-            years[i] = ss[i].year;
-            user[i] = ss[i].usersCount;
+            years[i] = await ss[i].year;
+            user[i] = await ss[i].usersCount;
         }
 
         await this.setState({
@@ -155,7 +165,7 @@ class AdminManagers extends Component {
             return A_Admin.getAllUsersAdmin(this.props.auth.user.token, this.props.auth.user.type)
                 .then(result => {
                     resolve({ code: 200, data: result.data })
-                    console.log("dsdsdsD", result);
+                    // console.log("dsdsdsD", result);
 
 
 
@@ -178,9 +188,24 @@ class AdminManagers extends Component {
                     resolve({ code: 200, data: result.data })
                     // console.log(result.data);
 
+
+                    // console.log(result.data);
+
+
                     this.setState({
-                        browsers: result.data.browsers
+                        data_browsers: result.data.data.data_browsers,
+                        data_brow_values: result.data.data.data_brow_values
+
                     })
+
+                    // console.log(this.state.data_browsers);
+                    // console.log(this.state.data_brow_values);
+
+
+
+
+
+
                 })
                 .catch(err => {
                     reject({ code: 0, error: err })
@@ -208,13 +233,13 @@ class AdminManagers extends Component {
 
     async componentWillMount() {
         await this.getSignInStatus()
+        await this.setMonthBasedUsers()
         await this.getAllUsers()
         await this.getBrowsers()
         await this.getLastLogins()
         await this.getAllUsersStats()
+        // await this.sentMonthwiseusge()
         await this.setUsersfromyear()
-        await this.setMonthBasedUsers()
-        await this.sentMonthwiseusge()
 
 
 
@@ -238,7 +263,7 @@ class AdminManagers extends Component {
             showUserModal: true,
             viewUser: singleUser[0]
         })
-        console.log(this.state.viewUser);
+        // console.log(this.state.viewUser);
 
     }
     render() {
@@ -260,31 +285,6 @@ class AdminManagers extends Component {
                             <div className="col-12" style={{ display: this.state.addManagerState == true ? 'block' : 'none' }}>
                                 <div className="card border-0 shadow-sm rounded mt-3 bg-white pb-2">
                                     <div className="row m-1 p-1">
-                                        <div className="col-md-6 mt-2 ">
-                                            <div className="card" >
-                                                <div className="card-body">
-                                                    {users.length < 10 ? <h5 className="card-title">0{users.length}</h5> : <h5 className="card-title">{users.length}</h5>}
-                                                    <h6 className="card-subtitle mb-2 text-muted">All Users</h6>
-
-                                                </div>
-                                            </div>
-                                        </div>
-                                        <div className="col-md-6  mt-2">
-                                            <div className="card" >
-                                                <div className="card-body">
-                                                    <h5 className="card-title">05</h5>
-                                                    <h6 className="card-subtitle mb-2 text-muted">New Users</h6>
-
-                                                </div>
-                                            </div> </div>
-                                        {/* <div className="col-md-4  mt-2">
-                                            <div className="card" >
-                                                <div className="card-body">
-                                                    <h5 className="card-title">02</h5>
-                                                    <h6 className="card-subtitle mb-2 text-muted">Ban Users</h6>
-
-                                                </div>
-                                            </div></div> */}
                                     </div>
                                 </div>
                                 {/* charts --------------- */}
@@ -292,15 +292,15 @@ class AdminManagers extends Component {
                                     <div className="row">
                                         <div className="col-md-12 ">
                                             <div className="campaign ct-charts px-3">
-                                                <h6 className="mt-2 mb-3">User Sessions  in {MonthBasedYear}</h6>
+                                                <h6 className="mt-2 mb-3">User Sessions  in 2020</h6>
                                                 <LineChart data={{
-                                                    labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September','October', "November", 'December'],
+                                                    labels: this.state.data_labels,
                                                     datasets: [
                                                         {
                                                             label: "Users",
                                                             backgroundColor: 'rgba(26, 188, 156,0.5)',
                                                             borderColor: 'rgba(39, 174, 96,0.4)',
-                                                            data: userUsage
+                                                            data: this.state.data_value
 
                                                         }
                                                     ]
@@ -335,10 +335,10 @@ class AdminManagers extends Component {
                                         </div>
                                         <div className="col-md-6  mt-3">
                                             <div className="campaign ct-charts px-3">
-                                                <h6 className="mt-2 mb-3">User Browsers in {MonthBasedYear} </h6>
+                                                <h6 className="mt-2 mb-3">User Browsers in 2020 </h6>
 
                                                 <Doughnut data={{
-                                                    labels: ['Chrome', 'IExplorer', 'Safari', 'Opera', 'Firefox'],
+                                                    labels: this.state.data_browsers,
                                                     datasets: [
                                                         {
                                                             label: "Users",
@@ -356,7 +356,7 @@ class AdminManagers extends Component {
                                                                 'rgba(121, 134, 203,1.0)',
                                                                 'rgba(255, 138, 101,1.0)',
                                                             ],
-                                                            data: [statsBrowser.Chrome, statsBrowser.Firefox, statsBrowser.IExplorer, statsBrowser.Opera, statsBrowser.Safari]
+                                                            data: this.state.data_brow_values
 
                                                         }
                                                     ]
@@ -546,8 +546,8 @@ const options2 = {
 }
 
 const mapStateToProps = state => ({
-    auth : state.auth || {} ,
-  });
-  
+    auth: state.auth || {},
+});
+
 
 export default connect(mapStateToProps)(AdminManagers);

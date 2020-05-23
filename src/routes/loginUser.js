@@ -7,6 +7,9 @@ import Wishlist from "../views/products/wishlist";
 
 import MyOrders from "../views/orders/myOrders";
 
+import COD from '../views/Payments/cod'
+import Online from '../views/Payments/online' 
+
 let loginUserRoutes = [
   // my account  route
   {
@@ -37,6 +40,18 @@ let loginUserRoutes = [
     path: "/myOrders",
     name: "My Orders",
     component: MyOrders,
+    exact: true,
+  },
+  {
+    path: "/cod",
+    name: "Cash_on_deliver",
+    component: COD,
+    exact: true,
+  },
+  {
+    path: "/online",
+    name: "Online_Payment",
+    component: Online,
     exact: true,
   },
 ];

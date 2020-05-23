@@ -28,6 +28,8 @@ class User {
             getUserStats: "/admin/g/user/stat",
             getMonthBase: "/admin/g/user/months",
             deleteManager:"/admin/del/man",
+            newStat:"/admin/g/test",
+            getNewbrowser :"/admin/g/u/test"
 
 
         };
@@ -236,7 +238,7 @@ class User {
             type: type
         }
         return new Promise((resolve, reject) => {
-            return Axios.post(`${Config.host}${Config.port}${this.api.getAllUserBrowserDetial}`, requestData)
+            return Axios.post(`${Config.host}${Config.port}${this.api.getNewbrowser}`, requestData)
                 .then(result => {
                     resolve({ code: 200, data: result.data })
                 })
@@ -290,6 +292,22 @@ class User {
         }
         return new Promise((resolve, reject) => {
             return Axios.post(`${Config.host}${Config.port}${this.api.getMonthBase}`, requestData)
+                .then(result => {
+                    resolve({ code: 200, data: result.data })
+                })
+                .catch(err => {
+                    reject({ code: 0, error: err })
+                })
+        })
+    }
+    getUsageOfMonthBasedNew = (token, type) => {
+
+        var requestData = {
+            token: token,
+            type: type
+        }
+        return new Promise((resolve, reject) => {
+            return Axios.post(`${Config.host}${Config.port}${this.api.newStat}`, requestData)
                 .then(result => {
                     resolve({ code: 200, data: result.data })
                 })

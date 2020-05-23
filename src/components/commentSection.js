@@ -146,9 +146,9 @@ class CommentSection extends React.Component {
     console.log("fivebar", fiveBar);
 
     return (
-      <div class="container">
-        <div class="row">
-          <div class="col">
+      <div className="container">
+        <div className="row">
+          <div className="col">
             <br></br>
             <div
               className="card"
@@ -177,7 +177,7 @@ class CommentSection extends React.Component {
                   />
                 </div>
 
-                <button type="submit" class="btn btn-dark">
+                <button type="submit" className="btn btn-dark">
                   Submit
                 </button>
                 {/* <p>{this.props.uid}</p> */}
@@ -188,8 +188,8 @@ class CommentSection extends React.Component {
             <br></br>
             <h6 className="text-secondary pt-1">Comments and Ratings</h6>
             <br></br>
-            <div class="row">
-              <div class="col-4">
+            <div className="row">
+              <div className="col-4">
                 <center>
                   <h1>{cal.toFixed(1)}</h1>
                   <StarRatingComponent
@@ -208,7 +208,7 @@ class CommentSection extends React.Component {
                 </center>
               </div>
               <div
-                class="col-8"
+                className="col-8"
                 style={{
                   marginTop: "15px",
                 }}
@@ -216,14 +216,14 @@ class CommentSection extends React.Component {
                 {/* progress bar for rating 5 */}
 
                 <div
-                  class="progress"
+                  className="progress"
                   style={{
                     height: "8px",
                     marginTop: "5px",
                   }}
                 >
                   <div
-                    class="progress-bar"
+                    className="progress-bar"
                     style={{
                       width: fiveBar + "%",
                       backgroundColor: "#1abc9c",
@@ -232,14 +232,14 @@ class CommentSection extends React.Component {
                 </div>
                 {/* progress bar for rating 4*/}
                 <div
-                  class="progress"
+                  className="progress"
                   style={{
                     height: "8px",
                     marginTop: "5px",
                   }}
                 >
                   <div
-                    class="progress-bar"
+                    className="progress-bar"
                     style={{
                       width: fourBar + "%",
                       backgroundColor: "#1abc9c",
@@ -248,14 +248,14 @@ class CommentSection extends React.Component {
                 </div>
                 {/* progress bar for rating 3 */}
                 <div
-                  class="progress"
+                  className="progress"
                   style={{
                     height: "8px",
                     marginTop: "5px",
                   }}
                 >
                   <div
-                    class="progress-bar"
+                    className="progress-bar"
                     style={{
                       width: threeBar + "%",
                       backgroundColor: "#1abc9c",
@@ -264,14 +264,14 @@ class CommentSection extends React.Component {
                 </div>
                 {/* progress bar for rating 2 */}
                 <div
-                  class="progress"
+                  className="progress"
                   style={{
                     height: "8px",
                     marginTop: "5px",
                   }}
                 >
                   <div
-                    class="progress-bar"
+                    className="progress-bar"
                     style={{
                       width: twoBar + "%",
                       backgroundColor: "#1abc9c",
@@ -280,14 +280,14 @@ class CommentSection extends React.Component {
                 </div>
                 {/* progress bar for rating 1 */}
                 <div
-                  class="progress"
+                  className="progress"
                   style={{
                     height: "8px",
                     marginTop: "5px",
                   }}
                 >
                   <div
-                    class="progress-bar"
+                    className="progress-bar"
                     style={{
                       width: oneBar + "%",
                       backgroundColor: "#1abc9c",
@@ -326,8 +326,8 @@ class CommentSection extends React.Component {
 
   renderAllComments = (item) => {
     return (
-      <div class="row">
-        <div class="col-4">
+      <div className="row">
+        <div className="col-4">
           <center>
             <StarRatingComponent
               name="ratings"
@@ -336,7 +336,7 @@ class CommentSection extends React.Component {
             />
           </center>
         </div>
-        <div class="col-8">
+        <div className="col-8">
           <span className="text-danger small font-weight-bold">
             {moment(new Date(item.created_at)).format("YYYY MMM DD")}
           </span>
