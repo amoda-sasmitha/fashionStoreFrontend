@@ -95,7 +95,7 @@ class allComments extends Component {
   renderAllComments = (item) => {
     return (
       <tr key={item._id}>
-        <td>{item.comment}</td>
+        <td className="w-50">{item.comment}</td>
         <td>{item.rating}</td>
         <td>{item.produt_name}</td>
         {/* <td>{item.userid}</td> */}

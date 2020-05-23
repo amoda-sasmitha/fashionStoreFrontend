@@ -1262,6 +1262,9 @@ ol {
 	display: inline-block;
 
 }
+.carousel .slide {
+	background-color: #F9F9F9 !important;
+}
 
 .product-item .pi-pic ul li.w-icon.active span {
 	background: #1abc9c;

@@ -138,7 +138,7 @@ class Adminlogin extends Component {
             this.props.setCurrentUser(curretUser);
             this.props.getCart(curretUser.id)
                 .then(result => {
-                    this.props.history.push("/admin/category");
+                    this.props.history.push("/admin/dashboard");
 
                 })
                 .catch(error => console.log(error))

@@ -132,7 +132,7 @@ class Adminlogin extends Component {
             this.props.setCurrentUser(curretUser);
             this.props.getCart(curretUser.id)
                 .then(result => {
-                    this.props.history.push("/manager/stock");
+                    this.props.history.push("/admin/dashboard");
 
                 })
                 .catch(error => console.log(error))
@@ -252,7 +252,8 @@ class Adminlogin extends Component {
                         <div className="row">
                             <div className="col-lg-6 offset-lg-3">
                                 <div className="login-form">
-                                    <h2>Sign In</h2>
+                                <h4 className="font-weigh-bold mt-3 mb-4 text-dark">
+                                        <b>Manager Portal</b></h4>
                                     <form onSubmit={(e) => { this.onLogin(e) }}>
                                         <div className="group-input">
                                             <label >Email *</label>

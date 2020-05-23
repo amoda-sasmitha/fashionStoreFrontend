@@ -111,7 +111,7 @@ class MainNavbar extends React.Component {
     ) {
       return (
         <Link
-          to="/manager/stock"
+          to="/admin/dashboard"
           className="login-panel font-weight-bold text-dark px-3"
         >
           <i className="fa fa-user"></i>

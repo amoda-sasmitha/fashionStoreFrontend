@@ -3,7 +3,7 @@ import AllUsers from "../views/allusers/allusers";
 import AdminCategory from "../views/admin/admin.category";
 import AdminManager from "../views/admin/admin.managers";
 import AddProducts from "../views/admin/admin.add.products";
-import AdminProducts from "../views/admin/admin.products";
+import NewsLetter from '../views/admin/admin.newsletter'
 
 import UserManagment from "../views/admin/admin.users";
 import AdminCommets from "../views/admin/admin.comment";
@@ -28,18 +28,6 @@ let adminRoutes = [
     exact: true,
   },
   {
-    path: "/admin/products",
-    name: "admin_products",
-    component: AdminProducts,
-    exact: true,
-  },
-  {
-    path: "/admin/products/add",
-    name: "admin_product_add",
-    component: AddProducts,
-    exact: true,
-  },
-  {
     path: "/admin/user/managment",
     name: "admin_user_managment",
     component: UserManagment,
@@ -51,6 +39,12 @@ let adminRoutes = [
     component: AdminCommets,
     exact: true,
   },
+  {
+    path: "/manager/newsletter",
+    name: "manager_newsetter",
+    component: NewsLetter,
+    exact: true,
+},
 ];
 
 export default adminRoutes;

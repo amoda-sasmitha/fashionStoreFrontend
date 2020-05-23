@@ -5,7 +5,7 @@ import AllUsers from '../views/allusers/allusers'
 import AddProducts from '../views/admin/admin.add.products'
 import Dashboard from '../views/admin/admin.dashboard'
 import UpdateProducts from '../views/admin/admin.update.products'
-
+import Products from "../views/admin/admin.products";
 // import UserManagment from '../views/admin/admin.users'
 import StockManager from "../views/admin/stockmanager/stockmanager";
 import ManagersOffers from "../views/admin/stockmanager/managers.offers"
@@ -13,12 +13,18 @@ import allOrders from "../views/orders/allOrders"
 import moreDetails from "../views/orders/moreDetails"
 
 
-import NewsLetter from '../views/admin/admin.newsletter'
+
 let managerRoutes = [
     {
         path: "/all",
         name: "AllUsers",
         component: AllUsers,
+        exact: true,
+    },
+    {
+        path: "/admin/products",
+        name: "products",
+        component: Products,
         exact: true,
     },
     {
@@ -49,12 +55,6 @@ let managerRoutes = [
         path: "/manager/offers",
         name: "manager_offers",
         component: ManagersOffers,
-        exact: true,
-    },
-    {
-        path: "/manager/newsletter",
-        name: "manager_newsetter",
-        component: NewsLetter,
         exact: true,
     },
     {

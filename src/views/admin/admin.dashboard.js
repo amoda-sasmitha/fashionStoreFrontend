@@ -82,11 +82,16 @@ class Dashboard extends Component {
 
     render(){
         const { counts , revenue_data , revenue_labels , comments , orders} = this.state;
+        const role = this.props.auth.user.type;
+        const isadmin = (role && role == "admin") ? true : false
         let reversedOrders = orders.reverse();
         const user = this.props.auth.user;
         let CurrentOrders = reversedOrders.filter((ord) => {
           return ord.shipped == false;
         });
+
+        const count_data = isadmin ? counts : counts.splice(2,4)
+
         return(
             <div className="bg-light wd-wrapper h-100">
             <AdminSidebar active={"dashboard"}/>
@@ -98,8 +103,8 @@ class Dashboard extends Component {
                                     {this.setGreeting()} <span className="small bold-normal text-muted">{user.fname}</span> 
                                 </h5>
                             </div>
-                           { counts.map ( (item,i) => (
-                            <div key={i} className="col-lg-2 col-md-3 col-sm-4 col-6 pl-0 pr-2" > 
+                           { count_data.map ( (item,i) => (
+                            <div key={i} className={`col-lg-${isadmin ? '2' : '3'} col-md-3 col-sm-4 col-6 pl-0 pr-2`} > 
                                     <div className={cardstyle}> 
                                     <div className="pl-3 pr-0 my-auto">
                                         <img src={`images/default/admin.${item.name}.png`} className="sidebar-image"></img>
@@ -112,7 +117,7 @@ class Dashboard extends Component {
                             </div>
                             ))
                             }  
-                        <div className="col-12 px-0" >
+                        { isadmin && <div className="col-12 px-0" >
                             <div className="card border-0 shadow-sm rounded mt-3 bg-white pt-2 pb-3 px-2">
                             <h6 className="text-muted bold-normal px-2 mb-0">
                                     Last Two Weeks Revenue
@@ -134,7 +139,7 @@ class Dashboard extends Component {
                                                     options={options2}
                                                     width={12} height={3} />
                             </div>
-                        </div>
+                        </div>}
                         {/* latest orders */}
                         <div className="col-8 pl-0" >
                             <div className="card border-0 shadow-sm rounded mt-3 bg-white pt-2 pb-3 px-2">
