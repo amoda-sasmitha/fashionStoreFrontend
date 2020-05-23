@@ -29,6 +29,7 @@ class AddProducts extends Component {
         this.state = {
             name : '',
             price : '',
+            discount : '0',
             description : '',
             brand : '',
             category : {},
@@ -61,10 +62,11 @@ class AddProducts extends Component {
                 tags : this.state.tags, 
                 colors : this.state.colors, 
                 added_by : 1 ,
+                discount : this.state.discount
             })
             .then( result => {
                 this.clearAll();
-                Config.setToast(" Category Updated Successfully" );
+                Config.setToast("Product Added Successfully" );
             })
             .catch( err => {
                 console.log(err);
@@ -111,7 +113,8 @@ class AddProducts extends Component {
 
     render(){
         
-        const { name ,colors , description , price ,categories , category  , color_name , color_code ,brand , errors } = this.state;
+        const { name ,colors , discount ,
+            description , price ,categories , category  , color_name , color_code ,brand , errors } = this.state;
 
         return(
             <div className="bg-light wd-wrapper">
@@ -172,7 +175,7 @@ class AddProducts extends Component {
                                         </div> 
 
                                         {/*---------Product Brand--------------  */}
-                                        <div className="col-md-6 mt-2">
+                                        <div className="col-md-4 mt-2">
                                             <h6 className="form-label py-2">Product Brand</h6>
                                             <input 
                                                 type="text" 
@@ -186,7 +189,7 @@ class AddProducts extends Component {
                                         </div> 
 
                                         {/*---------Product category--------------  */}
-                                        <div className="col-md-6 mt-2">
+                                        <div className="col-md-5 mt-2">
                                         <h6 className="form-label py-2">Product Category </h6>
                                             <select value={category.id} onChange={this.handleSelect}  className="form-control">
                                                 <option value="">Select Category</option>
@@ -195,6 +198,19 @@ class AddProducts extends Component {
                                             { errors.category && errors.category.length > 0 && 
                                             <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.category}</h4>}
                                         </div> 
+
+                                         {/*---------Product Discount--------------  */}
+                                         <div className="col-md-3 mt-2">
+                                            <h6 className="form-label py-2">Discount Presentage (%)</h6>
+                                            <input 
+                                                type="text" 
+                                                name="discount"
+                                                value={discount}
+                                                onChange={ (e) => this.formValueChange(e)}
+                                                placeholder="Enter Product Brand" 
+                                                className="form-control" ></input>
+                                        </div> 
+
 
                                         {/*---------Product sizes--------------  */}
                                         <div className="col-md-6 mt-2">

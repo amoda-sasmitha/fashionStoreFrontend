@@ -113,6 +113,7 @@ export const insertProduct = (files , data) => {
     formdata.set("tags" , JSON.stringify( data.tags ) );
     formdata.set("colors" , JSON.stringify( data.colors) );
     formdata.set("added_by" , data.added_by );
+    formdata.set("discount" , data.discount );
     console.log(files);
     for (let i = 0; i < files.length; i++) {
         formdata.append("photos" , files[i]);    
@@ -140,6 +141,7 @@ export const updateproduct = (files , data) => {
     formdata.set("sizes" , JSON.stringify( data.sizes) );
     formdata.set("tags" , JSON.stringify( data.tags ) );
     formdata.set("colors" , JSON.stringify( data.colors) );
+    formdata.set("discount" , data.discount );
     formdata.set("prev_images" , JSON.stringify(data.prev_images ) );
     console.log(files);
     for (let i = 0; i < files.length; i++) {

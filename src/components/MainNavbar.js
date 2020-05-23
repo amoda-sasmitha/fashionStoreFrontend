@@ -218,22 +218,22 @@ class MainNavbar extends React.Component {
           <div className="container">
             <nav className="nav-menu mobile-menu">
               <ul>
-                <li className="active">
+                <li className={ this.props.active && this.props.active == "home" ? 'active' : ''}>
                   <Link to="/">Home</Link>
                 </li>
-                <li>
+                <li className={ this.props.active && this.props.active == "category" ? 'active' : ''}>
                   <Link >Categories</Link>
                   <ul class="dropdown">
                     { cateogories &&  cateogories.map( (item,i) => <li key={i}><Link to={`/categories/${item.name.trim()}`}>{item.name}</Link></li> )}
                   </ul>
                 </li>
-                <li>
+                <li className={ this.props.active && this.props.active == "offers" ? 'active' : ''}>
                   <Link to="/offers">Offers</Link>
                 </li>
-                <li>
+                <li className={ this.props.active && this.props.active == "aboutus" ? 'active' : ''}>
                   <Link to="/aboutus">About Us</Link>
                 </li>
-                <li>
+                <li className={ this.props.active && this.props.active == "contactus" ? 'active' : ''}>
                   <Link  to="/contactus">Contact Us</Link>
                 </li>
               </ul>

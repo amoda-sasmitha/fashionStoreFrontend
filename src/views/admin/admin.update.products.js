@@ -31,6 +31,7 @@ class UpdateProducts extends Component {
             id : props.match.params.id,
             name : '',
             price : '',
+            discount : '0',
             description : '',
             brand : '',
             category : {},
@@ -68,6 +69,7 @@ class UpdateProducts extends Component {
                     images : result.images ,
                     colors : result.colors,
                     loading : false ,
+                    discount : result.discount ? result.discount : 0 
                 })
                 
             })
@@ -85,6 +87,7 @@ class UpdateProducts extends Component {
                 id : this.state.id,
                 name : this.state.name, 
                 price : this.state.price, 
+                discount : this.state.discount,
                 description : this.state.description, 
                 brand : this.state.brand, 
                 category : this.state.category, 
@@ -143,7 +146,7 @@ class UpdateProducts extends Component {
 
     render(){
         
-        const { loading ,name ,colors , description , price ,categories ,images,
+        const { loading ,name ,colors , discount, description , price ,categories ,images,
              category  , color_name , color_code ,brand , errors } = this.state;
 
         return(
@@ -205,7 +208,7 @@ class UpdateProducts extends Component {
                                         </div> 
 
                                         {/*---------Product Brand--------------  */}
-                                        <div className="col-md-6 mt-2">
+                                        <div className="col-md-4 mt-2">
                                             <h6 className="form-label py-2">Product Brand</h6>
                                             <input 
                                                 type="text" 
@@ -219,7 +222,7 @@ class UpdateProducts extends Component {
                                         </div> 
 
                                         {/*---------Product category--------------  */}
-                                        <div className="col-md-6 mt-2">
+                                        <div className="col-md-5 mt-2">
                                         <h6 className="form-label py-2">Product Category </h6>
                                             <select value={category.id} onChange={this.handleSelect}  className="form-control">
                                                 <option value="">Select Category</option>
@@ -227,6 +230,18 @@ class UpdateProducts extends Component {
                                             </select>
                                             { errors.category && errors.category.length > 0 && 
                                             <h4 className="small text-danger mt-2 font-weight-bold mb-0">{errors.category}</h4>}
+                                        </div> 
+
+                                         {/*---------Product Discount--------------  */}
+                                         <div className="col-md-3 mt-2">
+                                            <h6 className="form-label py-2">Discount Presentage (%)</h6>
+                                            <input 
+                                                type="text" 
+                                                name="discount"
+                                                value={discount}
+                                                onChange={ (e) => this.formValueChange(e)}
+                                                placeholder="Enter Product Brand" 
+                                                className="form-control" ></input>
                                         </div> 
 
                                         {/*---------Product sizes--------------  */}

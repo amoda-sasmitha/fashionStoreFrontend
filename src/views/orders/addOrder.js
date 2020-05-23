@@ -7,7 +7,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { insertOrder } from '../../controllers/Order'
 import { string } from 'prop-types';
-
+import {  cleartCart} from '../../actions/cartActions';
 class Order  extends Component {
  
 constructor(props){
@@ -61,7 +61,16 @@ formValueChange = (e) => {
         })
         .then( result => {
             this.clearAll();
+            this.props.cleartCart &&
+            this.props.cleartCart(this.props.auth.user.id )
+            .then( result => {
+               console.log("cleared")
+            })
+            .catch( err => {
+              console.log(err)
+            })
             Config.setToast(" Order Placed Successfully" );
+            this.props.history.push("/");
         })
         .catch( err => {
             console.log(err);
@@ -184,10 +193,10 @@ render(){
                     <div className="col-md-12 mt-2">
                       <div className="d-flex">
                         <button
-                          className="px-4 btn btn-dark  btn-sm bold-normal"
+                          className="px-4 btn btn-dark mt-2 btn-sm bold-normal"
                           type="submit"
                         >
-                          Add Product
+                          Submit Order
                         </button>
                       </div>
                     </div>
@@ -289,6 +298,9 @@ const mapStateToProps = state => ({
     auth : state.auth || {} , 
   });
   
+  const mapDispatchToProps = {
+    cleartCart
+  };
   
-  export default connect(mapStateToProps)(withRouter(Order));
+  export default connect(mapStateToProps , mapDispatchToProps)(withRouter(Order));
 

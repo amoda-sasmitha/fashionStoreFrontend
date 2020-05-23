@@ -59,7 +59,7 @@ getAllOffers(){
     window.scrollTo(0, 0)
     return(
     <div className="wrapper" >
-        <MainNavbar isAuthed = {this.props.isAuthed}    ></MainNavbar>
+        <MainNavbar active="home" isAuthed = {this.props.isAuthed}    ></MainNavbar>
         <MainSlider></MainSlider>
         { offers.length > 0 && 
         <>

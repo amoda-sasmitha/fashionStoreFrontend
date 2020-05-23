@@ -74,7 +74,7 @@ class Category extends Component {
     } = this.state;
     return (
       <div className="wrapper">
-        <MainNavbar></MainNavbar>
+        <MainNavbar ></MainNavbar>
         <CategorySection
           products={products}
           brands={brands}

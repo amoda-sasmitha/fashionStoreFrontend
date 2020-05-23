@@ -36,7 +36,7 @@ class Offers extends React.Component {
     const { offers} = this.state;
     return (
       <div className="wrapper">
-        <MainNavbar></MainNavbar>
+        <MainNavbar active="offers"></MainNavbar>
         <div className="container-fluid px-5">
           <h4 className="text-dark font-weight-bold mt-3">Latest Offers</h4>
           <div className="row " >

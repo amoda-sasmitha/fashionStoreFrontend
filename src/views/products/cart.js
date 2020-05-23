@@ -148,7 +148,7 @@ class Cart extends Component {
                                     <li className="subtotal"><b>Total</b> <span>
                                         LKR {Config.calcualte_total(cart)}</span></li>
                                 </ul>
-                                <a href="#" className="proceed-btn">PROCEED TO CHECK OUT</a>
+                                <Link to="/order" className="proceed-btn">PROCEED TO CHECK OUT</Link>
                             </div>
                         </div>
                     </div>}

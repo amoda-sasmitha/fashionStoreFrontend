@@ -12,55 +12,36 @@ class ContactUS extends Component {
         super();
        
         this.state = {
-
         };
-
-
-
     }
-
-  
-
-
 
     render() {
         return (
             <div className="wrapper">
-                                <MainNavbar></MainNavbar>
+            <MainNavbar active="contactus"></MainNavbar>
             <div className="container">
-                <div className="row mt-2">
+                <div className="row my-5">
                     <div className="col-md-6  Cn_PA">
                         <div className="col-md-12" >
-                            <h3 style={{textAlign:'left'}}>Contact Us</h3>
+                        <h5 className="bold-normal text-dark">Contact Us</h5>
                         </div>
-                        <form >
-                            <div className="form-row ml-2">
+                        <form className="my-2 px-2" >
+                            <div className="form-row ">
                                 <div className="form-group col-md-6">
-                                    <label for="inputEmail4">First Name *</label>
                                     <input type="text" className="form-control" id="inputEmail4" placeholder="First Name..." required />
                                 </div>
                                 <div className="form-group col-md-6">
-                                    <label for="inputEmail4">Last Name *</label>
                                     <input type="text" className="form-control" id="inputEmail4" placeholder="Last Name ..." required />
                                 </div>
-                                <div className="form-group col-md-6">
-                                    <label for="inputEmail4">Email</label>
+                                <div className="form-group col-12">
                                     <input type="email" className="form-control" id="inputEmail4" placeholder="Email..." required />
                                 </div>
-                                <div className="form-group col-md-6">
-                                    <label for="inputPassword4">Country *</label>
-                                    <input type="text" className="form-control" id="inputPassword4" placeholder="Country..." required />
-                                </div>
                             </div>
-                            <div className="form-group ml-2">
-                                <label for="inputAddress">Subject *</label>
-                                <input type="text" className="form-control" id="inputAddress" placeholder="Sybject..." required />
+                            <div className="form-group ">
+                                <textarea type="text" className="form-control" id="inputAddress2" 
+                                placeholder="Your Message..." required />
                             </div>
-                            <div className="form-group ml-2">
-                                <label for="inputAddress2">Message *</label>
-                                <input type="text" className="form-control" id="inputAddress2" placeholder="Your Message..." required />
-                            </div>
-                            <button type="submit" className="btn btn-success ml-2" >Submit</button>
+                            <button type="submit" className="btn btn-success btn-sm px-2" >Submit</button>
                         </form>
                     </div>
                     <div className="col-md-6 mt-2">
@@ -71,7 +52,7 @@ class ContactUS extends Component {
                                 <img src="images/logo.png" className="img-fluid mt-4 mb-4" />
                             </div>
                             <div className="col-md-12" >
-                            <h5>Social Networks</h5>
+                            <h5 className="bold-normal text-dark">Social Networks</h5>
                         </div>
 
                             <div className="col-md-3 mt-2 mr-2 ">
