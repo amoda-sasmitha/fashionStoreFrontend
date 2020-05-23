@@ -57,6 +57,8 @@ class AdminManagers extends Component {
 
     //sentMonth wise usge
     sentMonthwiseusge = async () => {
+        console.log(this.state.monthBaseUsers);
+        
         var monthandusers = this.state.monthBaseUsers;
         var months = [];
         var user = [];
@@ -84,7 +86,7 @@ class AdminManagers extends Component {
 
     //get users from monthbase use
 
-    setMonthBasedUsers = () => {
+    setMonthBasedUsers = async () => {
         
         return new Promise((resolve, reject) => {
             return A_Admin.getUsageOfMonthBased(this.props.auth.user.token, this.props.auth.user)

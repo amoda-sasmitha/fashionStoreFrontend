@@ -224,7 +224,7 @@ class MainNavbar extends React.Component {
                 <li>
                   <Link >Categories</Link>
                   <ul class="dropdown">
-                    { cateogories.map( (item,i) => <li key={i}><Link to={`/categories/${item.name.trim()}`}>{item.name}</Link></li> )}
+                    { cateogories &&  cateogories.map( (item,i) => <li key={i}><Link to={`/categories/${item.name.trim()}`}>{item.name}</Link></li> )}
                   </ul>
                 </li>
                 <li>

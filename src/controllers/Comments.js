@@ -30,6 +30,24 @@ export const getAllComments = () => {
       });
   });
 };
+
+export const calculateAverageRating = (id) => {
+  return new Promise((resolve, reject) => {
+    return axios
+      .get(`${Config.host}${Config.port}/comment/calAverage/${id}`)
+      .then((result) => {
+        if (result.data.code == 200) {
+          resolve(result.data.data);
+        } else {
+          resolve([]);
+        }
+      })
+      .catch((err) => {
+        reject(err);
+      });
+  });
+};
+
 export const getCommentByProductId = (id) => {
   return new Promise((resolve, reject) => {
     return axios
