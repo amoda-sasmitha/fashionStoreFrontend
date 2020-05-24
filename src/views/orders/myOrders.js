@@ -7,6 +7,7 @@ import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { getOrdersByUserId } from '../../controllers/Order'
 import { updateOrder } from '../../controllers/Order'
+import { getAllProducts } from '../../controllers/Order'
 import { string } from 'prop-types';
 import moment from 'moment'
 import OrderDetails from '../orders/components/orderProductList'
@@ -19,11 +20,13 @@ class MyOrders extends Component {
             loading : true,
             orders: [],
             visible: false,
+            prods: [],
         }
     }
 
     componentDidMount(){
         this.loadOrders();
+        this.loeadAllProducts();
     }
 
     loadOrders = () => {
@@ -38,7 +41,18 @@ class MyOrders extends Component {
             .catch ( err => {
                 console.log(err);
             })
-    } 
+    }
+    
+    loeadAllProducts = () => {
+          getAllProducts()
+            .then( result => {
+              console.log("All Products: ", result);
+              this.setState({prods : result});
+          })
+          .catch ( err => {
+              console.log(err);
+          })
+    }
 
     render () {
         const { orders } = this.state;
@@ -146,7 +160,8 @@ class MyOrders extends Component {
 
     renderOrderDetails = (product) => {
         console.log("Product Details: ", product);
-        
+        console.log("Products: ", this.state.prods);
+
         return(
             <div key={product.id}>
                 <div className="card-body">

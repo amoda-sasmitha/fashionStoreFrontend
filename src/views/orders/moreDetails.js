@@ -87,10 +87,9 @@ export class MoreDetails extends Component {
     onDeleteClick = (e) => {
         e.preventDefault();
         
-        this.props.history.push("/manager/orders");
-
         deleteOrder(this.state.id, this.props.auth.user.token).then( result => {
             Config.setToast(" Order Deleted Successfully" );
+            this.props.history.push("/manager/orders");
         })
         .catch( err => {
             console.log(err);
