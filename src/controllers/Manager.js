@@ -105,7 +105,7 @@ class User {
 
 
 
-    addOffers(title, stitle, discount, size, products, file){
+    addOffers(title, stitle, discount, size, products, file, token, type){
         let formdata = new FormData();
         formdata.set("token" , A_ADMIN.getToken() );
         formdata.set("type" , A_ADMIN.getType() );
@@ -114,6 +114,8 @@ class User {
         formdata.set("discount" , discount );
         formdata.set("size" , size );
         formdata.set("product_list" , JSON.stringify( products ) );
+        formdata.set("token" , token );
+        formdata.set("type" , type);
         formdata.append("photos" , file[0]);    
         console.log(file);
         var resp = 600;
@@ -152,10 +154,10 @@ class User {
         })
     }
 
-    deleteOfferWithProducts = (id , product_list ) => {
+    deleteOfferWithProducts = (id , product_list, token, type ) => {
     return new Promise( (resolve,reject) => {
         return Axios.delete(`${Config.host}${Config.port}/offer/delete/${id}` ,{
-           data : { product_list : product_list }
+           data : { product_list : product_list, token : token , type: type }
         })
             .then( result => {
                     resolve({code : 200 , message : result.data.message })

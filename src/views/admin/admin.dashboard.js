@@ -123,7 +123,7 @@ class Dashboard extends Component {
                                     Last Two Weeks Revenue
                             </h6>
                             <h5 className="text-dark bold-normal px-2 pt-1 pb-3 ">
-                                    LKR {Config.numberWithCommas(revenue_data.reduce((a,c) => a +c , 0))}.00
+                                    LKR {Config.numberWithCommas(revenue_data.reduce((a,c) => a +c , 0))}
                             </h5>
                                 <LineChart data={{
                                                     labels: revenue_labels,

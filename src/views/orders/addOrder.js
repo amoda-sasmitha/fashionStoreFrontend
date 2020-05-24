@@ -59,11 +59,12 @@ formValueChange = (e) => {
             userName: this.state.username, 
             deliveryAddress : `${this.state.addressLine1}, ${this.state.addressLine2}, ${this.state.province}, ${this.state.postalCode}`,
             products: filtered_products,
-        })
+            
+        }, this.props.auth.user.token)
         .then( result => {
             this.clearAll();
             this.props.cleartCart &&
-            this.props.cleartCart(this.props.auth.user.id )
+            this.props.cleartCart(this.props.auth.user.id, this.props.auth.user.token )
             .then( result => {
                console.log("cleared")
             })

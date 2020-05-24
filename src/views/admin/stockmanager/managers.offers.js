@@ -19,6 +19,10 @@ import M_Manager from '../../../controllers/Manager'
 import { Modal } from 'react-bootstrap';
 import image from '../../../asserts/Images/user.png'
 
+
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
+
 const animatedComponents = makeAnimated();
 
 class ManagersOffers extends Component {
@@ -79,7 +83,10 @@ class ManagersOffers extends Component {
                 this.state.discount, 
                 this.state.size,
                 this.state.products.map(item => item.value),
-                this.state.files)
+                this.state.files,
+                this.props.auth.user.token,
+                this.props.auth.user.type
+                )
             .then( result => {
                 this.clearAll();
                 Config.setToast(" Offer Added Successfully" );
@@ -350,7 +357,7 @@ class ManagersOffers extends Component {
             return p._id
         })
 
-        M_Manager.deleteOfferWithProducts(id , product_list )
+        M_Manager.deleteOfferWithProducts(id , product_list, this.props.auth.user.token, this.props.auth.user.type )
             .then( result => {
                 this.getAllOffers()
                 Config.setToast("Offer Deleted Successfully" );
@@ -417,4 +424,8 @@ class ManagersOffers extends Component {
     }
 }
 
-export default ManagersOffers;
+const mapStateToProps = state => ({
+    auth: state.auth || {},
+  });
+
+export default connect(mapStateToProps)(withRouter(ManagersOffers));

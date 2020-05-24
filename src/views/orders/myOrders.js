@@ -57,7 +57,7 @@ class MyOrders extends Component {
     render () {
         const { orders } = this.state;
         return (
-          <div className="wrapper">
+          <div className="wrapper  mb-5">
             {/* <MainNavbar></MainNavbar> */}
             {/* <section className="product-shop spad"> */}
             <section className="product-shop spad pt-0 pb-0">
@@ -66,11 +66,11 @@ class MyOrders extends Component {
                   <div className="col-12">
                     <div>
                       <div className="col-12 px-0">
-                        <div className="card border-0 shadow-sm rounded mt-3 bg-white pb-2">
+                        <div className="card border-0  rounded mt-3 bg-white pb-2">
                           <h5 className="text-dark bold-normal py-2 bg-white px-2">
                             My Orders
                           </h5>
-                          <div className="table-responsive px-2">
+                          <div className="table-responsive px-2 mb-5">
                             <table className="table table-stripped">
                               <thead>
                                 <tr>

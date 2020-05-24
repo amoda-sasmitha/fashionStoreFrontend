@@ -1,11 +1,11 @@
 import axios from "axios";
 import Config from "./Config";
 
-export const insertOrder = (data) => {
+export const insertOrder = (data, token) => {
     
     return new Promise( (resolve,reject) => {
         return axios.post(`${Config.host}${Config.port}/order/Insert` , { ...data,
-            token: null })
+            token: token })
             .then( result => {
                     resolve({code : 200 , message : result.data.message })
             })
@@ -65,10 +65,10 @@ export const getOrderById = id => {
     })
 }
 
-export const deleteOrder = id => {
+export const deleteOrder = (id,token) => {
 
     return new Promise( (resolve,reject) => {
-        return axios.delete(`${Config.host}${Config.port}/order/delete/${id}`)
+        return axios.delete(`${Config.host}${Config.port}/order/delete/${id}`, {data:{token : token}})
             .then( result => {
                     resolve({code : 200 , message : result.data.message })
             })

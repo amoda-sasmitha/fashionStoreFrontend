@@ -3,7 +3,7 @@ import axios from "axios";
 import Config from "../controllers/Config";
 import User from "../controllers/User";
 
-export const addtocart = (data, userid) => {
+export const addtocart = (data, userid, token) => {
   return (dispatch) =>
     new Promise((resolve, reject) => {
       axios
@@ -13,6 +13,7 @@ export const addtocart = (data, userid) => {
           quantity: data.quantity,
           selected_color: data.selected_color ? data.selected_color : "",
           selected_size: data.selected_size,
+          token:token
         })
         .then((result) => {
           // console.log( "API" , result.data);
@@ -32,11 +33,14 @@ export const addtocart = (data, userid) => {
 };
 
 export const updateCartItem = (data, userid) => {
+  console.log(data);
+  
   return (dispatch) =>
     new Promise((resolve, reject) => {
       axios
         .patch(`${Config.host}${Config.port}/cart/update/${data.id}`, {
           quantity: data.quantity,
+          token : data.token
         })
         .then((result) => {
           // console.log( "API" , result.data);
@@ -55,11 +59,11 @@ export const updateCartItem = (data, userid) => {
     });
 };
 
-export const deleteCartItem = (id, userid) => {
+export const deleteCartItem = (id, userid, token) => {
   return (dispatch) =>
     new Promise((resolve, reject) => {
       axios
-        .delete(`${Config.host}${Config.port}/cart/delete/${id}`)
+        .delete(`${Config.host}${Config.port}/cart/delete/${id}`, {data:{ token:token }})
         .then((result) => {
           console.log("API", result.data);
           dispatch(getCart(userid));
@@ -77,11 +81,11 @@ export const deleteCartItem = (id, userid) => {
     });
 };
 
-export const cleartCart = (userid) => {
+export const cleartCart = (userid, token) => {
   return (dispatch) =>
     new Promise((resolve, reject) => {
       axios
-        .delete(`${Config.host}${Config.port}/cart/clear/${userid}`)
+        .delete(`${Config.host}${Config.port}/cart/clear/${userid}`, {data: {token: token}})
         .then((result) => {
           console.log("API", result.data);
           dispatch(getCart(userid));

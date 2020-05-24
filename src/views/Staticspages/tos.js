@@ -27,7 +27,7 @@ class TOS extends Component {
             <div className="container mt-4">
                 <div className="row mt-2 mb-2 " style={{ padding: '10px' }}>
                     <div className="col-md-12 ">
-                        <h2><strong>Terms and Conditions</strong></h2>  <br />
+                    <h5 className="text-dark bold-normal my-2">Terms and Conditions</h5>
                     </div>
 
                     <div className="col-md-12">
@@ -41,7 +41,7 @@ class TOS extends Component {
 
 
                     <div className="col-md-12 ">
-                        <h3><strong>Cookies</strong></h3>
+                        <h5 className="text-dark bold-normal my-2">Cookies</h5>
                     </div>
                     <div className="col-md-12">
 
@@ -50,7 +50,7 @@ class TOS extends Component {
                     </div>
 
                     <div className="col-md-12 ">
-                        <h3><strong>License</strong></h3>
+                        <h5 className="text-dark bold-normal my-2">License</h5>
                     </div>
                     <div className="col-md-12 ">
                         <p>Unless otherwise stated, Lucidex and/or its licensors own the intellectual property rights for all material on Fashi. All intellectual property rights are reserved. You may access this from Fashi for your own personal use subjected to restrictions set in these terms and conditions.</p>
@@ -58,7 +58,7 @@ class TOS extends Component {
 
 
                         <p>You must not:</p>
-                        <ul>
+                        <ul className="px-2">
                             <li>Republish material from Fashi</li>
                             <li>Sell, rent or sub-license material from Fashi</li>
                             <li>Reproduce, duplicate or copy material from Fashi</li>
@@ -73,7 +73,7 @@ class TOS extends Component {
 
                         <p>You warrant and represent that:</p>
 
-                        <ul>
+                        <ul className="px-2">
                             <li>You are entitled to post the Comments on our website and have all necessary licenses and consents to do so;</li>
                             <li>The Comments do not invade any intellectual property right, including without limitation copyright, patent or trademark of any third party;</li>
                             <li>The Comments do not contain any defamatory, libelous, offensive, indecent or otherwise unlawful material which is an invasion of privacy</li>
@@ -87,7 +87,7 @@ class TOS extends Component {
 
 
                     <div className="col-md-12 ">
-                        <h3><strong>Hyperlinking to our Content</strong></h3>
+                        <h5 className="text-dark bold-normal my-2">Hyperlinking to our Content</h5>
                     </div>
 
 
@@ -96,7 +96,7 @@ class TOS extends Component {
 
                         <p>The following organizations may link to our Website without prior written approval:</p>
 
-                        <ul>
+                        <ul className="px-2">
                             <li>Government agencies;</li>
                             <li>Search engines;</li>
                             <li>News organizations;</li>
@@ -108,7 +108,7 @@ class TOS extends Component {
 
                         <p>We may consider and approve other link requests from the following types of organizations:</p>
 
-                        <ul>
+                        <ul className="px-2">
                             <li>commonly-known consumer and/or business information sources;</li>
                             <li>dot.com community sites;</li>
                             <li>associations or other groups representing charities;</li>
@@ -126,7 +126,7 @@ class TOS extends Component {
 
                         <p>Approved organizations may hyperlink to our Website as follows:</p>
 
-                        <ul>
+                        <ul className="px-2">
                             <li>By use of our corporate name; or</li>
                             <li>By use of the uniform resource locator being linked to; or</li>
                             <li>By use of any other description of our Website being linked to that makes sense within the context and format of content on the linking party’s site.</li>
@@ -138,7 +138,7 @@ class TOS extends Component {
 
 
                     <div className="col-md-12 ">
-                        <h3><strong>iFrames</strong></h3>
+                        <h5 className="text-dark bold-normal my-2">iFrames</h5>
                     </div>
 
                     <div className="col-md-12 ">
@@ -151,7 +151,7 @@ class TOS extends Component {
 
 
                     <div className="col-md-12 ">
-                        <h3><strong>Content Liability</strong></h3>
+                        <h5 className="text-dark bold-normal my-2">Content Liability</h5>
                     </div>
 
                     <div className="col-md-12 ">
@@ -163,7 +163,7 @@ class TOS extends Component {
 
 
                     <div className="col-md-12 ">
-                        <h3><strong>Your Privacy</strong></h3>
+                        <h5 className="text-dark bold-normal my-2">Your Privacy</h5>
                     </div>
 
                     <div className="col-md-12 ">
@@ -174,7 +174,7 @@ class TOS extends Component {
                     </div>
 
                     <div className="col-md-12 ">
-                        <h3><strong>Reservation of Rights</strong></h3>
+                        <h5 className="text-dark bold-normal my-2">Reservation of Rights</h5>
                     </div>
 
                     <div className="col-md-12 ">
@@ -185,7 +185,7 @@ class TOS extends Component {
                     </div>
 
                     <div className="col-md-12 ">
-                        <h3><strong>Removal of links from our website</strong></h3>
+                        <h5 className="text-dark bold-normal my-2">Removal of links from our website</h5>
                     </div>
 
                     <div className="col-md-12 ">
@@ -198,13 +198,13 @@ class TOS extends Component {
 
 
                     <div className="col-md-12 ">
-                        <h3><strong>Disclaimer</strong></h3>
+                        <h5 className="text-dark bold-normal my-2">Disclaimer</h5>
                     </div>
 
                     <div className="col-md-12 ">
                         <p>To the maximum extent permitted by applicable law, we exclude all representations, warranties and conditions relating to our website and the use of this website. Nothing in this disclaimer will:</p>
 
-                        <ul>
+                        <ul className="px-2">
                             <li>limit or exclude our or your liability for death or personal injury;</li>
                             <li>limit or exclude our or your liability for fraud or fraudulent misrepresentation;</li>
                             <li>limit any of our or your liabilities in any way that is not permitted under applicable law; or</li>
