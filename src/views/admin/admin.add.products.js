@@ -1,7 +1,7 @@
 /*  eslint-disable */
 
 import React, { Component } from 'react';
-import { Link } from "react-router-dom";
+import { Link  } from "react-router-dom";
 import AdminSidebar from '../../components/AdminSidebar'
 import '../../asserts/commoncss/sidebar.css'
 import '../../asserts/commoncss/admin.product.css'
@@ -72,6 +72,8 @@ class AddProducts extends Component {
                 .then(result => {
                     this.clearAll();
                     Config.setToast("Product Added Successfully");
+                    this.props.history.push("/admin/products")
+
                 })
                 .catch(err => {
                     console.log(err);

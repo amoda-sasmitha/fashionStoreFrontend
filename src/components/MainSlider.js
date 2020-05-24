@@ -10,7 +10,7 @@ class MainSlider extends React.Component {
             <div>
             <Carousel swipeable={true} 
                 showIndicators={true}
-                autoPlay={false}
+                autoPlay={true}
                 infiniteLoop={true}
                 interval={3000}
                 
