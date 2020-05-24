@@ -18,10 +18,15 @@ export const getAllCategories = () => {
 }
 
 export const insertCategory = (files , data) => {
+   
+
+    
     let formdata = new FormData();
     formdata.set("name" , data.name );
     formdata.set("banner_title" , data.banner_title );
     formdata.set("banne_subtitle" , data.banne_subtitle );
+    formdata.set("token" , data.token );
+    formdata.set("type" , data.type );
     formdata.append("photos" , files);
 
     return new Promise( (resolve,reject) => {
@@ -40,6 +45,8 @@ export const updateCategory = (files , data , newImage ) => {
     formdata.set("name" , data.name );
     formdata.set("banner_title" , data.banner_title );
     formdata.set("banne_subtitle" , data.banne_subtitle );
+    formdata.set("token" , data.token );
+    formdata.set("type" , data.type );
     if(newImage){
         formdata.append("photos" , files);
     }
@@ -54,10 +61,21 @@ export const updateCategory = (files , data , newImage ) => {
     })
 }
 
-export const deleteCategory = id => {
+export const deleteCategory = (id,token, type) => {
 
+    let requestData = {
+        token : token,
+        type : type
+    }
+
+    console.log("Token test ideleteCategory");
+    
+    console.log(requestData.token);
+    console.log(requestData.type);
+    console.log("Token test deleteCategory");;
+    
     return new Promise( (resolve,reject) => {
-        return axios.delete(`${Config.host}${Config.port}/category/delete/${id}`)
+        return axios.delete(`${Config.host}${Config.port}/category/delete/${id}`, {data:requestData })
             .then( result => {
                     resolve({code : 200 , message : result.data.message })
             })

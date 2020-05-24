@@ -3,13 +3,14 @@ import axios from "axios";
 import Config from "../controllers/Config";
 import User from "../controllers/User";
 
-export const addtoWishlist = (product_id, user_id) => {
+export const addtoWishlist = (product_id, user_id, token) => {
   return (dispatch) =>
     new Promise((resolve, reject) => {
       axios
         .post(`${Config.host}${Config.port}/wishlist/insert`, {
           userid: user_id,
           product_id: product_id,
+          token:token
         })
         .then((result) => {
           // console.log( "API" , result.data);
@@ -28,11 +29,11 @@ export const addtoWishlist = (product_id, user_id) => {
     });
 };
 
-export const deleteWishlistItem = (id, userid) => {
+export const deleteWishlistItem = (id, userid, token) => {
   return (dispatch) =>
     new Promise((resolve, reject) => {
       axios
-        .delete(`${Config.host}${Config.port}/wishlist/delete/${id}`)
+        .delete(`${Config.host}${Config.port}/wishlist/delete/${id}`, {data:{token: token}})
         .then((result) => {
           console.log("API", result.data);
           dispatch(getWishlist(userid));
@@ -50,11 +51,11 @@ export const deleteWishlistItem = (id, userid) => {
     });
 };
 
-export const clearWishlist = (userid) => {
+export const clearWishlist = (userid, token) => {
   return (dispatch) =>
     new Promise((resolve, reject) => {
       axios
-        .delete(`${Config.host}${Config.port}/wishlist/clear/${userid}`)
+        .delete(`${Config.host}${Config.port}/wishlist/clear/${userid}`, {data:{token: token}})
         .then((result) => {
           console.log("API", result.data);
           dispatch(getWishlist(userid));

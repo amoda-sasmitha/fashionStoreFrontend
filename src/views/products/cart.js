@@ -39,7 +39,8 @@ class Cart extends Component {
             this.props.updateCartItem &&
             this.props.updateCartItem({
                 id : item._id,
-                quantity : is_increment ? qty + 1 : qty - 1
+                quantity : is_increment ? qty + 1 : qty - 1,
+                token:this.props.auth.user.token
             }, this.props.auth.user.id )
             .then( result => {
                 Config.setToast(`One ${item.product.name} ${is_increment ? 'Added':'Removed'} to Cart`)
@@ -53,7 +54,7 @@ class Cart extends Component {
             `Are You Sure You Want to Delete ${item.product.name} ?`,
             () => {
                 this.props.deleteCartItem &&
-                this.props.deleteCartItem(item._id , this.props.auth.user.id )
+                this.props.deleteCartItem(item._id , this.props.auth.user.id, this.props.auth.user.token )
                 .then( result => {
                     Config.setToast("Item Deleted Successfully!")
                 })
@@ -75,7 +76,7 @@ class Cart extends Component {
             `Are You Sure You Want to Clear Cart ?`,
             () => {
                 this.props.cleartCart &&
-                this.props.cleartCart(this.props.auth.user.id )
+                this.props.cleartCart(this.props.auth.user.id, this.props.auth.user.token )
                 .then( result => {
                     Config.setToast("Cart Cleared Successfully!")
                 })

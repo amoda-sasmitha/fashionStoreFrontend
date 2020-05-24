@@ -15,6 +15,7 @@ import {
 } from "@fortawesome/free-solid-svg-icons";
 import { getAllProducts, deleteProduct } from "../../controllers/Products";
 import { getAllCategories } from "../../controllers/Category";
+import { connect } from "react-redux";
 
 class AdminProduct extends Component {
   constructor(props) {
@@ -202,7 +203,7 @@ class AdminProduct extends Component {
 
   clickDeleteProduct = (id) => {
     console.log(id);
-    deleteProduct(id)
+    deleteProduct(id, this.props.auth.user.token, this.props.auth.user.type)
       .then((result) => {
         this.loadProducts();
         Config.setToast(" Product Deleted Successfully");
@@ -213,5 +214,7 @@ class AdminProduct extends Component {
       });
   };
 }
-
-export default withRouter(AdminProduct);
+const mapStateToProps = state => ({
+  auth: state.auth || {},
+});
+export default  connect(mapStateToProps)(withRouter(AdminProduct));

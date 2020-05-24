@@ -14,6 +14,8 @@ import {FontAwesomeIcon} from '@fortawesome/react-fontawesome'
 import U_User from '../../controllers/User'
 import { faTrash , faPenAlt , faEye , faPlus, faSave, faUndoAlt, faWindowClose} from '@fortawesome/free-solid-svg-icons'
 
+import { connect } from 'react-redux';
+import { withRouter } from "react-router-dom";
 
 class AdminCategory extends Component {
 
@@ -58,11 +60,16 @@ class AdminCategory extends Component {
                     newImage = true;
                     image = files[0];
                 }
+                const user = this.props.auth.user;
+            
                 updateCategory( image , {
                     _id : selected_item._id,
                     name : name,
                     banne_subtitle : banne_subtitle,
-                    banner_title : banner_title
+                    banner_title : banner_title,
+                    token :  user.token,
+                    type:user.type
+
                 } , newImage )
                 .then( result => {
                     this.loadCategories();
@@ -75,10 +82,13 @@ class AdminCategory extends Component {
                 })
 
             }else{
+                const user = this.props.auth.user;
                 insertCategory( files[0], {
                     name : name,
                     banne_subtitle : banne_subtitle,
-                    banner_title : banner_title
+                    banner_title : banner_title,
+                    token : user.token,
+                    type:user.type
                 })
                 .then( result => {
                     this.loadCategories();
@@ -300,7 +310,8 @@ class AdminCategory extends Component {
     }
 
     clickDeleteCategory = id => {
-        deleteCategory(id)
+        const user = this.props.auth.user;
+        deleteCategory(id, user.token, user.type )
             .then( result => {
                 this.loadCategories();
                 Config.setToast(" Category Deleted Successfully" );
@@ -369,4 +380,9 @@ class AdminCategory extends Component {
 
 }
 
-export default AdminCategory;
+
+const mapStateToProps = state => ({
+    auth: state.auth || {},
+  });
+
+export default connect(mapStateToProps)(withRouter(AdminCategory));
