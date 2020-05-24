@@ -6,7 +6,7 @@ import Config from "../../controllers/Config";
 import { withRouter } from "react-router-dom";
 import { connect } from 'react-redux';
 import { insertOrder } from '../../controllers/Order'
-import { string } from 'prop-types';
+import { string, bool } from 'prop-types';
 import {  cleartCart} from '../../actions/cartActions';
 class Order  extends Component {
  
@@ -23,6 +23,7 @@ constructor(props){
         postalCode: '',
         deliveryAddress: '',
         userId: '5eaee2f5c8aa252450f5e8c4',
+        payment: '',
      }
 }
 
@@ -72,7 +73,15 @@ formValueChange = (e) => {
               console.log(err)
             })
             Config.setToast(" Order Placed Successfully" );
-            this.props.history.push("/");
+            // this.state.payment ? this.props.history.push("/cod") : this.props.history.push("/online")
+            console.log("payment value: ", this.state.payment);
+
+            if (this.state.payment == "true"){
+              this.props.history.push("/cod")
+            }
+            else if (this.state.payment == "false"){
+              this.props.history.push("/online")
+            }
         })
         .catch( err => {
             console.log(err);
@@ -83,7 +92,7 @@ formValueChange = (e) => {
 }
 
 render(){
-    const { errors , amount, username, addressLine1, addressLine2, province, postalCode } = this.state;
+    const { errors , amount, username, addressLine1, addressLine2, province, postalCode, payment } = this.state;
     return (
       <div className="wrapper">
         <MainNavbar></MainNavbar>
@@ -192,6 +201,25 @@ render(){
                       )}
                     </div>
 
+                    <div className="col-md-4">
+                      <h6 className="form-label py-2">Payment Method</h6>
+                      <select
+                            className="form-control"
+                            value={payment}
+                            name="payment"
+                            onChange={(e) => this.formValueChange(e)}
+                          >
+                            <option value="" selected="selected">Select Payment</option>
+                            <option value="true">Cash On Delivery</option>
+                            <option value="false">Online Payment</option>
+                          </select>
+                      {errors.payment && errors.payment.length > 0 && (
+                        <h4 className="small text-danger mt-2 font-weight-bold mb-0">
+                          {errors.payment}
+                        </h4>
+                      )}
+                    </div>
+
                     <div className="col-md-12 mt-2">
                       <div className="d-flex">
                         <button
@@ -230,7 +258,7 @@ render(){
 validate = () => {
     console.log("validate work");
     
-    let { errors , amount, username, addressLine1, addressLine2, province, postalCode } = this.state;     
+    let { errors , amount, username, addressLine1, addressLine2, province, postalCode, payment } = this.state;     
     let count = 0;
     
     if( addressLine1.length == 0 ){
@@ -259,6 +287,13 @@ validate = () => {
         count++
     }else{
         errors.postalCode = "" 
+    }
+
+    if( payment.length == 0 ){
+      errors.payment = "Please Select A Payment Method"
+      count++
+    }else{
+        errors.payment = "" 
     }
 
     this.setState({errors});
