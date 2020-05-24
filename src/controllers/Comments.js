@@ -2,6 +2,9 @@ import axios from "axios";
 import Config from "./Config";
 
 export const insertComment = (data) => {
+  
+  
+  
   return new Promise((resolve, reject) => {
     return axios
       .post(`${Config.host}${Config.port}/comment/insert`, data)
@@ -65,10 +68,16 @@ export const getCommentByProductId = (id) => {
   });
 };
 
-export const deleteComment = (id) => {
+export const deleteComment = (id, token) => {
+  let requestData = {
+    token : token,
+  
+}
+
+  
   return new Promise((resolve, reject) => {
     return axios
-      .delete(`${Config.host}${Config.port}/comment/delete/${id}`)
+      .delete(`${Config.host}${Config.port}/comment/delete/${id}`, {data:requestData })
       .then((result) => {
         resolve({ code: 200, message: result.data.message });
       })

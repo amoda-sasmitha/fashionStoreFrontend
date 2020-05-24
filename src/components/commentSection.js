@@ -32,11 +32,13 @@ class CommentSection extends React.Component {
   }
   componentDidMount() {
     this.loadCommentByProductId();
+    console.log(this.props);
+    
     //this.loadCommentToEdit();
   }
 
   loadCommentByProductId = () => {
-    console.log("ID : ", this.props.proid);
+    //console.log("ID : ", this.props.proid);
     getCommentByProductId(this.props.proid)
       .then((result) => {
         this.setState({ filterComments: result });
@@ -79,9 +81,16 @@ class CommentSection extends React.Component {
       produt_name: this.props.proName,
       comment: this.state.comment,
       rating: this.state.ratings,
+      token : this.props.auth.user.token
+    
     })
       .then((result) => {
         Config.setToast("Comment Added successfully");
+        this.loadCommentByProductId();
+        this.setState({
+          comment : '',
+          rating:0
+        })
       })
       .catch((err) => {
         console.log(err);
@@ -148,7 +157,7 @@ class CommentSection extends React.Component {
     return (
       <div className="container">
         <div className="row">
-          <div className="col">
+          <div className="col" style={{display:this.props.uid !=  undefined ? 'block ': 'none'}}>
             <br></br>
             <div
               className="card"

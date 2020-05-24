@@ -68,8 +68,10 @@ class SingleProduct extends Component {
                 quantity: quantity,
                 selected_color: selected_color,
                 selected_size: selected_size,
+
               },
-              this.props.auth.user.id
+              this.props.auth.user.id,
+              this.props.auth.user.token
             )
             .then((result) => {
               Config.setToast(`${product.name} Added to Cart`);
@@ -86,8 +88,10 @@ class SingleProduct extends Component {
               {
                 id: item._id,
                 quantity: parseInt(quantity) + parseInt(item.quantity),
+                token:   this.props.auth.user.token
+
               },
-              this.props.auth.user.id
+              this.props.auth.user.id,
             )
             .then((result) => {
               Config.setToast(`Update Quantity in ${product.name}`);
@@ -112,7 +116,7 @@ class SingleProduct extends Component {
       if (index == -1) {
         //insert to redux store and database
         this.props
-          .addtoWishlist(product._id, this.props.auth.user.id)
+          .addtoWishlist(product._id, this.props.auth.user.id,this.props.auth.user.token )
           .then((result) => {
             Config.setToast(`${product.name} Added to wishlist`);
             this.props.history.push("/wishlist");
@@ -421,6 +425,7 @@ class SingleProduct extends Component {
                         proName={product.name}
                         pcat={product.category_name}
                         uid={this.props.auth.user.id}
+                        auth={this.props.auth}
                       ></CommentSection>
                     </div>
                     {/* ssss */}

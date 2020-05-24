@@ -42,7 +42,7 @@ class wishlist extends Component {
       () => {
         this.props.deleteWishlistItem &&
           this.props
-            .deleteWishlistItem(item._id, this.props.auth.user.id)
+            .deleteWishlistItem(item._id, this.props.auth.user.id, this.props.auth.user.token)
             .then((result) => {
               Config.setToast("Item Deleted Successfully!");
             })
@@ -61,7 +61,7 @@ class wishlist extends Component {
       () => {
         this.props.clearWishlist &&
           this.props
-            .clearWishlist(this.props.auth.user.id)
+            .clearWishlist(this.props.auth.user.id, this.props.auth.user.token)
             .then((result) => {
               Config.setToast("wishlist Cleared Successfully!");
             })

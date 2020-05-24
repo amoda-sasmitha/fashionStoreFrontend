@@ -7,6 +7,7 @@ import Config from "../../controllers/Config";
 import AdminSidebar from '../../components/AdminSidebar'
 import { bool } from "prop-types";
 import { withRouter } from "react-router-dom";
+import { connect } from 'react-redux';
 
 export class MoreDetails extends Component {
 
@@ -88,7 +89,7 @@ export class MoreDetails extends Component {
         
         this.props.history.push("/manager/orders");
 
-        deleteOrder(this.state.id).then( result => {
+        deleteOrder(this.state.id, this.props.auth.user.token).then( result => {
             Config.setToast(" Order Deleted Successfully" );
         })
         .catch( err => {
@@ -240,5 +241,8 @@ export class MoreDetails extends Component {
         return count == 0;
     }
 }
+const mapStateToProps = state => ({
+  auth: state.auth || {},
+});
 
-export default withRouter(MoreDetails);
+export default connect(mapStateToProps)(withRouter(MoreDetails));

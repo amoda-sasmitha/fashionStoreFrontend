@@ -17,6 +17,7 @@ import AdminSidebar from "../../components/AdminSidebar";
 import moment from "moment";
 import { getAllComments, deleteComment } from "../../controllers/Comments";
 
+
 class allComments extends Component {
   constructor(props) {
     super(props);
@@ -128,7 +129,7 @@ class allComments extends Component {
   };
   clickDeleteComment = (id) => {
     console.log(id);
-    deleteComment(id)
+    deleteComment(id, this.props.auth.user.token)
       .then((result) => {
         this.loadComments();
         Config.setToast(" Product Deleted Successfully");
@@ -144,4 +145,9 @@ class allComments extends Component {
   //   };
 }
 
-export default withRouter(allComments);
+const mapStateToProps = state => ({
+  auth: state.auth || {},
+});
+
+
+export default connect(mapStateToProps)(withRouter(allComments));
