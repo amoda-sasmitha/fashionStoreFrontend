@@ -35,7 +35,7 @@
     "react-redux": "^7.2.0",
     "react-responsive-carousel": "^3.2.7",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.4.1",
+    "react-scripts": "5.0.1",
     "react-select": "^3.1.0",
     "react-star-rating-component": "^1.4.1",
     "react-star-ratings": "^2.3.0",
